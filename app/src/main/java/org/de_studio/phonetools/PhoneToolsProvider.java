@@ -4,8 +4,11 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+
+import java.io.IOException;
 
 /**
  * Created by hai on 10/15/2015.
@@ -67,6 +70,18 @@ public class PhoneToolsProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         mOpenHelper = new DataBaseHelper(getContext());
+        try {
+            mOpenHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+        try {
+            mOpenHelper.openDataBase();
+
+        } catch (SQLException sqle) {
+
+            throw sqle;
+        }
         return true;
     }
 
