@@ -95,8 +95,16 @@ public class PhoneToolsProvider extends ContentProvider{
         Cursor reCursor;
         switch (sUriMatcher.match(uri)){
             case (MAIN):{
-                reCursor = mOpenHelper.getReadableDatabase().query(
-                        PhoneToolsContract.MainEntry.TABLE_NAME,
+//                reCursor = mOpenHelper.getReadableDatabase().query(
+//                        PhoneToolsContract.MainEntry.TABLE_NAME,
+//                        projection,
+//                        selection,
+//                        selectionArgs,
+//                        null,
+//                        null,
+//                        sortOrder
+//                );
+                reCursor =  sMainByCarriersSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                         projection,
                         selection,
                         selectionArgs,

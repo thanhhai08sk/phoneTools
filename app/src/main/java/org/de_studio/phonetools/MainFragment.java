@@ -29,6 +29,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             PhoneToolsContract.MainEntry.COLUMN_TITLE,
             PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION,
             PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID,
+            PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
             PhoneToolsContract.MainEntry.COLUMN_TEXT,
             PhoneToolsContract.MainEntry.COLUMN_CANCEL,
             PhoneToolsContract.MainEntry.COLUMN_MONEY,
