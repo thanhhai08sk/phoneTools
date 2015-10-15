@@ -23,7 +23,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private MainAdapter mMainAdapter;
     private DragSortListView mListView;
     private static final String[] PHONE_TOOLS_COLUMNS = {
-            PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID,
+            PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
             PhoneToolsContract.MainEntry.COLUMN_DESTINATION,
             PhoneToolsContract.MainEntry.COLUMN_TITLE,
@@ -102,8 +102,10 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        String count = data.getColumnName(0);
+        Log.e(LOG_TAG,data.toString() +"  "+ count);
         mMainAdapter.swapCursor(data);
-        Log.e(LOG_TAG,data.toString());
+
     }
 
     @Override
