@@ -50,6 +50,10 @@ public class MainAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
+        String title = cursor.getString(MainFragment.COL_MAIN_TITLE);
+        viewHolder.titleView.setText(title);
+        String description = "this is description";
+        viewHolder.descriptionView.setText(description);
 
     }
 }

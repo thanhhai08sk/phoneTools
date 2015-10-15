@@ -29,8 +29,12 @@ public class PhoneToolsContract {
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_CANCEL = "cancel";
         public static final String COLUMN_MONEY = "money";
-        public static final String COLUMN_CYCLE = "cycle";
+        public static final String COLUMN_CYCLE = "_cycle";
         public static final String COLUMN_IN_MAIN = "in_main";
+
+        public static long getIdFromUri(Uri uri) {
+            return Long.parseLong(uri.getPathSegments().get(1));
+        }
 
 
     }
