@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
 import java.util.Locale;
 
 
@@ -34,6 +35,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
+        try{
+            dataBaseHelper.createDataBase();
+        }catch (IOException e){
+            throw new Error("Unable to create database");
+        }
+
+
 
 
 

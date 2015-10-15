@@ -22,17 +22,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private final Context myContext;
     private static final String LOG_TAG = DataBaseHelper.class.getSimpleName();
     /**
-          * Constructor
-          * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
-          * @param context
-          */
+     Â     * Constructor
+     Â     * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
+     Â     * @param context
+     Â     */
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
     }
     /**
-          * Creates a empty database on the system and rewrites it with your own database.
-          * */
+     Â     * Creates a empty database on the system and rewrites it with your own database.
+     Â     * */
     public void createDataBase() throws IOException {
         boolean dbExist = checkDataBase();
         if(dbExist){
@@ -49,9 +49,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
     /**
-          * Check if the database already exist to avoid re-copying the file each time you open the application.
-          * @return true if it exists, false if it doesn't
-          */
+     Â     * Check if the database already exist to avoid re-copying the file each time you open the application.
+     Â     * @return true if it exists, false if it doesn't
+     Â     */
     private boolean checkDataBase(){
         SQLiteDatabase checkDB = null;
         try{
@@ -67,10 +67,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return checkDB != null;
     }
     /**
-          * Copies your database from your local assets-folder to the just created empty database in the
-          * system folder, from where it can be accessed and handled.
-          * This is done by transfering bytestream.
-          * */
+     Â     * Copies your database from your local assets-folder to the just created empty database in the
+     Â     * system folder, from where it can be accessed and handled.
+     Â     * This is done by transfering bytestream.
+     Â     * */
     private void copyDataBase() throws IOException{
         //Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(DB_NAME);

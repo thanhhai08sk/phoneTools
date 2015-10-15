@@ -2,6 +2,7 @@ package org.de_studio.phonetools;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
  */
 public class MainAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_COUNT = 1;
+    private static final String LOG_TAG = MainAdapter.class.getSimpleName();
 
     public static class ViewHolder {
         public final ImageView iconView;
@@ -44,6 +46,8 @@ public class MainAdapter extends CursorAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
+        Log.e(LOG_TAG,"newview ne");
+
         return view;
     }
 

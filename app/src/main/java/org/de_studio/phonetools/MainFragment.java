@@ -1,18 +1,27 @@
 package org.de_studio.phonetools;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobeta.android.dslv.DragSortListView;
+
 /**
  * Created by hai on 10/13/2015.
  */
-public  class MainFragment extends Fragment {
-
-
+public  class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String LOG_TAG = MainFragment.class.getSimpleName();
+    private static final int MAIN_LOADER = 0;
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private MainAdapter mMainAdapter;
+    private DragSortListView mListView;
     private static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
@@ -20,7 +29,6 @@ public  class MainFragment extends Fragment {
             PhoneToolsContract.MainEntry.COLUMN_TITLE,
             PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION,
             PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID,
-            PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
             PhoneToolsContract.MainEntry.COLUMN_TEXT,
             PhoneToolsContract.MainEntry.COLUMN_CANCEL,
             PhoneToolsContract.MainEntry.COLUMN_MONEY,
@@ -64,6 +72,43 @@ public  class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mListView = (DragSortListView) rootView.findViewById(R.id.listview);
+        mMainAdapter = new MainAdapter(getActivity(),null,0);
+        mListView.setAdapter(mMainAdapter);
+
+
         return rootView;
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(MAIN_LOADER,null,this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+
+        Log.e(LOG_TAG,"oncreateloader ne");
+        return new  CursorLoader(getActivity(),
+                PhoneToolsContract.MainEntry.CONTENT_URI,
+                PHONE_TOOLS_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mMainAdapter.swapCursor(data);
+        Log.e(LOG_TAG,data.toString());
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mMainAdapter.swapCursor(null);
+        Log.e(LOG_TAG,"onloaderreset ne");
     }
 }

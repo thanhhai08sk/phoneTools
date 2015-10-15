@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="org.de_studio.phonetools"
+            android:name=".PhoneToolsProvider"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

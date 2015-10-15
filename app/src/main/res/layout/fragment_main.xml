@@ -20,7 +20,7 @@
         android:paddingTop="0dp"
         dslv:collapsed_height="2dp"
         dslv:drag_enabled="true"
-        dslv:drag_handle_id="@+id/drawable/drag_handle"
+        dslv:drag_handle_id="@+id/handle"
         dslv:drag_scroll_start="0.33"
         dslv:drag_start_mode="onMove"
         dslv:float_alpha="0.6"
