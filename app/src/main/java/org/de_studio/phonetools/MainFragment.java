@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 /**
@@ -96,6 +97,20 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         mListView = (DragSortListView) rootView.findViewById(R.id.listview);
         mMainAdapter = new MainAdapter(getActivity(),null,0);
         mListView.setAdapter(mMainAdapter);
+        mListView.setDropListener(onDrop);
+
+
+        DragSortController controller = new DragSortController(mListView);
+        controller.setDragHandleId(R.id.item_drag);
+        //controller.setClickRemoveId(R.id.);
+        controller.setRemoveEnabled(false);
+        controller.setSortEnabled(true);
+        controller.setDragInitMode(1);
+        //controller.setRemoveMode(removeMode);
+
+        mListView.setFloatViewManager(controller);
+        mListView.setOnTouchListener(controller);
+        mListView.setDragEnabled(true);
 
 
         return rootView;
