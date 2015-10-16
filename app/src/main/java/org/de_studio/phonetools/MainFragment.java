@@ -66,6 +66,26 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         return fragment;
     }
 
+    private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
+        @Override
+        public void drop(int i, int i1) {
+            if (i != i1){
+                Bundle bundle = new Bundle();
+                bundle.putInt("i",i);
+                bundle.putInt("i1",i1);
+                getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
+                        "move",
+                        null,
+                        bundle);
+
+
+            }
+            mMainAdapter.notifyDataSetChanged();
+        }
+    };
+
+
+
     public MainFragment() {
     }
 

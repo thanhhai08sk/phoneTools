@@ -4,9 +4,12 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Bundle;
 
 import java.io.IOException;
 
@@ -63,8 +66,52 @@ public class PhoneToolsProvider extends ContentProvider{
     }
 
     @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case MAIN:
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(PhoneToolsContract.MainEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            default:
+                return super.bulkInsert(uri, values);
+        }
+    }
+
+    @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        Uri returnUri;
+        switch (match){
+            case (MAIN):{
+                long _id = db.insert(PhoneToolsContract.MainEntry.TABLE_NAME, null, values);
+                if (_id>0) {
+                    returnUri = PhoneToolsContract.MainEntry.buildMainUri(_id);
+                }else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        return returnUri;
     }
 
     @Override
@@ -150,5 +197,28 @@ public class PhoneToolsProvider extends ContentProvider{
 
         return matcher;
     }
+    public boolean move(int i, int i1){
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        Cursor cursor;
+        cursor = query(PhoneToolsContract.MainEntry.CONTENT_URI,null,"_id = ?",new String[]{i +""},null);
+        ContentValues contentValues = new ContentValues();
+        cursor.moveToFirst();
+        DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
 
+        db.delete(PhoneToolsContract.MainEntry.TABLE_NAME, "_id = ?", new String[]{i + ""});
+        db.rawQuery("UPDATE TABLE main SET _id -= 1 WHERE _id > ?", new String[]{i + ""});
+
+        db.rawQuery("UPDATE TABLE main SET _id += 1 WHERE _id >= ?", new String[]{i1 + ""});
+        insert(PhoneToolsContract.MainEntry.CONTENT_URI,contentValues);
+        return true;
+
+    }
+
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
+        if (method.equals("move")){
+            move(extras.getInt("i"),extras.getInt("i1"));
+        }
+        return super.call(method, arg, extras);
+    }
 }

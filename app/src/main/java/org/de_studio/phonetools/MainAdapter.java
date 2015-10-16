@@ -48,6 +48,7 @@ public class MainAdapter extends CursorAdapter {
         view.setTag(viewHolder);
         Log.e(LOG_TAG,"newview ne");
 
+
         return view;
     }
 
@@ -60,4 +61,6 @@ public class MainAdapter extends CursorAdapter {
         viewHolder.descriptionView.setText(description);
 
     }
+
+
 }
