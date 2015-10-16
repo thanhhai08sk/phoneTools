@@ -71,17 +71,27 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         @Override
         public void drop(int i, int i1) {
             if (i != i1){
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
                 bundle.putInt("i",i);
-                bundle.putInt("i1",i1);
-                getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
-                        "move",
-                        null,
-                        bundle);
+                bundle.putInt("i1", i1);
+//                getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
+//                        "move",
+//                        null,
+//                        bundle);
 
-
+                Thread background = new Thread(new Runnable() {
+                     Bundle newBundle = bundle;
+                    @Override
+                    public void run() {
+                        getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
+                                "move",
+                                null,
+                                newBundle);
+                    }
+                });
+                background.run();
             }
-            mMainAdapter.notifyDataSetChanged();
+//            mMainAdapter.notifyDataSetChanged();
 
         }
     };
@@ -89,6 +99,10 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
 
     public MainFragment() {
+    }
+
+    public void change(){
+        getLoaderManager().restartLoader(0,null,this);
     }
 
 

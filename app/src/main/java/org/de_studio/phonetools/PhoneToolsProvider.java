@@ -202,6 +202,10 @@ public class PhoneToolsProvider extends ContentProvider{
     public boolean move(int i, int i1){
         i = i +1;
         i1 = i1 +1;
+        int rows;
+        Cursor rowsCursor;
+        rowsCursor = query(PhoneToolsContract.MainEntry.CONTENT_URI,null,null,null,null);
+        rows = rowsCursor.getCount();
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Cursor cursor;
         cursor = query(PhoneToolsContract.MainEntry.buildMainUri(i),MainFragment.PHONE_TOOLS_COLUMNS,null,null,null);
@@ -211,18 +215,45 @@ public class PhoneToolsProvider extends ContentProvider{
         DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
 
         db.delete(PhoneToolsContract.MainEntry.TABLE_NAME, "_id = ?", new String[]{i + ""});
-        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id - 1 WHERE _id > ? ", new String[]{i + ""});
+//        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id - 1 WHERE _id > ? ", new String[]{i + ""});
 
-        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id + 1 WHERE _id >= ? ", new String[]{i1 + ""});
+        for (int t= i+1;t<= rows; t++){
+            Cursor tempCursor = query(PhoneToolsContract.MainEntry.buildMainUri(t),MainFragment.PHONE_TOOLS_COLUMNS,null,null,null);
+            tempCursor.moveToFirst();
+            ContentValues tempContent= new ContentValues();
+            DatabaseUtils.cursorRowToContentValues(tempCursor, tempContent);
+            tempContent.remove("_id");
+            tempContent.remove("carrier_name");
+            tempContent.put("_id",t-1);
+            db.update(PhoneToolsContract.MainEntry.TABLE_NAME,tempContent,"_id = ? ",new String[] {t+""});
+        }
+//        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id + 1 WHERE _id >= ? ", new String[]{i1 + ""});
+        for (int t =rows - 1;t>= i1; t--){
+            Cursor tempCursor = query(PhoneToolsContract.MainEntry.buildMainUri(t),MainFragment.PHONE_TOOLS_COLUMNS,null,null,null);
+            tempCursor.moveToFirst();
+            ContentValues tempContent= new ContentValues();
+            DatabaseUtils.cursorRowToContentValues(tempCursor, tempContent);
+            tempContent.remove("_id");
+            tempContent.remove("carrier_name");
+            tempContent.put("_id",t+1);
+            db.update(PhoneToolsContract.MainEntry.TABLE_NAME,tempContent,"_id = ? ",new String[] {t+""});
+        }
+
+
         Log.e(LOG_TAG, "_id = " + contentValues.getAsString("_id"));
 //        contentValues.remove("_id");
         contentValues.remove("carrier_name");
+        contentValues.remove("_id");
+        contentValues.put("_id",i1);
 //        Cursor cursor1 = db.rawQuery("SELECT seq FROM sqlite_sequence WHERE name=?",
 //                new String[] { "main" });
-//        int last = (cursor1.moveToFirst() ? cursor.getInt(0) : 0);
-        insert(PhoneToolsContract.MainEntry.CONTENT_URI, contentValues);
+//        int last = (cursor1.moveToFirst() ? cursor1.getInt(0) : 0);
+//        Log.e(LOG_TAG, "number of rows is  " +last);
+        Uri uri = insert(PhoneToolsContract.MainEntry.CONTENT_URI, contentValues);
+        Log.e(LOG_TAG, "Uri of last insert is  " + uri.toString());
 //        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = ? WHERE _id = ? ", new String[]{i1 + "",last +""});
-        cursor.setNotificationUri(getContext().getContentResolver(), PhoneToolsContract.MainEntry.CONTENT_URI);
+
+        getContext().getContentResolver().notifyChange(PhoneToolsContract.MainEntry.CONTENT_URI, null);
 
         return true;
 
