@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class PhoneToolsProvider extends ContentProvider{
     static final int MAIN = 100;
     static final int MAIN_WITH_ID = 101;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private static final String LOG_TAG = PhoneToolsProvider.class.getSimpleName();
     private DataBaseHelper mOpenHelper;
     private static final SQLiteQueryBuilder sMainByCarriersSettingQueryBuilder;
 
@@ -198,18 +200,30 @@ public class PhoneToolsProvider extends ContentProvider{
         return matcher;
     }
     public boolean move(int i, int i1){
+        i = i +1;
+        i1 = i1 +1;
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Cursor cursor;
-        cursor = query(PhoneToolsContract.MainEntry.CONTENT_URI,null,"_id = ?",new String[]{i +""},null);
+        cursor = query(PhoneToolsContract.MainEntry.buildMainUri(i),MainFragment.PHONE_TOOLS_COLUMNS,null,null,null);
+        Log.e(LOG_TAG, "count of cursor is " + cursor.getCount());
         ContentValues contentValues = new ContentValues();
         cursor.moveToFirst();
         DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
 
         db.delete(PhoneToolsContract.MainEntry.TABLE_NAME, "_id = ?", new String[]{i + ""});
-        db.rawQuery("UPDATE TABLE main SET _id -= 1 WHERE _id > ?", new String[]{i + ""});
+        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id - 1 WHERE _id > ? ", new String[]{i + ""});
 
-        db.rawQuery("UPDATE TABLE main SET _id += 1 WHERE _id >= ?", new String[]{i1 + ""});
-        insert(PhoneToolsContract.MainEntry.CONTENT_URI,contentValues);
+        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = _id + 1 WHERE _id >= ? ", new String[]{i1 + ""});
+        Log.e(LOG_TAG, "_id = " + contentValues.getAsString("_id"));
+//        contentValues.remove("_id");
+        contentValues.remove("carrier_name");
+//        Cursor cursor1 = db.rawQuery("SELECT seq FROM sqlite_sequence WHERE name=?",
+//                new String[] { "main" });
+//        int last = (cursor1.moveToFirst() ? cursor.getInt(0) : 0);
+        insert(PhoneToolsContract.MainEntry.CONTENT_URI, contentValues);
+//        db.rawQuery("UPDATE " + PhoneToolsContract.MainEntry.TABLE_NAME + " SET _id = ? WHERE _id = ? ", new String[]{i1 + "",last +""});
+        cursor.setNotificationUri(getContext().getContentResolver(), PhoneToolsContract.MainEntry.CONTENT_URI);
+
         return true;
 
     }

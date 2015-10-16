@@ -23,7 +23,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final String ARG_SECTION_NUMBER = "section_number";
     private MainAdapter mMainAdapter;
     private DragSortListView mListView;
-    private static final String[] PHONE_TOOLS_COLUMNS = {
+    public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
             PhoneToolsContract.MainEntry.COLUMN_DESTINATION,
@@ -82,6 +82,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
             }
             mMainAdapter.notifyDataSetChanged();
+
         }
     };
 
@@ -89,6 +90,8 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     public MainFragment() {
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +101,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         mMainAdapter = new MainAdapter(getActivity(),null,0);
         mListView.setAdapter(mMainAdapter);
         mListView.setDropListener(onDrop);
+
 
 
         DragSortController controller = new DragSortController(mListView);
@@ -126,6 +130,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
 
         Log.e(LOG_TAG,"oncreateloader ne");
         return new  CursorLoader(getActivity(),
@@ -133,7 +138,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                 PHONE_TOOLS_COLUMNS,
                 null,
                 null,
-                null);
+                sortOrder);
     }
 
     @Override
