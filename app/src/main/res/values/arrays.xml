@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_carriers_options">
+        <item>@string/pref_carrier_label_viettel</item>
+        <item>@string/pref_carrier_label_vinaphone</item>
+        <item>@string/pref_carrier_label_mobifone</item>
+        <item>@string/pref_carrier_label_vietnamobile</item>
+    </string-array>
+
+    <string-array name="pref_carriers_values">
+        <item>@string/pref_carrier_viettel</item>
+        <item>@string/pref_carrier_vinaphone</item>
+        <item>@string/pref_carrier_mobifone</item>
+        <item>@string/pref_carrier_vietnamobile</item>
+
+    </string-array>
+</resources>

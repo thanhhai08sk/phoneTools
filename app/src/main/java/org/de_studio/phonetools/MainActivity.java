@@ -1,5 +1,6 @@
 package org.de_studio.phonetools;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -75,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingActivity.class));
             return true;
         }
 

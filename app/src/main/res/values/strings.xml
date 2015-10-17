@@ -8,4 +8,15 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="action_settings">Settings</string>
+    <string name="pref_carrier_label_viettel">Viettel</string>
+    <string name="pref_carrier_label_vinaphone">Vinaphone</string>
+    <string name="pref_carrier_label_mobifone">Mobifone</string>
+    <string name="pref_carrier_label_vietnamobile">Vietnamobile</string>
+    <string name="pref_carrier_viettel">viettel</string>
+    <string name="pref_carrier_vinaphone">vinaphone</string>
+    <string name="pref_carrier_mobifone">mobifone</string>
+    <string name="pref_carrier_vietnamobile">vietnamobile</string>
+    <string name="pref_carriers_label">Nhà mạng</string>
+    <string name="pref_carriers_key">carrier</string>
+    <string name="title_activity_setting">Cài đặt</string>
 </resources>

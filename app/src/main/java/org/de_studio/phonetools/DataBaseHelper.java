@@ -36,23 +36,46 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void createDataBase() throws IOException {
         SQLiteDatabase db;
         String myPath = DB_PATH + DB_NAME;
-        final String SQL_CREATE_ACTION_TABLE = "INSERT INTO " + PhoneToolsContract.ActionEntry.TABLE_NAME +
+        final String SQL_INSERT_ACTION_TABLE = "INSERT INTO " + PhoneToolsContract.ActionEntry.TABLE_NAME +
                 " SELECT * FROM "+
-                PhoneToolsContract.MainEntry.TABLE_NAME
-                ;
+                PhoneToolsContract.MainEntry.TABLE_NAME + " ;"
+                 ;
+        final String SQL_CREATE_ACTION_TABLE = "CREATE TABLE " + PhoneToolsContract.ActionEntry.TABLE_NAME + " (" +
 
+                PhoneToolsContract.ActionEntry._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+
+                PhoneToolsContract.ActionEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_DESTINATION + " TEXT NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_TITLE  + " TEXT NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION + " TEXT DEFAULT null," +
+
+                PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + " INTEGER NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_TEXT + " TEXT DEFAULT null, " +
+
+                PhoneToolsContract.ActionEntry.COLUMN_CANCEL + " TEXT, " +
+                PhoneToolsContract.ActionEntry.COLUMN_MONEY + " REAL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_CYCLE + " TEXT, " +
+                PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN + " INTEGER NOT NULL, " +
+
+                " FOREIGN KEY (" + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ") REFERENCES " +
+                PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
 
         boolean dbExist = checkDataBase();
         if(dbExist){
             //do nothing - database already exist
+            Log.e(LOG_TAG,"dbexist ");
+
         }else{
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
             try {
                 copyDataBase();
+                Log.e(LOG_TAG, "create and insert action table ");
+
                 db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
                 db.execSQL(SQL_CREATE_ACTION_TABLE);
+                db.execSQL(SQL_INSERT_ACTION_TABLE);
 
 
             } catch (IOException e) {

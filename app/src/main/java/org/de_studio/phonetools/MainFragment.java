@@ -24,18 +24,18 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private MainAdapter mMainAdapter;
     private DragSortListView mListView;
     public static final String[] PHONE_TOOLS_COLUMNS = {
-            PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
-            PhoneToolsContract.MainEntry.COLUMN_TYPE,
-            PhoneToolsContract.MainEntry.COLUMN_DESTINATION,
-            PhoneToolsContract.MainEntry.COLUMN_TITLE,
-            PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION,
-            PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID,
+            PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
+            PhoneToolsContract.ActionEntry.COLUMN_TYPE,
+            PhoneToolsContract.ActionEntry.COLUMN_DESTINATION,
+            PhoneToolsContract.ActionEntry.COLUMN_TITLE,
+            PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION,
+            PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID,
             PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
-            PhoneToolsContract.MainEntry.COLUMN_TEXT,
-            PhoneToolsContract.MainEntry.COLUMN_CANCEL,
-            PhoneToolsContract.MainEntry.COLUMN_MONEY,
-            PhoneToolsContract.MainEntry.COLUMN_CYCLE,
-            PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,
+            PhoneToolsContract.ActionEntry.COLUMN_TEXT,
+            PhoneToolsContract.ActionEntry.COLUMN_CANCEL,
+            PhoneToolsContract.ActionEntry.COLUMN_MONEY,
+            PhoneToolsContract.ActionEntry.COLUMN_CYCLE,
+            PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN,
 
     };
 
@@ -83,7 +83,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                      Bundle newBundle = bundle;
                     @Override
                     public void run() {
-                        getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
+                        getActivity().getContentResolver().call(PhoneToolsContract.ActionEntry.CONTENT_URI,
                                 "move",
                                 null,
                                 newBundle);
@@ -144,11 +144,11 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
+        String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
 
         Log.e(LOG_TAG,"oncreateloader ne");
         return new  CursorLoader(getActivity(),
-                PhoneToolsContract.MainEntry.CONTENT_URI,
+                PhoneToolsContract.ActionEntry.CONTENT_URI,
                 PHONE_TOOLS_COLUMNS,
                 null,
                 null,
