@@ -67,7 +67,7 @@ public class PhoneToolsContract {
         public static long getIdFromUri(Uri uri) {
             return Long.parseLong(uri.getPathSegments().get(1));
         }
-        public static Uri buildMainUri(long id) {
+        public static Uri buildActionUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
