@@ -34,6 +34,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
           * Creates a empty database on the system and rewrites it with your own database.
           * */
     public void createDataBase() throws IOException {
+        SQLiteDatabase db;
+        String myPath = DB_PATH + DB_NAME;
+        final String SQL_CREATE_ACTION_TABLE = "INSERT INTO " + PhoneToolsContract.ActionEntry.TABLE_NAME +
+                " SELECT * FROM "+
+                PhoneToolsContract.MainEntry.TABLE_NAME
+                ;
+
+
         boolean dbExist = checkDataBase();
         if(dbExist){
             //do nothing - database already exist
@@ -43,6 +51,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             this.getReadableDatabase();
             try {
                 copyDataBase();
+                db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
+                db.execSQL(SQL_CREATE_ACTION_TABLE);
+
+
             } catch (IOException e) {
                 Log.e(LOG_TAG,"copping database err");
             }
