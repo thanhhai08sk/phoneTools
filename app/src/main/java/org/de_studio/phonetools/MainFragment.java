@@ -1,7 +1,9 @@
 package org.de_studio.phonetools;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -145,13 +147,18 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String selection = " carrier_name = ? AND in_main = 1 ";
+
+        String[] selectionAgrm = new String[]{prefs.getString("carrier","vinaphone")};
+
 
         Log.e(LOG_TAG,"oncreateloader ne");
         return new  CursorLoader(getActivity(),
                 PhoneToolsContract.ActionEntry.CONTENT_URI,
                 PHONE_TOOLS_COLUMNS,
-                null,
-                null,
+                selection,
+                selectionAgrm,
                 sortOrder);
     }
 
@@ -167,5 +174,11 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader<Cursor> loader) {
         mMainAdapter.swapCursor(null);
         Log.e(LOG_TAG,"onloaderreset ne");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0,null,this);
     }
 }

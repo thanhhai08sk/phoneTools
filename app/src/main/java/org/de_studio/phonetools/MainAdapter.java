@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class MainAdapter extends CursorAdapter {
         public final ImageView iconView;
         public final TextView titleView;
         public final TextView descriptionView;
-        public final ImageView actionView;
+        public final Button actionView;
         public final ImageView menuView;
 
 
@@ -31,7 +32,7 @@ public class MainAdapter extends CursorAdapter {
             iconView = (ImageView) view.findViewById(R.id.item_drag);
             titleView = (TextView) view.findViewById(R.id.item_title);
             descriptionView = (TextView) view.findViewById(R.id.item_description);
-            actionView = (ImageView) view.findViewById(R.id.item_action);
+            actionView = (Button) view.findViewById(R.id.item_action);
             menuView = (ImageView) view.findViewById(R.id.item_menu);
         }
     }
