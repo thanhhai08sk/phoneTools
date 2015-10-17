@@ -20,10 +20,13 @@ import java.io.IOException;
 public class PhoneToolsProvider extends ContentProvider{
     static final int MAIN = 100;
     static final int MAIN_WITH_ID = 101;
+    static final int ACTION = 200;
+    static final int ACTION_WITH_ID = 201;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String LOG_TAG = PhoneToolsProvider.class.getSimpleName();
     private DataBaseHelper mOpenHelper;
     private static final SQLiteQueryBuilder sMainByCarriersSettingQueryBuilder;
+    private static final SQLiteQueryBuilder sActionByCarriersSettingQueryBuilder;
 
     static{
         sMainByCarriersSettingQueryBuilder = new SQLiteQueryBuilder();
@@ -38,13 +41,26 @@ public class PhoneToolsProvider extends ContentProvider{
                         " = " + PhoneToolsContract.CarriersEntry.TABLE_NAME +
                         "." + PhoneToolsContract.CarriersEntry._ID);
     }
+    static{
+        sActionByCarriersSettingQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sActionByCarriersSettingQueryBuilder.setTables(
+                PhoneToolsContract.ActionEntry.TABLE_NAME + " INNER JOIN " +
+                        PhoneToolsContract.CarriersEntry.TABLE_NAME +
+                        " ON " + PhoneToolsContract.ActionEntry.TABLE_NAME +
+                        "." + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID +
+                        " = " + PhoneToolsContract.CarriersEntry.TABLE_NAME +
+                        "." + PhoneToolsContract.CarriersEntry._ID);
+    }
 
     private static final String sIdSelection =
             PhoneToolsContract.MainEntry.TABLE_NAME +
                     "." + PhoneToolsContract.MainEntry._ID + " = ? ";
-
-
-    @Override
+    private static final String sIdInActionSelection =
+            PhoneToolsContract.ActionEntry.TABLE_NAME +
+                    "." + PhoneToolsContract.ActionEntry._ID + " = ? ";
     public String getType(Uri uri) {
         // Use the Uri Matcher to determine what kind of URI this is.
         final int match = sUriMatcher.match(uri);
@@ -55,6 +71,10 @@ public class PhoneToolsProvider extends ContentProvider{
                 return PhoneToolsContract.MainEntry.CONTENT_ITEM_TYPE;
             case MAIN:
                 return PhoneToolsContract.MainEntry.CONTENT_TYPE;
+            case ACTION:
+                return PhoneToolsContract.ActionEntry.CONTENT_TYPE;
+            case ACTION_WITH_ID:
+                return PhoneToolsContract.ActionEntry.CONTENT_ITEM_TYPE;
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -105,6 +125,15 @@ public class PhoneToolsProvider extends ContentProvider{
                 long _id = db.insert(PhoneToolsContract.MainEntry.TABLE_NAME, null, values);
                 if (_id>0) {
                     returnUri = PhoneToolsContract.MainEntry.buildMainUri(_id);
+                }else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+
+                break;
+            }
+            case ACTION : {
+                long _id = db.insert(PhoneToolsContract.ActionEntry.TABLE_NAME, null, values);
+                if (_id>0) {
+                    returnUri = PhoneToolsContract.ActionEntry.buildMainUri(_id);
                 }else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
 
@@ -163,8 +192,23 @@ public class PhoneToolsProvider extends ContentProvider{
                 );
                 break;
             }
+            case ACTION: {
+                reCursor =  sActionByCarriersSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             case (MAIN_WITH_ID):{
                 reCursor = getMainById(uri,projection,sortOrder);
+                break;
+            }
+            case ACTION_WITH_ID: {
+                reCursor = getActionById(uri,projection,sortOrder);
                 break;
             }
             default:
@@ -189,6 +233,18 @@ public class PhoneToolsProvider extends ContentProvider{
                 sortOrder
         );
     }
+    private Cursor getActionById(Uri uri, String[] projection, String sortOrder){
+        long id = PhoneToolsContract.ActionEntry.getIdFromUri(uri);
+
+        return sActionByCarriersSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                sIdInActionSelection,
+                new String[]{Long.toString(id)},
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -196,6 +252,8 @@ public class PhoneToolsProvider extends ContentProvider{
 
         matcher.addURI(authority,PhoneToolsContract.PATH_MAIN,MAIN);
         matcher.addURI(authority,PhoneToolsContract.PATH_MAIN + "/#",MAIN_WITH_ID);
+        matcher.addURI(authority,PhoneToolsContract.PATH_ACTION,ACTION);
+        matcher.addURI(authority,PhoneToolsContract.PATH_ACTION + "/#",ACTION_WITH_ID);
 
         return matcher;
     }
