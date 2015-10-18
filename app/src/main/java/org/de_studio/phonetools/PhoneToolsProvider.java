@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -153,13 +152,13 @@ public class PhoneToolsProvider extends ContentProvider{
         } catch (IOException ioe) {
             throw new Error("Unable to create database");
         }
-        try {
-            mOpenHelper.openDataBase();
-
-        } catch (SQLException sqle) {
-
-            throw sqle;
-        }
+//        try {
+//            mOpenHelper.openDataBase();
+//
+//        } catch (SQLException sqle) {
+//
+//            throw sqle;
+//        }
         return true;
     }
 
@@ -260,6 +259,7 @@ public class PhoneToolsProvider extends ContentProvider{
     public boolean move(int i, int i1){
         i = i +1;
         i1 = i1 +1;
+        Log.e(LOG_TAG, "i = "+ i + " i1 = "+ i1 );
         int rows;
         Cursor rowsCursor;
         rowsCursor = query(PhoneToolsContract.ActionEntry.CONTENT_URI,null,null,null,null);

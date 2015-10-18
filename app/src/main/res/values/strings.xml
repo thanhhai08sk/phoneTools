@@ -19,4 +19,6 @@
     <string name="pref_carriers_label">Nhà mạng</string>
     <string name="pref_carriers_key">carrier</string>
     <string name="title_activity_setting">Cài đặt</string>
+    <string name="viewHolderTag">1</string>
+    <string name="myWrapperTag">2</string>
 </resources>

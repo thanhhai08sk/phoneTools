@@ -145,20 +145,22 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        mMainAdapter.swapCursor(null);
+
 
         String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String selection = " carrier_name = ? AND in_main = 1 ";
 
-        String[] selectionAgrm = new String[]{prefs.getString("carrier","vinaphone")};
+        String[] selectionAgrm = new String[]{prefs.getString("carrier", "vinaphone")};
 
 
-        Log.e(LOG_TAG,"oncreateloader ne");
+        Log.e(LOG_TAG, "oncreateloader ne");
         return new  CursorLoader(getActivity(),
                 PhoneToolsContract.ActionEntry.CONTENT_URI,
                 PHONE_TOOLS_COLUMNS,
-                selection,
-                selectionAgrm,
+                null,
+                null,
                 sortOrder);
     }
 
@@ -173,12 +175,19 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mMainAdapter.swapCursor(null);
-        Log.e(LOG_TAG,"onloaderreset ne");
+        Log.e(LOG_TAG, "onloaderreset ne");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().restartLoader(0,null,this);
+//        Log.e(LOG_TAG, " onResume");
+//        onCarrierChange();
     }
+    void onCarrierChange( ) {
+
+        getLoaderManager().restartLoader(MAIN_LOADER, null, this);
+    }
+
+
 }

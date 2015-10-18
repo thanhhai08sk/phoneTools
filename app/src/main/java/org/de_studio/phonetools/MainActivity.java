@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -126,8 +127,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
+
 
 }

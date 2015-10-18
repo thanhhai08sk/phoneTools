@@ -1,10 +1,14 @@
 package org.de_studio.phonetools;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import java.io.FileOutputStream;
@@ -18,9 +22,21 @@ import java.io.OutputStream;
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "/data/data/org.de_studio.phonetools/databases/";
     private static String DB_NAME = "phonetools.db";
+    private static String mMyPath = DB_PATH + DB_NAME;
     private SQLiteDatabase myDataBase;
     private final Context myContext;
     private static final String LOG_TAG = DataBaseHelper.class.getSimpleName();
+    private static final String selectColumnToInsert = " "+
+            PhoneToolsContract.ActionEntry.COLUMN_TYPE +", "+
+            PhoneToolsContract.ActionEntry.COLUMN_DESTINATION + ", "+
+            PhoneToolsContract.ActionEntry.COLUMN_TITLE + ", " +
+            PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION + ", "+
+            PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ", "+
+            PhoneToolsContract.ActionEntry.COLUMN_TEXT + ", " +
+            PhoneToolsContract.ActionEntry.COLUMN_CANCEL + ", " +
+            PhoneToolsContract.ActionEntry.COLUMN_MONEY + ", " +
+            PhoneToolsContract.ActionEntry.COLUMN_CYCLE + ", " +
+            PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN + " ";
     /**
           * Constructor
           * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
@@ -34,31 +50,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
           * Creates a empty database on the system and rewrites it with your own database.
           * */
     public void createDataBase() throws IOException {
-        SQLiteDatabase db;
-        String myPath = DB_PATH + DB_NAME;
-        final String SQL_INSERT_ACTION_TABLE = "INSERT INTO " + PhoneToolsContract.ActionEntry.TABLE_NAME +
-                " SELECT * FROM "+
-                PhoneToolsContract.MainEntry.TABLE_NAME + " ;"
-                 ;
-        final String SQL_CREATE_ACTION_TABLE = "CREATE TABLE " + PhoneToolsContract.ActionEntry.TABLE_NAME + " (" +
+//        SQLiteDatabase db;
+//        String myPath = DB_PATH + DB_NAME;
 
-                PhoneToolsContract.ActionEntry._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
 
-                PhoneToolsContract.ActionEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
-                PhoneToolsContract.ActionEntry.COLUMN_DESTINATION + " TEXT NOT NULL, " +
-                PhoneToolsContract.ActionEntry.COLUMN_TITLE  + " TEXT NOT NULL, " +
-                PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION + " TEXT DEFAULT null," +
-
-                PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + " INTEGER NOT NULL, " +
-                PhoneToolsContract.ActionEntry.COLUMN_TEXT + " TEXT DEFAULT null, " +
-
-                PhoneToolsContract.ActionEntry.COLUMN_CANCEL + " TEXT, " +
-                PhoneToolsContract.ActionEntry.COLUMN_MONEY + " REAL, " +
-                PhoneToolsContract.ActionEntry.COLUMN_CYCLE + " TEXT, " +
-                PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN + " INTEGER NOT NULL, " +
-
-                " FOREIGN KEY (" + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ") REFERENCES " +
-                PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
 
         boolean dbExist = checkDataBase();
         if(dbExist){
@@ -73,9 +68,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 copyDataBase();
                 Log.e(LOG_TAG, "create and insert action table ");
 
-                db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
-                db.execSQL(SQL_CREATE_ACTION_TABLE);
-                db.execSQL(SQL_INSERT_ACTION_TABLE);
+//                db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
+                createActionTable();
+                insertActionTable();
 
 
             } catch (IOException e) {
@@ -141,7 +136,88 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-            // Add your public helper methods to access and get content from the database.
-            // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-            // to you to create adapters for your views.
+    public void changeCarrier(int carrierId){
+
+    }
+
+    private void createActionTable(){
+        SQLiteDatabase db;
+
+        db = SQLiteDatabase.openDatabase(mMyPath,null,SQLiteDatabase.OPEN_READWRITE);
+
+        final String SQL_CREATE_ACTION_TABLE = "CREATE TABLE " + PhoneToolsContract.ActionEntry.TABLE_NAME + " (" +
+
+                PhoneToolsContract.ActionEntry._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+
+                PhoneToolsContract.ActionEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_DESTINATION + " TEXT NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_TITLE  + " TEXT NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION + " TEXT DEFAULT null," +
+
+                PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + " INTEGER NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_TEXT + " TEXT DEFAULT null, " +
+
+                PhoneToolsContract.ActionEntry.COLUMN_CANCEL + " TEXT, " +
+                PhoneToolsContract.ActionEntry.COLUMN_MONEY + " REAL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_CYCLE + " TEXT, " +
+                PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN + " INTEGER NOT NULL, " +
+
+                " FOREIGN KEY (" + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ") REFERENCES " +
+                PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
+        db.execSQL(SQL_CREATE_ACTION_TABLE);
+    }
+
+    private void insertActionTable (){
+        SQLiteDatabase db;
+        int carrierId = 3;
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences(myContext.getPackageName() + "_preferences", 0);
+        switch (sharedPreferences.getString("carrier","mobifone")){
+            case "viettel" :{
+                carrierId=1;
+                break;
+            }
+            case "vinaphone":{
+                carrierId = 2;
+                break;
+            }
+            case "mobifone":{
+                carrierId = 3;
+                break;
+            }
+            case "vietnamobile":{
+                carrierId= 4;
+                break;
+            }
+
+        }
+        Log.e(LOG_TAG," insert database nay");
+
+        db = SQLiteDatabase.openDatabase(mMyPath,null,SQLiteDatabase.OPEN_READWRITE);
+
+        final String SQL_INSERT_ACTION_TABLE = "INSERT INTO " + PhoneToolsContract.ActionEntry.TABLE_NAME +
+                " SELECT * FROM "+
+                PhoneToolsContract.MainEntry.TABLE_NAME + " WHERE "+ PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID
+                + " = " + carrierId + " AND " + PhoneToolsContract.MainEntry.COLUMN_IN_MAIN +
+                " = " + 1 + " ;"
+                ;
+//        final String SQL_INSERT_ID_COLUMN = "ALTER TABLE " + PhoneToolsContract.ActionEntry.TABLE_NAME + " ADD COLUMN " +
+//                 PhoneToolsContract.ActionEntry._ID + " INTEGER NOT NULL AUTOINCREMENT  ;";
+        db.execSQL(SQL_INSERT_ACTION_TABLE);
+//        db.execSQL(SQL_INSERT_ID_COLUMN);
+        String sql = "SELECT COUNT(*) FROM " + PhoneToolsContract.ActionEntry.TABLE_NAME;
+        SQLiteStatement statement = db.compileStatement(sql);
+        Long count = statement.simpleQueryForLong();
+        Cursor cursor = db.query(PhoneToolsContract.ActionEntry.TABLE_NAME,null,null,null,null,null,null);
+        cursor.moveToFirst();
+        int i =1;
+        do {
+            int oldIndex = cursor.getInt(0);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("_id",i);
+            db.update(PhoneToolsContract.ActionEntry.TABLE_NAME,contentValues," _id = ? ", new String[]{oldIndex + ""});
+            i++;
+        }while (cursor.moveToNext());
+
+    }
+
 }
