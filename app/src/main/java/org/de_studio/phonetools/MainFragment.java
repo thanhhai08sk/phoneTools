@@ -2,6 +2,8 @@ package org.de_studio.phonetools;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -104,7 +106,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     public void change(){
-        getLoaderManager().restartLoader(0,null,this);
+        getLoaderManager().restartLoader(0, null, this);
     }
 
 
@@ -166,9 +168,14 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        String count = data.getColumnName(0);
-        Log.e(LOG_TAG,data.toString() +"  "+ count);
-        mMainAdapter.swapCursor(data);
+        String[] addRowString = new String[] {"-1","type","090","title","description","3","carrier name","text","cancel","money","cyclee","1"};
+        MatrixCursor extras = new MatrixCursor(data.getColumnNames());
+        extras.addRow(addRowString);
+        Cursor[] cursors = { data,extras };
+        Cursor extendedCursor = new MergeCursor(cursors);
+        int count = extendedCursor.getCount();
+        Log.e(LOG_TAG, data.toString() + " count = " + count);
+        mMainAdapter.swapCursor(extendedCursor);
 
     }
 

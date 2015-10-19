@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by hai on 10/15/2015.
@@ -45,46 +44,66 @@ public class MainAdapter extends CursorAdapter {
 
     @Override
     public View newView(final Context context, final Cursor cursor, ViewGroup parent) {
-
-        View view = LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        Log.e(LOG_TAG, " new view = " + cursor.getPosition());
-        view.setTag(R.string.viewHolderTag,viewHolder);
-
-
-
-        return view;
+        if (cursor.getString(3).equals("title")){
+            Button button = new Button(parent.getContext());
+            button.setText("Click me baby");
+            return button;
+        }else {
+            View view = LayoutInflater.from(context).inflate(R.layout.main_list_item, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+            Log.e(LOG_TAG, " new view = " + cursor.getPosition());
+            view.setTag(R.string.viewHolderTag, viewHolder);
+            return view;
+        }
     }
 
+
+
+//    @Override
+//    public View getView(final int position, View convertView, final ViewGroup parent) {
+//
+//
+//            MyWrapper myWrapper = null;
+//            View row = null;
+//
+//
+//            row = super.getView(position, convertView, parent);
+//            myWrapper = new MyWrapper(row);
+//            if (myWrapper.getButton() != null) {
+//                myWrapper.getButton().setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(parent.getContext(), "Just click at position " + position, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//
+//            return row;
+//        }
+
+
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        MyWrapper myWrapper= null;
-
-        View row =null;
-
-            row = super.getView(position, convertView, parent);
-            myWrapper = new MyWrapper (row);
-            myWrapper.getButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(parent.getContext(), "Just click at position " + position, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-
-
-        return row;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Cursor cursor =this.getCursor();
+        cursor.moveToPosition(position);
+        View v = newView(parent.getContext(),cursor,parent);
+        bindView(v,parent.getContext(),cursor);
+        return v;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
-        String title = cursor.getString(MainFragment.COL_MAIN_TITLE);
-        viewHolder.titleView.setText(title);
-        String description = "this is description";
-        viewHolder.descriptionView.setText(description);
+        if (view instanceof Button){
+            return;
+        }else {
+            ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
+
+            String title = cursor.getString(MainFragment.COL_MAIN_TITLE);
+            viewHolder.titleView.setText(title);
+            String description = "this is description";
+            viewHolder.descriptionView.setText(description);
+        }
 
     }
 
