@@ -32,7 +32,6 @@ public class ItemListActivity extends AppCompatActivity
         if (id == android.R.id.home) {
 
             onNavigateUp();
-//            navigateUpFromSameTask(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
