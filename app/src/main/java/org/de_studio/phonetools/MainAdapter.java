@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by hai on 10/15/2015.
@@ -84,11 +85,33 @@ public class MainAdapter extends CursorAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+        MyWrapper myWrapper;
         Cursor cursor =this.getCursor();
         cursor.moveToPosition(position);
         View v = newView(parent.getContext(),cursor,parent);
         bindView(v,parent.getContext(),cursor);
+
+        myWrapper = new MyWrapper(v);
+            if (myWrapper.getButton() != null) {
+                myWrapper.getButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(parent.getContext(), "Just click at position " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                final Button button = (Button) v;
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Button floatButton = (Button) parent.getRootView().findViewById(R.id.floating_button_1);
+                        floatButton.setVisibility(View.VISIBLE);
+
+
+                    }
+                });
+            }
         return v;
     }
 

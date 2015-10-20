@@ -140,7 +140,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createActionTable(){
+    public void createActionTable(){
         SQLiteDatabase db;
 
         db = SQLiteDatabase.openDatabase(mMyPath,null,SQLiteDatabase.OPEN_READWRITE);
@@ -167,11 +167,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ACTION_TABLE);
     }
 
-    private void insertActionTable (){
+    public void insertActionTable (){
         SQLiteDatabase db;
         int carrierId = 3;
-        SharedPreferences sharedPreferences = myContext.getSharedPreferences(myContext.getPackageName() + "_preferences", 0);
-        switch (sharedPreferences.getString("carrier","mobifone")){
+
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+
+
+
+        if (sharedPreferences.contains("carrier")){
+            Log.e(LOG_TAG,"there are a carrier preference  " + sharedPreferences.toString());
+        }
+        switch (sharedPreferences.getString("carrier","")){
             case "viettel" :{
                 carrierId=1;
                 break;
@@ -218,6 +225,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             i++;
         }while (cursor.moveToNext());
 
+    }
+    public void deleteActionTable(){
+        SQLiteDatabase db;
+        db = SQLiteDatabase.openDatabase(mMyPath,null,SQLiteDatabase.OPEN_READWRITE);
+        db.execSQL("DROP TABLE "+ PhoneToolsContract.ActionEntry.TABLE_NAME);
     }
 
 }

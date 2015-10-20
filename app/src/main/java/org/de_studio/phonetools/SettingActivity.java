@@ -10,13 +10,18 @@ import android.preference.PreferenceManager;
 /**
  * Created by hai on 10/17/2015.
  */
-public class SettingActivity extends PreferenceActivity {
+public class SettingActivity extends PreferenceActivity  {
+    private static final String LOG_TAG = SettingActivity.class.getSimpleName();
+    public static final String defaultSharedPreferenceName = "org.de_studio.phonetools_preferences";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
+
+
 
     public static class MyPreferenceFragment extends PreferenceFragment  implements Preference.OnPreferenceChangeListener{
         @Override
@@ -54,6 +59,8 @@ public class SettingActivity extends PreferenceActivity {
                 // For other preferences, set the summary to the value's simple string representation.
                 preference.setSummary(stringValue);
             }
+
+
             return true;
         }
     }

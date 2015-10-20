@@ -111,6 +111,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -153,6 +154,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String selection = " carrier_name = ? AND in_main = 1 ";
+        Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key),""));
 
         String[] selectionAgrm = new String[]{prefs.getString("carrier", "vinaphone")};
 
