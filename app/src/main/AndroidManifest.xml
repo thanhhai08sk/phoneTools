@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.de_studio.phonetools" >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -21,16 +22,33 @@
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.de_studio.phonetools.MainActivity" />
         </activity>
+
         <provider
-            android:authorities="org.de_studio.phonetools"
             android:name=".PhoneToolsProvider"
-            android:exported="false"
-            />
+            android:authorities="org.de_studio.phonetools"
+            android:exported="false" />
+
+        <activity
+            android:name=".ItemListActivity"
+            android:label="@string/title_item_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.de_studio.phonetools.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".ItemListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.de_studio.phonetools.ItemListActivity" />
+        </activity>
     </application>
 
 </manifest>
