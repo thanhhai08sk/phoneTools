@@ -10,6 +10,8 @@ import android.widget.ListView;
 
 import org.de_studio.phonetools.dummy.DummyContent;
 
+import java.util.ArrayList;
+
 public class ItemListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
@@ -31,13 +33,18 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(getString(R.string.list_tong_dai));
+        list.add(getString(R.string.list_3g));
+        list.add(getString(R.string.list_tien_ich));
+
 
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+        setListAdapter(new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+                R.layout.fragment_item_list,
+                R.id.item_list_item,
+                list));
     }
 
 
