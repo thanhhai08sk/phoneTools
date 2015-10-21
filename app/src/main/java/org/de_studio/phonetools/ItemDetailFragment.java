@@ -1,14 +1,19 @@
 package org.de_studio.phonetools;
 
-import android.app.ListFragment;
+import android.support.v4.app.ListFragment;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+
 
 import java.util.ArrayList;
 
 
-public class ItemDetailFragment extends ListFragment {
-
+public class ItemDetailFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String LOG_TAG = ItemDetailFragment.class.getSimpleName();
+    private static final int DETAIL_LOADER =1;
+    private ItemDetailAdapter itemDetailAdapter;
     public static final String ARG_ITEM_ID = "item_id";
     private static Integer mPosition;
     ArrayList<String> list;
@@ -54,21 +59,30 @@ public class ItemDetailFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            mPosition = ItemDetailActivity.mPosition;
+        mPosition = ItemDetailActivity.mPosition;
+        itemDetailAdapter = new ItemDetailAdapter(getActivity(),null,0);
+        setListAdapter(itemDetailAdapter);
+    }
 
-        list = new ArrayList<String>();
-        list.add(getString(R.string.list_tong_dai));
-        list.add(getString(R.string.list_3g));
-        list.add(getString(R.string.list_tien_ich));
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(DETAIL_LOADER,null,this);
 
+        super.onActivityCreated(savedInstanceState);
+    }
 
-        setListAdapter(new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.fragment_item_detail,
-                R.id.item_detail,
-                list));
-
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
 }
