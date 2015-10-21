@@ -7,14 +7,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-import org.de_studio.phonetools.dummy.DummyContent;
-
 import java.util.ArrayList;
 
 public class ItemListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
+    ArrayList<String> list;
 
     public interface Callbacks {
 
@@ -33,7 +31,7 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<String> list = new ArrayList<String>();
+         list = new ArrayList<String>();
         list.add(getString(R.string.list_tong_dai));
         list.add(getString(R.string.list_3g));
         list.add(getString(R.string.list_tien_ich));
@@ -75,7 +73,8 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+//        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(position+1+"");
     }
 
 
