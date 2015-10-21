@@ -16,12 +16,12 @@ public class ItemListFragment extends ListFragment {
 
     public interface Callbacks {
 
-        public void onItemSelected(String id);
+        public void onItemSelected(int id);
     }
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(int id) {
         }
     };
 
@@ -37,7 +37,6 @@ public class ItemListFragment extends ListFragment {
         list.add(getString(R.string.list_tien_ich));
 
 
-        // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.fragment_item_list,
@@ -74,7 +73,7 @@ public class ItemListFragment extends ListFragment {
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
 //        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
-        mCallbacks.onItemSelected(position+1+"");
+        mCallbacks.onItemSelected(position +1);
     }
 
 
