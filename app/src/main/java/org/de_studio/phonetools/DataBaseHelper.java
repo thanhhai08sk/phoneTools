@@ -161,7 +161,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 PhoneToolsContract.ActionEntry.COLUMN_MONEY + " REAL, " +
                 PhoneToolsContract.ActionEntry.COLUMN_CYCLE + " TEXT, " +
                 PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN + " INTEGER NOT NULL, " +
-
+                PhoneToolsContract.ActionEntry.COLUMN_CATEGORY + " TEXT, " +
                 " FOREIGN KEY (" + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ") REFERENCES " +
                 PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
         db.execSQL(SQL_CREATE_ACTION_TABLE);

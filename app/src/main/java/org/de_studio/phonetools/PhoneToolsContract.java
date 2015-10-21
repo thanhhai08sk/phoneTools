@@ -64,6 +64,7 @@ public class PhoneToolsContract {
         public static final String COLUMN_MONEY = "money";
         public static final String COLUMN_CYCLE = "_cycle";
         public static final String COLUMN_IN_MAIN = "in_main";
+        public static final String COLUMN_CATEGORY = "category";
 
         public static long getIdFromUri(Uri uri) {
             return Long.parseLong(uri.getPathSegments().get(1));

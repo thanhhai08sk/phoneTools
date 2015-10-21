@@ -5,7 +5,6 @@ android:id="@+id/item_detail_container"
 android:name="org.de_studio.phonetools.ItemDetailFragment"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:layout_marginLeft="16dp"
-android:layout_marginRight="16dp"
-tools:context="org.de_studio.phonetools.ItemDetailActivity"
+tools:context="org.de_studio.phonetools.ItemDetailFragment"
+
 tools:layout="@android:layout/list_content" />
