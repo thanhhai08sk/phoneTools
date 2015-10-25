@@ -15,4 +15,10 @@
         <item>@string/pref_carrier_vietnamobile</item>
 
     </string-array>
+    <string-array name="choose_add_item">
+        <item>@string/choose_preset</item>
+        <item>@string/choose_custom</item>
+
+
+    </string-array>
 </resources>

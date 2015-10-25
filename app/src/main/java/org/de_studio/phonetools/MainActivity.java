@@ -9,10 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -35,16 +33,6 @@ public class MainActivity extends ActionBarActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        View view = findViewById(R.id.floating_button_1);
-        if (keyCode== KeyEvent.KEYCODE_BACK && view.isShown()){
-
-            view.setVisibility(View.GONE);
-            return true;
-        }else return super.onKeyDown(keyCode,event);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

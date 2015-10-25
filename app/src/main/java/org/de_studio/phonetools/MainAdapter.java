@@ -1,6 +1,9 @@
 package org.de_studio.phonetools;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,8 +108,22 @@ public class MainAdapter extends CursorAdapter {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final Button floatButton = (Button) parent.getRootView().findViewById(R.id.floating_button_1);
-                        floatButton.setVisibility(View.VISIBLE);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
+                        builder.setTitle(R.string.choose_add_item_title)
+                                .setItems(R.array.choose_add_item, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which==0){
+                                            parent.getContext().startActivity(new Intent(parent.getContext(),ItemListActivity.class));
+                                        }else {
+                                            return;
+                                        }
+                                    }
+                                });
+                        builder.create().show();
+
+
 
 
                     }

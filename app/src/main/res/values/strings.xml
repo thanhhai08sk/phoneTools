@@ -27,4 +27,7 @@
     <string name="list_3g">Dịch vụ 3G</string>
     <string name="list_tien_ich">Tiện ích</string>
     <string name="list_goi_nhan_tin">Gọi điện, nhắn tin</string>
+    <string name="choose_add_item_title">Chọn phương thức</string>
+    <string name="choose_preset">Có sẵn</string>
+    <string name="choose_custom">Tạo mới</string>
 </resources>

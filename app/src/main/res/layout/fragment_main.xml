@@ -33,14 +33,7 @@
         dslv:use_default_controller="true" />
 
 
-    <Button android:id="@+id/floating_button_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Floating Button"
-        android:padding="5dip"
-        android:visibility="invisible"
-        android:layout_margin="5dip"
-        android:layout_gravity="center|bottom" />
+
 
 
 </FrameLayout>
