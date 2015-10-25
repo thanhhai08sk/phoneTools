@@ -1,9 +1,11 @@
 package org.de_studio.phonetools;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -31,6 +33,7 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
             PhoneToolsContract.MainEntry.COLUMN_DESTINATION,
             PhoneToolsContract.MainEntry.COLUMN_TITLE,
+            PhoneToolsContract.MainEntry.COLUMN_SHORT_DESCRIPTION,
             PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION,
             PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID,
             PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
@@ -47,15 +50,16 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
     static final int COL_MAIN_TYPE = 1;
     static final int COL_MAIN_DESTINATION = 2;
     static final int COL_MAIN_TITLE = 3;
-    static final int COL_MAIN_DESCRIPTION = 4;
-    static final int COL_MAIN_CARRIER_ID = 5;
-    static final int COL_CARRIERS_CARRIER_NAME = 6;
-    static final int COL_MAIN_TEXT = 7;
-    static final int COL_MAIN_CANCEL = 8;
-    static final int COL_MAIN_MONEY = 9;
-    static final int COL_MAIN_CYCLE = 10;
-    static final int COL_MAIN_IN_MAIN = 11;
-    static final int COL_CATEGORY = 12;
+    static final int COL_MAIN_SHORT_DESCRIPTION = 4;
+    static final int COL_MAIN_DESCRIPTION = 5;
+    static final int COL_MAIN_CARRIER_ID = 6;
+    static final int COL_CARRIERS_CARRIER_NAME = 7;
+    static final int COL_MAIN_TEXT = 8;
+    static final int COL_MAIN_CANCEL = 9;
+    static final int COL_MAIN_MONEY = 10;
+    static final int COL_MAIN_CYCLE = 11;
+    static final int COL_MAIN_IN_MAIN = 12;
+    static final int COL_CATEGORY = 13;
 
 
 
@@ -66,6 +70,10 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
     public void onListItemClick(ListView l, View v, int position, long id) {
         Cursor cursor = itemDetailAdapter.getCursor();
         cursor.moveToPosition(position);
+        final ContentValues tempContent= new ContentValues();
+        DatabaseUtils.cursorRowToContentValues(cursor, tempContent);
+        tempContent.remove("carrier_name");
+        tempContent.remove("_id");
         String message = cursor.getString(COL_MAIN_DESCRIPTION);
         String title = cursor.getString(COL_MAIN_TITLE);
 
@@ -73,13 +81,14 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message)
                 .setTitle(title)
-                .setPositiveButton("Ok button", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Thêm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity()," Ok clicked",Toast.LENGTH_SHORT).show();
+                        getContext().getContentResolver().insert(PhoneToolsContract.ActionEntry.CONTENT_URI,tempContent);
+                        Toast.makeText(getActivity(), " Ok clicked", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Cancel button", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getActivity()," Cancel clicked",Toast.LENGTH_SHORT).show();

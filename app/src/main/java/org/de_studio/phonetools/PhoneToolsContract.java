@@ -26,6 +26,7 @@ public class PhoneToolsContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_DESTINATION = "destination";
         public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_SHORT_DESCRIPTION = "short_description";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_CARRIER_ID = "carrier_id";
         public static final String COLUMN_TEXT = "text";
