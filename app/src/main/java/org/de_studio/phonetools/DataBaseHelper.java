@@ -152,6 +152,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 PhoneToolsContract.ActionEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
                 PhoneToolsContract.ActionEntry.COLUMN_DESTINATION + " TEXT NOT NULL, " +
                 PhoneToolsContract.ActionEntry.COLUMN_TITLE  + " TEXT NOT NULL, " +
+                PhoneToolsContract.ActionEntry.COLUMN_SHORT_DESCRIPTION + " TEXT DEFAULT null," +
                 PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION + " TEXT DEFAULT null," +
 
                 PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + " INTEGER NOT NULL, " +

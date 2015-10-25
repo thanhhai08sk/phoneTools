@@ -32,9 +32,10 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          list = new ArrayList<String>();
-        list.add(getString(R.string.list_tong_dai));
+        list.add(getString(R.string.list_goi_nhan_tin));
         list.add(getString(R.string.list_3g));
         list.add(getString(R.string.list_tien_ich));
+        list.add(getString(R.string.list_tong_dai));
 
 
         setListAdapter(new ArrayAdapter<String>(

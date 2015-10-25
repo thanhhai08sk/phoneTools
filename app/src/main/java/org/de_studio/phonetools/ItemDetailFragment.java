@@ -1,5 +1,7 @@
 package org.de_studio.phonetools;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,6 +10,9 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,6 +63,27 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
     }
 
     @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("this is a dialog")
+                .setPositiveButton("Ok button", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity()," Ok clicked",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel button", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity()," Cancel clicked",Toast.LENGTH_SHORT).show();
+                    }
+                });
+        builder.create().show();
+        super.onListItemClick(l, v, position, id);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -100,19 +126,19 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
         String category = "3g";
         switch (mPosition){
             case 1:{
-                category = "3g";
+                category = "gn";
                 break;
             }
             case 2: {
-                category = "ti";
+                category = "3g";
                 break;
             }
             case 3: {
-                category ="td";
+                category ="ti";
                 break;
             }
             default:{
-                category = "3g";
+                category = "td";
             }
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());

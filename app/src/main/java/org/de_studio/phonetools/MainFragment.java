@@ -34,6 +34,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             PhoneToolsContract.ActionEntry.COLUMN_TYPE,
             PhoneToolsContract.ActionEntry.COLUMN_DESTINATION,
             PhoneToolsContract.ActionEntry.COLUMN_TITLE,
+            PhoneToolsContract.ActionEntry.COLUMN_SHORT_DESCRIPTION,
             PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION,
             PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID,
             PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
@@ -51,14 +52,15 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     static final int COL_MAIN_TYPE = 1;
     static final int COL_MAIN_DESTINATION = 2;
     static final int COL_MAIN_TITLE = 3;
-    static final int COL_MAIN_DESCRIPTION = 4;
-    static final int COL_MAIN_CARRIER_ID = 5;
-    static final int COL_CARRIERS_CARRIER_NAME = 6;
-    static final int COL_MAIN_TEXT = 7;
-    static final int COL_MAIN_CANCEL = 8;
-    static final int COL_MAIN_MONEY = 9;
-    static final int COL_MAIN_CYCLE = 10;
-    static final int COL_MAIN_IN_MAIN = 11;
+    static final int COL_SHORT_DESCRIPTION =4;
+    static final int COL_MAIN_DESCRIPTION = 5;
+    static final int COL_MAIN_CARRIER_ID = 6;
+    static final int COL_CARRIERS_CARRIER_NAME = 7;
+    static final int COL_MAIN_TEXT = 8;
+    static final int COL_MAIN_CANCEL = 9;
+    static final int COL_MAIN_MONEY = 10;
+    static final int COL_MAIN_CYCLE = 11;
+    static final int COL_MAIN_IN_MAIN = 12;
 
 
     /**
@@ -179,7 +181,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        String[] addRowString = new String[] {"-1","type","090","title","description","3","carrier name","text","cancel","money","cyclee","1"};
+        String[] addRowString = new String[] {"-1","type","090","title","short_description","description","3","carrier name","text","cancel","money","cyclee","1"};
         MatrixCursor extras = new MatrixCursor(data.getColumnNames());
         extras.addRow(addRowString);
         Cursor[] cursors = { data,extras };

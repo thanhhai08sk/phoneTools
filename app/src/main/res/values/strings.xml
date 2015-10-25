@@ -24,6 +24,7 @@
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="list_tong_dai">Tổng đài</string>
-    <string name="list_3g">3G</string>
+    <string name="list_3g">Dịch vụ 3G</string>
     <string name="list_tien_ich">Tiện ích</string>
+    <string name="list_goi_nhan_tin">Gọi điện, nhắn tin</string>
 </resources>

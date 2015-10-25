@@ -124,7 +124,7 @@ public class MainAdapter extends CursorAdapter {
 
             String title = cursor.getString(MainFragment.COL_MAIN_TITLE);
             viewHolder.titleView.setText(title);
-            String description = "this is description";
+            String description = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
             viewHolder.descriptionView.setText(description);
         }
 
