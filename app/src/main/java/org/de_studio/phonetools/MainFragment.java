@@ -48,19 +48,19 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
-    static final int COL_MAIN_ID = 0;
-    static final int COL_MAIN_TYPE = 1;
-    static final int COL_MAIN_DESTINATION = 2;
-    static final int COL_MAIN_TITLE = 3;
+    static final int COL_ID = 0;
+    static final int COL_TYPE = 1;
+    static final int COL_DESTINATION = 2;
+    static final int COL_TITLE = 3;
     static final int COL_SHORT_DESCRIPTION =4;
-    static final int COL_MAIN_DESCRIPTION = 5;
-    static final int COL_MAIN_CARRIER_ID = 6;
+    static final int COL_DESCRIPTION = 5;
+    static final int COL_CARRIER_ID = 6;
     static final int COL_CARRIERS_CARRIER_NAME = 7;
-    static final int COL_MAIN_TEXT = 8;
-    static final int COL_MAIN_CANCEL = 9;
-    static final int COL_MAIN_MONEY = 10;
-    static final int COL_MAIN_CYCLE = 11;
-    static final int COL_MAIN_IN_MAIN = 12;
+    static final int COL_TEXT = 8;
+    static final int COL_CANCEL = 9;
+    static final int COL_MONEY = 10;
+    static final int COL_CYCLE = 11;
+    static final int COL_IN_MAIN = 12;
 
 
     /**

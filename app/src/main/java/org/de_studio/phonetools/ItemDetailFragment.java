@@ -64,9 +64,15 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        Cursor cursor = itemDetailAdapter.getCursor();
+        cursor.moveToPosition(position);
+        String message = cursor.getString(COL_MAIN_DESCRIPTION);
+        String title = cursor.getString(COL_MAIN_TITLE);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("this is a dialog")
+        builder.setMessage(message)
+                .setTitle(title)
                 .setPositiveButton("Ok button", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -89,6 +95,8 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
 
         itemDetailAdapter = new ItemDetailAdapter(getActivity(),null,0);
         setListAdapter(itemDetailAdapter);
+
+
     }
 
 //    @Override

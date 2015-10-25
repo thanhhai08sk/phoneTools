@@ -122,7 +122,7 @@ public class MainAdapter extends CursorAdapter {
         }else {
             ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
 
-            String title = cursor.getString(MainFragment.COL_MAIN_TITLE);
+            String title = cursor.getString(MainFragment.COL_TITLE);
             viewHolder.titleView.setText(title);
             String description = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
             viewHolder.descriptionView.setText(description);
