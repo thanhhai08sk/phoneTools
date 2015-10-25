@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -70,10 +69,10 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
     public void onListItemClick(ListView l, View v, int position, long id) {
         Cursor cursor = itemDetailAdapter.getCursor();
         cursor.moveToPosition(position);
+        final int rowId = cursor.getInt(COL_MAIN_ID);
+        final String where = PhoneToolsContract.MainEntry._ID + " = ? ";
         final ContentValues tempContent= new ContentValues();
-        DatabaseUtils.cursorRowToContentValues(cursor, tempContent);
-        tempContent.remove("carrier_name");
-        tempContent.remove("_id");
+        tempContent.put(PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN, 1);
         String message = cursor.getString(COL_MAIN_DESCRIPTION);
         String title = cursor.getString(COL_MAIN_TITLE);
 
@@ -84,7 +83,7 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
                 .setPositiveButton("Thêm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getContext().getContentResolver().insert(PhoneToolsContract.ActionEntry.CONTENT_URI,tempContent);
+                        getContext().getContentResolver().update(PhoneToolsContract.MainEntry.CONTENT_URI,tempContent,where,new String[]{rowId+""});
                         Toast.makeText(getActivity(), " Ok clicked", Toast.LENGTH_SHORT).show();
                     }
                 })
