@@ -7,13 +7,17 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 /**
  * Created by hai on 10/25/2015.
  */
-public class AddItemFragment extends DialogFragment {
+public class AddItemFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
+    private String mType;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -38,6 +42,33 @@ public class AddItemFragment extends DialogFragment {
                 ,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
         return builder.create();
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        LinearLayout linearLayout = (LinearLayout) parent.getParent();
+        EditText editText =(EditText) linearLayout.findViewById(R.id.new_item_text);
+        switch (position){
+
+            case 1:{
+
+                editText.setVisibility(View.VISIBLE);
+                mType = "sms";
+                break;
+            }
+            case 0:{
+                editText.setVisibility(View.GONE);
+                mType = "call";
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        mType = "call";
+    }
+
 }
