@@ -30,4 +30,11 @@
     <string name="choose_add_item_title">Chọn phương thức</string>
     <string name="choose_preset">Có sẵn</string>
     <string name="choose_custom">Tạo mới</string>
+    <string name="new_item_title">Tiêu đề</string>
+    <string name="new_item_type">Chọn hành động</string>
+    <string name="new_item_type_spinner_item_1">Gọi điện</string>
+    <string name="new_item_type_spinner_item_2">Nhắn tin</string>
+    <string name="new_item_destination_title">Số đích</string>
+    <string name="new_item_text_title">Nội dung SMS</string>
+
 </resources>

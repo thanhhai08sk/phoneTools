@@ -18,7 +18,10 @@
     <string-array name="choose_add_item">
         <item>@string/choose_preset</item>
         <item>@string/choose_custom</item>
+    </string-array>
 
-
+    <string-array name="new_item_type_spinner_array">
+        <item>@string/new_item_type_spinner_item_1</item>
+        <item>@string/new_item_type_spinner_item_2</item>
     </string-array>
 </resources>
