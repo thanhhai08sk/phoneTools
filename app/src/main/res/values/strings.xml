@@ -36,5 +36,6 @@
     <string name="new_item_type_spinner_item_2">Nhắn tin</string>
     <string name="new_item_destination_title">Số đích</string>
     <string name="new_item_text_title">Nội dung SMS</string>
-
+    <string name="add_item_fragment_positive">Thêm</string>
+    <string name="add_item_fragment_negative">Hủy</string>
 </resources>

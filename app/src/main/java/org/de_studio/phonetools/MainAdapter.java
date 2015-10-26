@@ -1,5 +1,6 @@
 package org.de_studio.phonetools;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -117,7 +118,14 @@ public class MainAdapter extends CursorAdapter {
                                         if (which==0){
                                             parent.getContext().startActivity(new Intent(parent.getContext(),ItemListActivity.class));
                                         }else {
-                                            return;
+                                            AddItemFragment addItemFragment = new AddItemFragment();
+                                            try {
+                                                final Activity activity = (Activity) parent.getContext();
+                                                addItemFragment.show(activity.getFragmentManager(),"addItemFragment");
+
+                                            }catch (ClassCastException e){
+                                                Log.e(LOG_TAG,"can't get FragmentManager");
+                                            }
                                         }
                                     }
                                 });
