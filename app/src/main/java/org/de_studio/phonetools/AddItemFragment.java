@@ -3,7 +3,9 @@ package org.de_studio.phonetools;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +24,58 @@ public class AddItemFragment extends DialogFragment implements AdapterView.OnIte
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_add_item,null);
+        final View dialogView = inflater.inflate(R.layout.dialog_add_item,null);
         builder.setView(dialogView)
                 .setPositiveButton(R.string.add_item_fragment_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_TYPE, mType);
+                        EditText destinationView = (EditText) dialogView.findViewById(R.id.new_item_destination);
+                        String destination = destinationView.getText().toString();
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_DESTINATION, destination);
+                        EditText titleView = (EditText) dialogView.findViewById(R.id.new_item_title);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_TITLE,
+                                titleView.getText().toString());
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_SHORT_DESCRIPTION, (String) null);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION, (String) null);
+                        int carrierId;
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+                        switch (sharedPreferences.getString("carrier", "viettel")) {
+                            case "viettel": {
+                                carrierId = 1;
+                                break;
+                            }
+                            case "vinaphone": {
+                                carrierId = 2;
+                                break;
+                            }
+                            case "mobifone": {
+                                carrierId = 3;
+                                break;
+                            }
+                            case "vietnamobile": {
+                                carrierId = 4;
+                                break;
+                            }
+                            default:
+                                carrierId = 1;
+                        }
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID, carrierId);
+                        if (mType.equals("call")) {
+                            contentValues.put(PhoneToolsContract.MainEntry.COLUMN_TEXT, (String) null);
+                        } else {
+                            EditText textView = (EditText) dialogView.findViewById(R.id.new_item_text);
+                            contentValues.put(PhoneToolsContract.MainEntry.COLUMN_TEXT,textView.getText().toString());
+                        }
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CANCEL,(String)null);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_MONEY,(String) null);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CYCLE,(String) null);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,1);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CATEGORY,(String) null);
+
+                        getActivity().getContentResolver().insert(PhoneToolsContract.MainEntry.CONTENT_URI,contentValues);
 
                     }
                 })
