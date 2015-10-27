@@ -5,12 +5,15 @@ package org.de_studio.phonetools;
  */
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class ServicesFragment extends ListFragment {
     ArrayList<String> list;
+    private int mListLevel;
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     public static ServicesFragment newInstance(int sectionNumber) {
@@ -30,7 +33,7 @@ public class ServicesFragment extends ListFragment {
         list.add(getString(R.string.list_tien_ich));
         list.add(getString(R.string.list_tong_dai));
 
-
+        mListLevel = 1;
         setListAdapter(new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.fragment_item_list,
@@ -42,5 +45,14 @@ public class ServicesFragment extends ListFragment {
 //        View v =inflater.inflate(R.layout.fragment_services,container,false);
 //        return v;
 //    }
+
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if (mListLevel==1){
+            setListAdapter(new ItemDetailAdapter(getActivity(),null,0));
+            mListLevel =2;
+        }
+    }
 }
 
