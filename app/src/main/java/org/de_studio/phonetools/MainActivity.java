@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -105,6 +104,8 @@ public class MainActivity extends ActionBarActivity {
                     return MainFragment.newInstance(position + 1);
                 case 1:
                     return ServicesFragment.newInstance(position + 1);
+                case 2:
+                    return AdvertisingTabFragment.newInstance(position +1);
 
             }
             return null;
@@ -112,7 +113,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -123,6 +124,8 @@ public class MainActivity extends ActionBarActivity {
                     return "Main".toLowerCase();
                 case 1:
                     return "Service".toLowerCase();
+                case 2:
+                    return "Advertising".toLowerCase();
 
             }
             return null;
@@ -132,7 +135,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(LOG_TAG, "onResume activity ne");
         DataBaseHelper dataBaseHelper =  new DataBaseHelper(getApplicationContext());
         dataBaseHelper.deleteActionTable();
         dataBaseHelper.createActionTable();
