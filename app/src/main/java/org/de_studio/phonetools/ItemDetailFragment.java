@@ -45,20 +45,20 @@ public class ItemDetailFragment extends ListFragment implements LoaderManager.Lo
 
     };
 
-    static final int COL_MAIN_ID = 0;
-    static final int COL_MAIN_TYPE = 1;
-    static final int COL_MAIN_DESTINATION = 2;
-    static final int COL_MAIN_TITLE = 3;
-    static final int COL_MAIN_SHORT_DESCRIPTION = 4;
-    static final int COL_MAIN_DESCRIPTION = 5;
-    static final int COL_MAIN_CARRIER_ID = 6;
-    static final int COL_CARRIERS_CARRIER_NAME = 7;
-    static final int COL_MAIN_TEXT = 8;
-    static final int COL_MAIN_CANCEL = 9;
-    static final int COL_MAIN_MONEY = 10;
-    static final int COL_MAIN_CYCLE = 11;
-    static final int COL_MAIN_IN_MAIN = 12;
-    static final int COL_CATEGORY = 13;
+    public static final int COL_MAIN_ID = 0;
+    public static final int COL_MAIN_TYPE = 1;
+    public static final int COL_MAIN_DESTINATION = 2;
+    public static final int COL_MAIN_TITLE = 3;
+    public static final int COL_MAIN_SHORT_DESCRIPTION = 4;
+    public static final int COL_MAIN_DESCRIPTION = 5;
+    public static final int COL_MAIN_CARRIER_ID = 6;
+    public static final int COL_CARRIERS_CARRIER_NAME = 7;
+    public static final int COL_MAIN_TEXT = 8;
+    public static final int COL_MAIN_CANCEL = 9;
+    public static final int COL_MAIN_MONEY = 10;
+    public static final int COL_MAIN_CYCLE = 11;
+    public static final int COL_MAIN_IN_MAIN = 12;
+    public static final int COL_CATEGORY = 13;
 
 
 
