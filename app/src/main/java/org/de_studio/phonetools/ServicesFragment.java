@@ -43,7 +43,6 @@ public class ServicesFragment extends ListFragment implements LoaderManager.Load
         list.add(getString(R.string.list_goi_nhan_tin));
         list.add(getString(R.string.list_3g));
         list.add(getString(R.string.list_tien_ich));
-        list.add(getString(R.string.list_tong_dai));
 
         mListLevel = 1;
         setListAdapter(new ArrayAdapter<String>(
