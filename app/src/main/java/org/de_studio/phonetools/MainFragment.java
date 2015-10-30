@@ -15,9 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobeta.android.dslv.DragSortController;
-import com.mobeta.android.dslv.DragSortListView;
-
 /**
  * Created by hai on 10/13/2015.
  */
@@ -26,7 +23,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final int MAIN_LOADER = 0;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private MainAdapter mMainAdapter;
-    private DragSortListView mListView;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
             PhoneToolsContract.ActionEntry.COLUMN_TYPE,
@@ -73,34 +69,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         return fragment;
     }
 
-    private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
-        @Override
-        public void drop(int i, int i1) {
-            if (i != i1){
-                final Bundle bundle = new Bundle();
-                bundle.putInt("i",i);
-                bundle.putInt("i1", i1);
-//                getActivity().getContentResolver().call(PhoneToolsContract.MainEntry.CONTENT_URI,
-//                        "move",
-//                        null,
-//                        bundle);
 
-                Thread background = new Thread(new Runnable() {
-                     Bundle newBundle = bundle;
-                    @Override
-                    public void run() {
-                        getActivity().getContentResolver().call(PhoneToolsContract.ActionEntry.CONTENT_URI,
-                                "move",
-                                null,
-                                newBundle);
-                    }
-                });
-                background.run();
-            }
-//            mMainAdapter.notifyDataSetChanged();
-
-        }
-    };
 
 
 
@@ -118,31 +87,11 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mListView = (DragSortListView) rootView.findViewById(R.id.listview);
         mMainAdapter = new MainAdapter(getActivity(),null,0);
-        mListView.setAdapter(mMainAdapter);
-        mListView.setDropListener(onDrop);
-//        Button floatButton = (Button) rootView.findViewById(R.id.floating_button_1);
-//        floatButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(),ItemListActivity.class));
-//            }
-//        });
 
 
 
-        DragSortController controller = new DragSortController(mListView);
-        controller.setDragHandleId(R.id.item_drag);
-        //controller.setClickRemoveId(R.id.);
-        controller.setRemoveEnabled(false);
-        controller.setSortEnabled(true);
-        controller.setDragInitMode(1);
-        //controller.setRemoveMode(removeMode);
 
-        mListView.setFloatViewManager(controller);
-        mListView.setOnTouchListener(controller);
-        mListView.setDragEnabled(true);
 
 
         return rootView;
