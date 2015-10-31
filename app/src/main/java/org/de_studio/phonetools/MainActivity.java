@@ -1,6 +1,9 @@
 package org.de_studio.phonetools;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -32,36 +36,47 @@ public class MainActivity extends ActionBarActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    private static final int MAIN_LOADER = 0;
+    MainFragment mainFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialog_choose_carrier_title)
+                .setSingleChoiceItems(R.array.pref_carriers_options, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String[] carrierArray = getResources().getStringArray(R.array.pref_carriers_values);
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+                        sharedPreferences.edit().putString("carrier",carrierArray[which]).commit();
+                        Toast.makeText(getApplicationContext(),"Carrier is : "+ carrierArray[which]+ " and preference is: " + sharedPreferences.getString("carrier",""),Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mainFragment.onCarrierChange();
+                    }
+                });
+        builder.show();
+
         try{
             dataBaseHelper.createDataBase();
         }catch (IOException e){
             throw new Error("Unable to create database");
         }
 
-
-
-
-
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,10 +101,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -101,7 +112,8 @@ public class MainActivity extends ActionBarActivity {
 
             switch (position) {
                 case 0:
-                    return MainFragment.newInstance(position + 1);
+                     mainFragment = MainFragment.newInstance(position + 1);
+                    return mainFragment;
                 case 1:
                     return ServicesFragment.newInstance(position + 1);
                 case 2:

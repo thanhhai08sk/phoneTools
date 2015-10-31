@@ -349,7 +349,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 //        Log.e(LOG_TAG, " onResume");
         onCarrierChange();
     }
-    void onCarrierChange( ) {
+    public void onCarrierChange( ) {
 
         getLoaderManager().restartLoader(MAIN_LOADER, null, this);
     }
