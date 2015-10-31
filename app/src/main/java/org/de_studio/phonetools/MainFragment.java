@@ -2,8 +2,6 @@ package org.de_studio.phonetools;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -14,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by hai on 10/13/2015.
@@ -23,6 +22,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final int MAIN_LOADER = 0;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private MainAdapter mMainAdapter;
+    private ViewHolder mViewHolder;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
             PhoneToolsContract.ActionEntry.COLUMN_TYPE,
@@ -69,6 +69,50 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         return fragment;
     }
 
+    private static   class ViewHolder{
+
+        public final TextView kttk1;
+        public final TextView kttk2;
+        public final TextView kttk3;
+        public final TextView dv3g1;
+        public final TextView dv3g2;
+        public final TextView dv3g3;
+        public final View kttk1Card;
+        public final View kttk2Card;
+        public final View kttk3Card;
+        public final View dv3gCard1;
+        public final View dv3gCard2;
+        public final View dv3gCard3;
+        public final View dv3gCard4;
+        public final View dv3gCard5;
+        public final TextView dv3g4;
+        public final TextView dv3g5;
+
+
+
+
+        public ViewHolder(View view) {
+             kttk1 =(TextView) view.findViewById(R.id.kttk_1);
+             kttk2 =(TextView) view.findViewById(R.id.kttk_2);
+             kttk3 =(TextView) view.findViewById(R.id.kttk_3);
+             dv3g1 =(TextView) view.findViewById(R.id.dich_vu_3g_text_1);
+             dv3g2 =(TextView) view.findViewById(R.id.dich_vu_3g_text_2);
+             dv3g3 =(TextView) view.findViewById(R.id.dich_vu_3g_text_3);
+            dv3g4 =(TextView) view.findViewById(R.id.dich_vu_3g_text_4);
+            dv3g5 =(TextView) view.findViewById(R.id.dich_vu_3g_text_5);
+            kttk1Card = view.findViewById(R.id.kttk_1_card);
+            kttk2Card = view.findViewById(R.id.kttk_2_card);
+            kttk3Card = view.findViewById(R.id.kttk_3_card);
+            dv3gCard1 = view.findViewById(R.id.dv3g_1_card);
+            dv3gCard2 = view.findViewById(R.id.dv3g_2_card);
+            dv3gCard3 = view.findViewById(R.id.dv3g_3_card);
+            dv3gCard4 = view.findViewById(R.id.dv3g_4_card);
+            dv3gCard5 = view.findViewById(R.id.dv3g_5_card);
+
+        }
+
+    }
+
 
 
 
@@ -88,7 +132,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mMainAdapter = new MainAdapter(getActivity(),null,0);
-
+        mViewHolder = new ViewHolder(rootView);
 
 
 
@@ -100,7 +144,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(MAIN_LOADER,null,this);
+        getLoaderManager().initLoader(MAIN_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -111,8 +155,8 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
         String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String selection = " carrier_name = ? AND in_main = 1 ";
-        Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key),""));
+        String selection = " carrier_name = ? AND in_main >= 1 ";
+        Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key), ""));
 
         String[] selectionAgrm = new String[]{prefs.getString("carrier", "vinaphone")};
 
@@ -128,15 +172,63 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        String[] addRowString = new String[] {"-1","type","090","title","short_description","description","3","carrier name","text","cancel","money","cyclee","1"};
-        MatrixCursor extras = new MatrixCursor(data.getColumnNames());
-        extras.addRow(addRowString);
-        Cursor[] cursors = { data,extras };
-        Cursor extendedCursor = new MergeCursor(cursors);
-        int count = extendedCursor.getCount();
-        Log.e(LOG_TAG, data.toString() + " count = " + count);
-        mMainAdapter.swapCursor(extendedCursor);
+        data.moveToFirst();
+        Boolean ok =false;
+        Integer kttkPosition =0;
+        int kttkCount =0;
+        int dv3gPosition =0;
+        mViewHolder.kttk1Card.setVisibility(View.GONE);
+        mViewHolder.kttk2Card.setVisibility(View.GONE);
+        mViewHolder.kttk3Card.setVisibility(View.GONE);
+        mViewHolder.dv3gCard1.setVisibility(View.GONE);
+        mViewHolder.dv3gCard2.setVisibility(View.GONE);
+        mViewHolder.dv3gCard3.setVisibility(View.GONE);
+        mViewHolder.dv3gCard4.setVisibility(View.GONE);
+        mViewHolder.dv3gCard5.setVisibility(View.GONE);
 
+
+        do {
+            if (data.getInt(COL_IN_MAIN)==1){
+                if (kttkPosition ==0){
+                    mViewHolder.kttk1.setText(data.getString(COL_TITLE));
+                    mViewHolder.kttk1Card.setVisibility(View.VISIBLE);
+                    kttkPosition++;
+                }else if (kttkPosition==1){
+                    mViewHolder.kttk2.setText(data.getString(COL_TITLE));
+                    mViewHolder.kttk2Card.setVisibility(View.VISIBLE);
+                    kttkPosition ++;
+                }else if (kttkPosition==2){
+                    mViewHolder.kttk3.setText(data.getString(COL_TITLE));
+                    mViewHolder.kttk3Card.setVisibility(View.VISIBLE);
+                }
+            }else if (data.getInt(COL_IN_MAIN)==2){
+                if (dv3gPosition==0){
+                    mViewHolder.dv3gCard1.setVisibility(View.VISIBLE);
+                    mViewHolder.dv3g1.setText(data.getString(COL_TITLE));
+                    dv3gPosition++;
+                }else if (dv3gPosition==1){
+                    mViewHolder.dv3gCard2.setVisibility(View.VISIBLE);
+
+                    mViewHolder.dv3g2.setText(data.getString(COL_TITLE));
+                    dv3gPosition++;
+                }else if (dv3gPosition ==2){
+                    mViewHolder.dv3gCard3.setVisibility(View.VISIBLE);
+
+                    mViewHolder.dv3g3.setText(data.getString(COL_TITLE));
+                    dv3gPosition++;
+                }else if (dv3gPosition ==3){
+                    mViewHolder.dv3gCard4.setVisibility(View.VISIBLE);
+
+                    mViewHolder.dv3g4.setText(data.getString(COL_TITLE));
+                    dv3gPosition++;
+                }else if (dv3gPosition ==4){
+                    mViewHolder.dv3gCard5.setVisibility(View.VISIBLE);
+
+                    mViewHolder.dv3g5.setText(data.getString(COL_TITLE));
+                    dv3gPosition++;
+                }
+            }
+        }while (data.moveToNext());
     }
 
     @Override

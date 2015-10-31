@@ -206,7 +206,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 " SELECT * FROM "+
                 PhoneToolsContract.MainEntry.TABLE_NAME + " WHERE "+ PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID
                 + " = " + carrierId + " AND " + PhoneToolsContract.MainEntry.COLUMN_IN_MAIN +
-                " = " + 1 + " ;"
+                " >= " + 1 + " ;"
                 ;
 //        final String SQL_INSERT_ID_COLUMN = "ALTER TABLE " + PhoneToolsContract.ActionEntry.TABLE_NAME + " ADD COLUMN " +
 //                 PhoneToolsContract.ActionEntry._ID + " INTEGER NOT NULL AUTOINCREMENT  ;";
