@@ -41,6 +41,7 @@
     <string name="main_kiem_tra_tai_khoan_title">Kiểm tra tài khoản</string>
     <string name="main_kiem_tra_button">Kiểm tra</string>
     <string name="main_dich_vu_3g">Dịch vụ 3G</string>
+    <string name="main_tien_ich_title">Tiện ích</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
