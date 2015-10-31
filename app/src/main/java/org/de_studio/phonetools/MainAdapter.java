@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,24 +21,15 @@ import android.widget.Toast;
 public class MainAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_COUNT = 1;
     private static final String LOG_TAG = MainAdapter.class.getSimpleName();
-
-
     public static class ViewHolder {
-        public final ImageView iconView;
         public final TextView titleView;
         public final TextView descriptionView;
         public final Button actionView;
-        public final ImageView menuView;
-
-
-
 
         public ViewHolder(View view) {
-            iconView = (ImageView) view.findViewById(R.id.item_drag);
             titleView = (TextView) view.findViewById(R.id.item_title);
             descriptionView = (TextView) view.findViewById(R.id.item_description);
             actionView = (Button) view.findViewById(R.id.item_action);
-            menuView = (ImageView) view.findViewById(R.id.item_menu);
         }
     }
 
@@ -62,32 +52,6 @@ public class MainAdapter extends CursorAdapter {
         }
     }
 
-
-
-//    @Override
-//    public View getView(final int position, View convertView, final ViewGroup parent) {
-//
-//
-//            MyWrapper myWrapper = null;
-//            View row = null;
-//
-//
-//            row = super.getView(position, convertView, parent);
-//            myWrapper = new MyWrapper(row);
-//            if (myWrapper.getButton() != null) {
-//                myWrapper.getButton().setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(parent.getContext(), "Just click at position " + position, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//
-//            return row;
-//        }
-
-
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         MyWrapper myWrapper;
@@ -109,7 +73,6 @@ public class MainAdapter extends CursorAdapter {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
                         builder.setTitle(R.string.choose_add_item_title)
                                 .setItems(R.array.choose_add_item, new DialogInterface.OnClickListener() {
@@ -122,7 +85,6 @@ public class MainAdapter extends CursorAdapter {
                                             try {
                                                 final Activity activity = (Activity) parent.getContext();
                                                 addItemFragment.show(activity.getFragmentManager(),"addItemFragment");
-
                                             }catch (ClassCastException e){
                                                 Log.e(LOG_TAG,"can't get FragmentManager");
                                             }
@@ -130,10 +92,6 @@ public class MainAdapter extends CursorAdapter {
                                     }
                                 });
                         builder.create().show();
-
-
-
-
                     }
                 });
             }
@@ -142,16 +100,12 @@ public class MainAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        if (view instanceof Button){
-            return;
-        }else {
-            ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
 
+            ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
             String title = cursor.getString(MainFragment.COL_TITLE);
             viewHolder.titleView.setText(title);
             String description = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
             viewHolder.descriptionView.setText(description);
-        }
 
     }
 
