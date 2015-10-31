@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -152,6 +153,8 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mMainAdapter = new MainAdapter(getActivity(),null,0);
         mViewHolder = new ViewHolder(rootView);
+        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
+        listView.setAdapter(mMainAdapter);
 
 
 

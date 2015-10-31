@@ -135,10 +135,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DataBaseHelper dataBaseHelper =  new DataBaseHelper(getApplicationContext());
-        dataBaseHelper.deleteActionTable();
-        dataBaseHelper.createActionTable();
-        dataBaseHelper.insertActionTable();
+//        DataBaseHelper dataBaseHelper =  new DataBaseHelper(getApplicationContext());
+//        dataBaseHelper.deleteActionTable();
+//        dataBaseHelper.createActionTable();
+//        dataBaseHelper.insertActionTable();
         this.getContentResolver().notifyChange(PhoneToolsContract.ActionEntry.CONTENT_URI, null);
 
     }

@@ -70,7 +70,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 //                db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
                 createActionTable();
-                insertActionTable();
+//                insertActionTable();
 
 
             } catch (IOException e) {
