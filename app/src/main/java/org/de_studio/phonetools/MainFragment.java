@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -194,7 +196,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             public void onClick(View v) {
                 AddItemFragment addItemFragment = new AddItemFragment();
 
-                    addItemFragment.show(getActivity().getFragmentManager(),"addItemFragment");
+                addItemFragment.show(getActivity().getFragmentManager(), "addItemFragment");
 
             }
         });
@@ -210,7 +212,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MAIN_LOADER, null, this);
-        getLoaderManager().initLoader(CUSTOM_LOADER,null,this);
+        getLoaderManager().initLoader(CUSTOM_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -331,6 +333,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             } while (data.moveToNext());
         }else if (loader.getId()==CUSTOM_LOADER){
             mMainAdapter.swapCursor(data);
+            setListViewHeightBasedOnChildren((ListView) getView().findViewById(R.id.main_list_view));
         }
     }
 
@@ -349,6 +352,27 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     void onCarrierChange( ) {
 
         getLoaderManager().restartLoader(MAIN_LOADER, null, this);
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, AbsListView.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
 
