@@ -45,24 +45,28 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.dialog_choose_carrier_title)
-                .setSingleChoiceItems(R.array.pref_carriers_options, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String[] carrierArray = getResources().getStringArray(R.array.pref_carriers_values);
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
-                        sharedPreferences.edit().putString("carrier",carrierArray[which]).commit();
-                        Toast.makeText(getApplicationContext(),"Carrier is : "+ carrierArray[which]+ " and preference is: " + sharedPreferences.getString("carrier",""),Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mainFragment.onCarrierChange();
-                    }
-                });
-        builder.show();
+        SharedPreferences sharedPreferences =getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        if (!sharedPreferences.contains("fistLaunch")) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.dialog_choose_carrier_title)
+                    .setSingleChoiceItems(R.array.pref_carriers_options, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String[] carrierArray = getResources().getStringArray(R.array.pref_carriers_values);
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+                            sharedPreferences.edit().putString("carrier", carrierArray[which]).putBoolean("fistLaunch",false).commit();
+                            Toast.makeText(getApplicationContext(), "Carrier is : " + carrierArray[which] + " and preference is: " + sharedPreferences.getString("carrier", ""), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mainFragment.onCarrierChange();
+                        }
+                    });
+            builder.show();
+        }
 
         try{
             dataBaseHelper.createDataBase();
