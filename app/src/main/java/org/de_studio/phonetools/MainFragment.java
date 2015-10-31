@@ -24,19 +24,19 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private MainAdapter mMainAdapter;
     private ViewHolder mViewHolder;
     public static final String[] PHONE_TOOLS_COLUMNS = {
-            PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
-            PhoneToolsContract.ActionEntry.COLUMN_TYPE,
-            PhoneToolsContract.ActionEntry.COLUMN_DESTINATION,
-            PhoneToolsContract.ActionEntry.COLUMN_TITLE,
-            PhoneToolsContract.ActionEntry.COLUMN_SHORT_DESCRIPTION,
-            PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION,
-            PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID,
+            PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
+            PhoneToolsContract.MainEntry.COLUMN_TYPE,
+            PhoneToolsContract.MainEntry.COLUMN_DESTINATION,
+            PhoneToolsContract.MainEntry.COLUMN_TITLE,
+            PhoneToolsContract.MainEntry.COLUMN_SHORT_DESCRIPTION,
+            PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION,
+            PhoneToolsContract.MainEntry.COLUMN_CARRIER_ID,
             PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
-            PhoneToolsContract.ActionEntry.COLUMN_TEXT,
-            PhoneToolsContract.ActionEntry.COLUMN_CANCEL,
-            PhoneToolsContract.ActionEntry.COLUMN_MONEY,
-            PhoneToolsContract.ActionEntry.COLUMN_CYCLE,
-            PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN,
+            PhoneToolsContract.MainEntry.COLUMN_TEXT,
+            PhoneToolsContract.MainEntry.COLUMN_CANCEL,
+            PhoneToolsContract.MainEntry.COLUMN_MONEY,
+            PhoneToolsContract.MainEntry.COLUMN_CYCLE,
+            PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,
 
     };
 
@@ -172,20 +172,20 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         mMainAdapter.swapCursor(null);
 
 
-        String sortOrder = PhoneToolsContract.ActionEntry.TABLE_NAME + "." + PhoneToolsContract.ActionEntry._ID + " ASC";
+        String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String selection = " carrier_name = ? AND in_main >= 1 ";
         Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key), ""));
 
-        String[] selectionAgrm = new String[]{prefs.getString("carrier", "vinaphone")};
+        String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
 
 
         Log.e(LOG_TAG, "oncreateloader ne");
         return new  CursorLoader(getActivity(),
-                PhoneToolsContract.ActionEntry.CONTENT_URI,
+                PhoneToolsContract.MainEntry.CONTENT_URI,
                 PHONE_TOOLS_COLUMNS,
-                null,
-                null,
+                selection,
+                selectionAgrm,
                 sortOrder);
     }
 
@@ -289,7 +289,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onResume() {
         super.onResume();
 //        Log.e(LOG_TAG, " onResume");
-//        onCarrierChange();
+        onCarrierChange();
     }
     void onCarrierChange( ) {
 
