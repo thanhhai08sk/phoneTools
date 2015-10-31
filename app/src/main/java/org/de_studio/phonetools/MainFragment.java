@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -187,6 +188,16 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         mViewHolder = new ViewHolder(rootView);
         ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
         listView.setAdapter(mMainAdapter);
+        Button button = (Button) rootView.findViewById(R.id.main_custom_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddItemFragment addItemFragment = new AddItemFragment();
+
+                    addItemFragment.show(getActivity().getFragmentManager(),"addItemFragment");
+
+            }
+        });
 
 
 
