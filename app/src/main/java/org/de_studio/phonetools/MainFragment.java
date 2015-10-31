@@ -21,6 +21,7 @@ import android.widget.TextView;
 public  class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
     private static final int MAIN_LOADER = 0;
+    private static final int CUSTOM_LOADER =1;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private MainAdapter mMainAdapter;
     private ViewHolder mViewHolder;
@@ -41,6 +42,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     };
 
+
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
     static final int COL_ID = 0;
@@ -57,6 +59,36 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     static final int COL_CYCLE = 11;
     static final int COL_IN_MAIN = 12;
 
+
+    public static final String[] CUSTOM_COLUMNS = {
+            PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
+            PhoneToolsContract.ActionEntry.COLUMN_TYPE,
+            PhoneToolsContract.ActionEntry.COLUMN_DESTINATION,
+            PhoneToolsContract.ActionEntry.COLUMN_TITLE,
+            PhoneToolsContract.ActionEntry.COLUMN_SHORT_DESCRIPTION,
+            PhoneToolsContract.ActionEntry.COLUMN_DESCRIPTION,
+            PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID,
+            PhoneToolsContract.CarriersEntry.TABLE_NAME + "." + PhoneToolsContract.CarriersEntry.COLUMN_CARRIER_NAME,
+            PhoneToolsContract.ActionEntry.COLUMN_TEXT,
+            PhoneToolsContract.ActionEntry.COLUMN_CANCEL,
+            PhoneToolsContract.ActionEntry.COLUMN_MONEY,
+            PhoneToolsContract.ActionEntry.COLUMN_CYCLE,
+            PhoneToolsContract.ActionEntry.COLUMN_IN_MAIN,
+    };
+
+    static final int CUS_ID = 0;
+    static final int CUS_TYPE = 1;
+    static final int CUS_DESTINATION = 2;
+    static final int CUS_TITLE = 3;
+    static final int CUS_SHORT_DESCRIPTION =4;
+    static final int CUS_DESCRIPTION = 5;
+    static final int CUS_CARRIER_ID = 6;
+    static final int CUS_CARRIERS_CARRIER_NAME = 7;
+    static final int CUS_TEXT = 8;
+    static final int CUS_CANCEL = 9;
+    static final int CUS_MONEY = 10;
+    static final int CUS_CYCLE = 11;
+    static final int CUS_IN_MAIN = 12;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -167,119 +199,128 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MAIN_LOADER, null, this);
+        getLoaderManager().initLoader(CUSTOM_LOADER,null,this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        mMainAdapter.swapCursor(null);
+
+        if (id ==MAIN_LOADER) {
+            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String selection = " carrier_name = ? AND in_main >= 1 ";
+            Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key), ""));
+
+            String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
 
 
-        String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String selection = " carrier_name = ? AND in_main >= 1 ";
-        Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key), ""));
-
-        String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
-
-
-        Log.e(LOG_TAG, "oncreateloader ne");
-        return new  CursorLoader(getActivity(),
-                PhoneToolsContract.MainEntry.CONTENT_URI,
-                PHONE_TOOLS_COLUMNS,
-                selection,
-                selectionAgrm,
-                sortOrder);
+            Log.e(LOG_TAG, "oncreateloader ne");
+            return new CursorLoader(getActivity(),
+                    PhoneToolsContract.MainEntry.CONTENT_URI,
+                    PHONE_TOOLS_COLUMNS,
+                    selection,
+                    selectionAgrm,
+                    sortOrder);
+        }else if (id ==CUSTOM_LOADER){
+            mMainAdapter.swapCursor(null);
+            return new CursorLoader(getActivity(),
+                    PhoneToolsContract.ActionEntry.CONTENT_URI,
+                    CUSTOM_COLUMNS,
+                    null,
+                    null,
+                    null);
+        }else return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        data.moveToFirst();
-        Boolean ok =false;
-        Integer kttkPosition =0;
-        int tienIchPosition =0;
-        int dv3gPosition =0;
-        mViewHolder.kttk1Card.setVisibility(View.GONE);
-        mViewHolder.kttk2Card.setVisibility(View.GONE);
-        mViewHolder.kttk3Card.setVisibility(View.GONE);
-        mViewHolder.dv3gCard1.setVisibility(View.GONE);
-        mViewHolder.dv3gCard2.setVisibility(View.GONE);
-        mViewHolder.dv3gCard3.setVisibility(View.GONE);
-        mViewHolder.dv3gCard4.setVisibility(View.GONE);
-        mViewHolder.dv3gCard5.setVisibility(View.GONE);
-        mViewHolder.tienIch1Card.setVisibility(View.GONE);
-        mViewHolder.tienIch2Card.setVisibility(View.GONE);
-        mViewHolder.tienIch3Card.setVisibility(View.GONE);
-        mViewHolder.tienIch4Card.setVisibility(View.GONE);
-        mViewHolder.tienIch5Card.setVisibility(View.GONE);
+        if (loader.getId()==MAIN_LOADER) {
+            data.moveToFirst();
+            Boolean ok = false;
+            Integer kttkPosition = 0;
+            int tienIchPosition = 0;
+            int dv3gPosition = 0;
+            mViewHolder.kttk1Card.setVisibility(View.GONE);
+            mViewHolder.kttk2Card.setVisibility(View.GONE);
+            mViewHolder.kttk3Card.setVisibility(View.GONE);
+            mViewHolder.dv3gCard1.setVisibility(View.GONE);
+            mViewHolder.dv3gCard2.setVisibility(View.GONE);
+            mViewHolder.dv3gCard3.setVisibility(View.GONE);
+            mViewHolder.dv3gCard4.setVisibility(View.GONE);
+            mViewHolder.dv3gCard5.setVisibility(View.GONE);
+            mViewHolder.tienIch1Card.setVisibility(View.GONE);
+            mViewHolder.tienIch2Card.setVisibility(View.GONE);
+            mViewHolder.tienIch3Card.setVisibility(View.GONE);
+            mViewHolder.tienIch4Card.setVisibility(View.GONE);
+            mViewHolder.tienIch5Card.setVisibility(View.GONE);
+            do {
+                if (data.getInt(COL_IN_MAIN) == 1) {
+                    if (kttkPosition == 0) {
+                        mViewHolder.kttk1.setText(data.getString(COL_TITLE));
+                        mViewHolder.kttk1Card.setVisibility(View.VISIBLE);
+                        kttkPosition++;
+                    } else if (kttkPosition == 1) {
+                        mViewHolder.kttk2.setText(data.getString(COL_TITLE));
+                        mViewHolder.kttk2Card.setVisibility(View.VISIBLE);
+                        kttkPosition++;
+                    } else if (kttkPosition == 2) {
+                        mViewHolder.kttk3.setText(data.getString(COL_TITLE));
+                        mViewHolder.kttk3Card.setVisibility(View.VISIBLE);
+                    }
+                } else if (data.getInt(COL_IN_MAIN) == 2) {
+                    if (dv3gPosition == 0) {
+                        mViewHolder.dv3gCard1.setVisibility(View.VISIBLE);
+                        mViewHolder.dv3g1.setText(data.getString(COL_TITLE));
+                        dv3gPosition++;
+                    } else if (dv3gPosition == 1) {
+                        mViewHolder.dv3gCard2.setVisibility(View.VISIBLE);
 
+                        mViewHolder.dv3g2.setText(data.getString(COL_TITLE));
+                        dv3gPosition++;
+                    } else if (dv3gPosition == 2) {
+                        mViewHolder.dv3gCard3.setVisibility(View.VISIBLE);
 
+                        mViewHolder.dv3g3.setText(data.getString(COL_TITLE));
+                        dv3gPosition++;
+                    } else if (dv3gPosition == 3) {
+                        mViewHolder.dv3gCard4.setVisibility(View.VISIBLE);
 
+                        mViewHolder.dv3g4.setText(data.getString(COL_TITLE));
+                        dv3gPosition++;
+                    } else if (dv3gPosition == 4) {
+                        mViewHolder.dv3gCard5.setVisibility(View.VISIBLE);
 
-        do {
-            if (data.getInt(COL_IN_MAIN)==1){
-                if (kttkPosition ==0){
-                    mViewHolder.kttk1.setText(data.getString(COL_TITLE));
-                    mViewHolder.kttk1Card.setVisibility(View.VISIBLE);
-                    kttkPosition++;
-                }else if (kttkPosition==1){
-                    mViewHolder.kttk2.setText(data.getString(COL_TITLE));
-                    mViewHolder.kttk2Card.setVisibility(View.VISIBLE);
-                    kttkPosition ++;
-                }else if (kttkPosition==2){
-                    mViewHolder.kttk3.setText(data.getString(COL_TITLE));
-                    mViewHolder.kttk3Card.setVisibility(View.VISIBLE);
+                        mViewHolder.dv3g5.setText(data.getString(COL_TITLE));
+                        dv3gPosition++;
+                    }
+                } else if (data.getInt(COL_IN_MAIN) == 3) {
+                    if (tienIchPosition == 0) {
+                        mViewHolder.tienIch1Card.setVisibility(View.VISIBLE);
+                        mViewHolder.tienIchText1.setText(data.getString(COL_TITLE));
+                        tienIchPosition++;
+                    } else if (tienIchPosition == 1) {
+                        mViewHolder.tienIch2Card.setVisibility(View.VISIBLE);
+                        mViewHolder.tienIchText2.setText(data.getString(COL_TITLE));
+                        tienIchPosition++;
+                    } else if (tienIchPosition == 2) {
+                        mViewHolder.tienIch3Card.setVisibility(View.VISIBLE);
+                        mViewHolder.tienIchText3.setText(data.getString(COL_TITLE));
+                        tienIchPosition++;
+                    } else if (tienIchPosition == 3) {
+                        mViewHolder.tienIch4Card.setVisibility(View.VISIBLE);
+                        mViewHolder.tienIchText4.setText(data.getString(COL_TITLE));
+                        tienIchPosition++;
+                    } else if (tienIchPosition == 4) {
+                        mViewHolder.tienIch5Card.setVisibility(View.VISIBLE);
+                        mViewHolder.tienIchText5.setText(data.getString(COL_TITLE));
+                        tienIchPosition++;
+                    }
                 }
-            }else if (data.getInt(COL_IN_MAIN)==2){
-                if (dv3gPosition==0){
-                    mViewHolder.dv3gCard1.setVisibility(View.VISIBLE);
-                    mViewHolder.dv3g1.setText(data.getString(COL_TITLE));
-                    dv3gPosition++;
-                }else if (dv3gPosition==1){
-                    mViewHolder.dv3gCard2.setVisibility(View.VISIBLE);
-
-                    mViewHolder.dv3g2.setText(data.getString(COL_TITLE));
-                    dv3gPosition++;
-                }else if (dv3gPosition ==2){
-                    mViewHolder.dv3gCard3.setVisibility(View.VISIBLE);
-
-                    mViewHolder.dv3g3.setText(data.getString(COL_TITLE));
-                    dv3gPosition++;
-                }else if (dv3gPosition ==3){
-                    mViewHolder.dv3gCard4.setVisibility(View.VISIBLE);
-
-                    mViewHolder.dv3g4.setText(data.getString(COL_TITLE));
-                    dv3gPosition++;
-                }else if (dv3gPosition ==4){
-                    mViewHolder.dv3gCard5.setVisibility(View.VISIBLE);
-
-                    mViewHolder.dv3g5.setText(data.getString(COL_TITLE));
-                    dv3gPosition++;
-                }
-            }else if (data.getInt(COL_IN_MAIN)==3){
-                if (tienIchPosition==0){
-                    mViewHolder.tienIch1Card.setVisibility(View.VISIBLE);
-                    mViewHolder.tienIchText1.setText(data.getString(COL_TITLE));
-                    tienIchPosition++;
-                }else if (tienIchPosition==1){
-                    mViewHolder.tienIch2Card.setVisibility(View.VISIBLE);
-                    mViewHolder.tienIchText2.setText(data.getString(COL_TITLE));
-                    tienIchPosition++;
-                }else if (tienIchPosition==2){
-                    mViewHolder.tienIch3Card.setVisibility(View.VISIBLE);
-                    mViewHolder.tienIchText3.setText(data.getString(COL_TITLE));
-                    tienIchPosition++;
-                }else if (tienIchPosition==3){
-                    mViewHolder.tienIch4Card.setVisibility(View.VISIBLE);
-                    mViewHolder.tienIchText4.setText(data.getString(COL_TITLE));
-                    tienIchPosition++;
-                }else if (tienIchPosition==4){
-                    mViewHolder.tienIch5Card.setVisibility(View.VISIBLE);
-                    mViewHolder.tienIchText5.setText(data.getString(COL_TITLE));
-                    tienIchPosition++;
-                }
-            }
-        }while (data.moveToNext());
+            } while (data.moveToNext());
+        }else if (loader.getId()==CUSTOM_LOADER){
+            mMainAdapter.swapCursor(data);
+        }
     }
 
     @Override
