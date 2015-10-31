@@ -87,6 +87,18 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         public final View dv3gCard5;
         public final TextView dv3g4;
         public final TextView dv3g5;
+        public final View tienIch1Card;
+        public final View tienIch2Card;
+        public final View tienIch3Card;
+        public final View tienIch4Card;
+        public final View tienIch5Card;
+        public final TextView tienIchText1;
+        public final TextView tienIchText2;
+        public final TextView tienIchText3;
+        public final TextView tienIchText4;
+        public final TextView tienIchText5;
+
+
 
 
 
@@ -108,13 +120,20 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             dv3gCard3 = view.findViewById(R.id.dv3g_3_card);
             dv3gCard4 = view.findViewById(R.id.dv3g_4_card);
             dv3gCard5 = view.findViewById(R.id.dv3g_5_card);
+            tienIch1Card = view.findViewById(R.id.tien_ich_card_1);
+            tienIch2Card = view.findViewById(R.id.tien_ich_card_2);
+            tienIch3Card = view.findViewById(R.id.tien_ich_card_3);
+            tienIch4Card = view.findViewById(R.id.tien_ich_card_4);
+            tienIch5Card = view.findViewById(R.id.tien_ich_card_5);
+            tienIchText1 =(TextView) view.findViewById(R.id.tien_ich_text_1);
+            tienIchText2 =(TextView) view.findViewById(R.id.tien_ich_text_2);
+            tienIchText3 =(TextView) view.findViewById(R.id.tien_ich_text_3);
+            tienIchText4 =(TextView) view.findViewById(R.id.tien_ich_text_4);
+            tienIchText5 =(TextView) view.findViewById(R.id.tien_ich_text_5);
 
         }
 
     }
-
-
-
 
 
     public MainFragment() {
@@ -175,7 +194,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         data.moveToFirst();
         Boolean ok =false;
         Integer kttkPosition =0;
-        int kttkCount =0;
+        int tienIchPosition =0;
         int dv3gPosition =0;
         mViewHolder.kttk1Card.setVisibility(View.GONE);
         mViewHolder.kttk2Card.setVisibility(View.GONE);
@@ -185,6 +204,13 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         mViewHolder.dv3gCard3.setVisibility(View.GONE);
         mViewHolder.dv3gCard4.setVisibility(View.GONE);
         mViewHolder.dv3gCard5.setVisibility(View.GONE);
+        mViewHolder.tienIch1Card.setVisibility(View.GONE);
+        mViewHolder.tienIch2Card.setVisibility(View.GONE);
+        mViewHolder.tienIch3Card.setVisibility(View.GONE);
+        mViewHolder.tienIch4Card.setVisibility(View.GONE);
+        mViewHolder.tienIch5Card.setVisibility(View.GONE);
+
+
 
 
         do {
@@ -226,6 +252,28 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
                     mViewHolder.dv3g5.setText(data.getString(COL_TITLE));
                     dv3gPosition++;
+                }
+            }else if (data.getInt(COL_IN_MAIN)==3){
+                if (tienIchPosition==0){
+                    mViewHolder.tienIch1Card.setVisibility(View.VISIBLE);
+                    mViewHolder.tienIchText1.setText(data.getString(COL_TITLE));
+                    tienIchPosition++;
+                }else if (tienIchPosition==1){
+                    mViewHolder.tienIch2Card.setVisibility(View.VISIBLE);
+                    mViewHolder.tienIchText2.setText(data.getString(COL_TITLE));
+                    tienIchPosition++;
+                }else if (tienIchPosition==2){
+                    mViewHolder.tienIch3Card.setVisibility(View.VISIBLE);
+                    mViewHolder.tienIchText3.setText(data.getString(COL_TITLE));
+                    tienIchPosition++;
+                }else if (tienIchPosition==3){
+                    mViewHolder.tienIch4Card.setVisibility(View.VISIBLE);
+                    mViewHolder.tienIchText4.setText(data.getString(COL_TITLE));
+                    tienIchPosition++;
+                }else if (tienIchPosition==4){
+                    mViewHolder.tienIch5Card.setVisibility(View.VISIBLE);
+                    mViewHolder.tienIchText5.setText(data.getString(COL_TITLE));
+                    tienIchPosition++;
                 }
             }
         }while (data.moveToNext());
