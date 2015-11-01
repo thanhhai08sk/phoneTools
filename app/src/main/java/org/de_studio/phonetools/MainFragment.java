@@ -8,26 +8,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Created by hai on 10/13/2015.
  */
 public  class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
-    private static final int MAIN_LOADER = 0;
-    private static final int CUSTOM_LOADER =1;
+    private static final int KIEM_TRA_LOADER = 0;
+    private static final int DV_3G_LOADER =1;
+    private static final int TIEN_ICH_LOADER = 2;
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private MainAdapter mMainAdapter;
-    private ViewHolder mViewHolder;
+    private MainAdapter mKiemTraAdapter;
+    private MainAdapter m3gAdapter;
+    private MainAdapter mTienIchAdapter;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
@@ -105,89 +103,22 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         return fragment;
     }
 
-    private static   class ViewHolder{
-
-        public final TextView kttk1;
-        public final TextView kttk2;
-        public final TextView kttk3;
-        public final TextView dv3g1;
-        public final TextView dv3g2;
-        public final TextView dv3g3;
-        public final View kttk1Card;
-        public final View kttk2Card;
-        public final View kttk3Card;
-        public final View dv3gCard1;
-        public final View dv3gCard2;
-        public final View dv3gCard3;
-        public final View dv3gCard4;
-        public final View dv3gCard5;
-        public final TextView dv3g4;
-        public final TextView dv3g5;
-        public final View tienIch1Card;
-        public final View tienIch2Card;
-        public final View tienIch3Card;
-        public final View tienIch4Card;
-        public final View tienIch5Card;
-        public final TextView tienIchText1;
-        public final TextView tienIchText2;
-        public final TextView tienIchText3;
-        public final TextView tienIchText4;
-        public final TextView tienIchText5;
-
-
-
-
-
-
-        public ViewHolder(View view) {
-             kttk1 =(TextView) view.findViewById(R.id.kttk_1);
-             kttk2 =(TextView) view.findViewById(R.id.kttk_2);
-             kttk3 =(TextView) view.findViewById(R.id.kttk_3);
-             dv3g1 =(TextView) view.findViewById(R.id.dich_vu_3g_text_1);
-             dv3g2 =(TextView) view.findViewById(R.id.dich_vu_3g_text_2);
-             dv3g3 =(TextView) view.findViewById(R.id.dich_vu_3g_text_3);
-            dv3g4 =(TextView) view.findViewById(R.id.dich_vu_3g_text_4);
-            dv3g5 =(TextView) view.findViewById(R.id.dich_vu_3g_text_5);
-            kttk1Card = view.findViewById(R.id.kttk_1_card);
-            kttk2Card = view.findViewById(R.id.kttk_2_card);
-            kttk3Card = view.findViewById(R.id.kttk_3_card);
-            dv3gCard1 = view.findViewById(R.id.dv3g_1_card);
-            dv3gCard2 = view.findViewById(R.id.dv3g_2_card);
-            dv3gCard3 = view.findViewById(R.id.dv3g_3_card);
-            dv3gCard4 = view.findViewById(R.id.dv3g_4_card);
-            dv3gCard5 = view.findViewById(R.id.dv3g_5_card);
-            tienIch1Card = view.findViewById(R.id.tien_ich_card_1);
-            tienIch2Card = view.findViewById(R.id.tien_ich_card_2);
-            tienIch3Card = view.findViewById(R.id.tien_ich_card_3);
-            tienIch4Card = view.findViewById(R.id.tien_ich_card_4);
-            tienIch5Card = view.findViewById(R.id.tien_ich_card_5);
-            tienIchText1 =(TextView) view.findViewById(R.id.tien_ich_text_1);
-            tienIchText2 =(TextView) view.findViewById(R.id.tien_ich_text_2);
-            tienIchText3 =(TextView) view.findViewById(R.id.tien_ich_text_3);
-            tienIchText4 =(TextView) view.findViewById(R.id.tien_ich_text_4);
-            tienIchText5 =(TextView) view.findViewById(R.id.tien_ich_text_5);
-
-        }
-
-    }
-
-
     public MainFragment() {
     }
-
-    public void change(){
-        getLoaderManager().restartLoader(0, null, this);
-    }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mMainAdapter = new MainAdapter(getActivity(),null,0);
-        mViewHolder = new ViewHolder(rootView);
+        mKiemTraAdapter = new MainAdapter(getActivity(),null,0);
+        m3gAdapter = new MainAdapter(getActivity(),null,0);
+        mTienIchAdapter  = new MainAdapter(getActivity(),null,0);
+        ListView kiemTraView = (ListView) rootView.findViewById(R.id.main_list_kiem_tra);
+        ListView dv3gView = (ListView) rootView.findViewById(R.id.main_list_3g);
+        ListView tienIchView = (ListView) rootView.findViewById(R.id.main_list_tien_ich);
+        kiemTraView.setAdapter(mKiemTraAdapter);
+        dv3gView.setAdapter(m3gAdapter);
+        tienIchView.setAdapter(mTienIchAdapter);
 //        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
 //        listView.setAdapter(mMainAdapter);
         Button button = (Button) rootView.findViewById(R.id.main_custom_button);
@@ -195,152 +126,78 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             @Override
             public void onClick(View v) {
                 AddItemFragment addItemFragment = new AddItemFragment();
-
                 addItemFragment.show(getActivity().getFragmentManager(), "addItemFragment");
-
             }
         });
-
-
-
-
-
         return rootView;
-
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(MAIN_LOADER, null, this);
-        getLoaderManager().initLoader(CUSTOM_LOADER, null, this);
+        getLoaderManager().initLoader(KIEM_TRA_LOADER, null, this);
+        getLoaderManager().initLoader(DV_3G_LOADER, null, this);
+        getLoaderManager().initLoader(TIEN_ICH_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        if (id ==MAIN_LOADER) {
+        if (id ==KIEM_TRA_LOADER) {
             String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String selection = " carrier_name = ? AND in_main >= 1 ";
-            Log.e(LOG_TAG, "preference = " + prefs.getString(getString(R.string.pref_carriers_key), ""));
-
+            String selection = " carrier_name = ? AND in_main = 1 ";
             String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
-
-
-            Log.e(LOG_TAG, "oncreateloader ne");
             return new CursorLoader(getActivity(),
                     PhoneToolsContract.MainEntry.CONTENT_URI,
                     PHONE_TOOLS_COLUMNS,
                     selection,
                     selectionAgrm,
                     sortOrder);
-        }else if (id ==CUSTOM_LOADER){
-            mMainAdapter.swapCursor(null);
+        }else if (id ==DV_3G_LOADER){
+            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String selection = " carrier_name = ? AND in_main = 2 ";
+            String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
             return new CursorLoader(getActivity(),
-                    PhoneToolsContract.ActionEntry.CONTENT_URI,
-                    CUSTOM_COLUMNS,
-                    null,
-                    null,
-                    null);
+                    PhoneToolsContract.MainEntry.CONTENT_URI,
+                    PHONE_TOOLS_COLUMNS,
+                    selection,
+                    selectionAgrm,
+                    sortOrder);
+        }else if (id == TIEN_ICH_LOADER){
+            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String selection = " carrier_name = ? AND in_main = 3 ";
+            String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
+            return new CursorLoader(getActivity(),
+                    PhoneToolsContract.MainEntry.CONTENT_URI,
+                    PHONE_TOOLS_COLUMNS,
+                    selection,
+                    selectionAgrm,
+                    sortOrder);
         }else return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId()==MAIN_LOADER) {
-            data.moveToFirst();
-            Boolean ok = false;
-            Integer kttkPosition = 0;
-            int tienIchPosition = 0;
-            int dv3gPosition = 0;
-            mViewHolder.kttk1Card.setVisibility(View.GONE);
-            mViewHolder.kttk2Card.setVisibility(View.GONE);
-            mViewHolder.kttk3Card.setVisibility(View.GONE);
-            mViewHolder.dv3gCard1.setVisibility(View.GONE);
-            mViewHolder.dv3gCard2.setVisibility(View.GONE);
-            mViewHolder.dv3gCard3.setVisibility(View.GONE);
-            mViewHolder.dv3gCard4.setVisibility(View.GONE);
-            mViewHolder.dv3gCard5.setVisibility(View.GONE);
-            mViewHolder.tienIch1Card.setVisibility(View.GONE);
-            mViewHolder.tienIch2Card.setVisibility(View.GONE);
-            mViewHolder.tienIch3Card.setVisibility(View.GONE);
-            mViewHolder.tienIch4Card.setVisibility(View.GONE);
-            mViewHolder.tienIch5Card.setVisibility(View.GONE);
-            do {
-                if (data.getInt(COL_IN_MAIN) == 1) {
-                    if (kttkPosition == 0) {
-                        mViewHolder.kttk1.setText(data.getString(COL_TITLE));
-                        mViewHolder.kttk1Card.setVisibility(View.VISIBLE);
-                        kttkPosition++;
-                    } else if (kttkPosition == 1) {
-                        mViewHolder.kttk2.setText(data.getString(COL_TITLE));
-                        mViewHolder.kttk2Card.setVisibility(View.VISIBLE);
-                        kttkPosition++;
-                    } else if (kttkPosition == 2) {
-                        mViewHolder.kttk3.setText(data.getString(COL_TITLE));
-                        mViewHolder.kttk3Card.setVisibility(View.VISIBLE);
-                    }
-                } else if (data.getInt(COL_IN_MAIN) == 2) {
-                    if (dv3gPosition == 0) {
-                        mViewHolder.dv3gCard1.setVisibility(View.VISIBLE);
-                        mViewHolder.dv3g1.setText(data.getString(COL_TITLE));
-                        dv3gPosition++;
-                    } else if (dv3gPosition == 1) {
-                        mViewHolder.dv3gCard2.setVisibility(View.VISIBLE);
+        if (loader.getId()==KIEM_TRA_LOADER) {
+            mKiemTraAdapter.swapCursor(data);
 
-                        mViewHolder.dv3g2.setText(data.getString(COL_TITLE));
-                        dv3gPosition++;
-                    } else if (dv3gPosition == 2) {
-                        mViewHolder.dv3gCard3.setVisibility(View.VISIBLE);
-
-                        mViewHolder.dv3g3.setText(data.getString(COL_TITLE));
-                        dv3gPosition++;
-                    } else if (dv3gPosition == 3) {
-                        mViewHolder.dv3gCard4.setVisibility(View.VISIBLE);
-
-                        mViewHolder.dv3g4.setText(data.getString(COL_TITLE));
-                        dv3gPosition++;
-                    } else if (dv3gPosition == 4) {
-                        mViewHolder.dv3gCard5.setVisibility(View.VISIBLE);
-
-                        mViewHolder.dv3g5.setText(data.getString(COL_TITLE));
-                        dv3gPosition++;
-                    }
-                } else if (data.getInt(COL_IN_MAIN) == 3) {
-                    if (tienIchPosition == 0) {
-                        mViewHolder.tienIch1Card.setVisibility(View.VISIBLE);
-                        mViewHolder.tienIchText1.setText(data.getString(COL_TITLE));
-                        tienIchPosition++;
-                    } else if (tienIchPosition == 1) {
-                        mViewHolder.tienIch2Card.setVisibility(View.VISIBLE);
-                        mViewHolder.tienIchText2.setText(data.getString(COL_TITLE));
-                        tienIchPosition++;
-                    } else if (tienIchPosition == 2) {
-                        mViewHolder.tienIch3Card.setVisibility(View.VISIBLE);
-                        mViewHolder.tienIchText3.setText(data.getString(COL_TITLE));
-                        tienIchPosition++;
-                    } else if (tienIchPosition == 3) {
-                        mViewHolder.tienIch4Card.setVisibility(View.VISIBLE);
-                        mViewHolder.tienIchText4.setText(data.getString(COL_TITLE));
-                        tienIchPosition++;
-                    } else if (tienIchPosition == 4) {
-                        mViewHolder.tienIch5Card.setVisibility(View.VISIBLE);
-                        mViewHolder.tienIchText5.setText(data.getString(COL_TITLE));
-                        tienIchPosition++;
-                    }
-                }
-            } while (data.moveToNext());
-        }else if (loader.getId()==CUSTOM_LOADER){
-            mMainAdapter.swapCursor(data);
+            }
+        else if (loader.getId()==DV_3G_LOADER){
+            m3gAdapter.swapCursor(data);
 //            setListViewHeightBasedOnChildren((ListView) getView().findViewById(R.id.main_list_view));
+        }else if (loader.getId()== TIEN_ICH_LOADER){
+            mTienIchAdapter.swapCursor(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mMainAdapter.swapCursor(null);
-        Log.e(LOG_TAG, "onloaderreset ne");
+        m3gAdapter.swapCursor(null);
+        mTienIchAdapter.swapCursor(null);
+        mKiemTraAdapter.swapCursor(null);
     }
 
     @Override
@@ -351,29 +208,9 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     }
     public void onCarrierChange( ) {
 
-        getLoaderManager().restartLoader(MAIN_LOADER, null, this);
+        getLoaderManager().restartLoader(KIEM_TRA_LOADER, null, this);
     }
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
 
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, AbsListView.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
 
 
 }

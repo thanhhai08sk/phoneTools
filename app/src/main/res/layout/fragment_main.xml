@@ -1,16 +1,11 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:dslv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/devide_color"
-        >
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,314 +13,41 @@
             style="@style/main_category_title"
             android:fontFamily="sans-serif-medium"
             />
-        <LinearLayout
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/kttk_1_card"
-            style="@style/main_list"
-
+            android:id="@+id/main_list_kiem_tra"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/kttk_1"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
+        </ListView>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/kttk_2_card"
-            style="@style/main_list"
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/kttk_2"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/kttk_3_card"
-            style="@style/main_list"
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/kttk_3"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_dich_vu_3g"
             style="@style/main_category_title"
             />
-        <LinearLayout
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/dv3g_1_card"
-            style="@style/main_list"
-
-
+            android:id="@+id/main_list_3g"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dich_vu_3g_text_1"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/dv3g_2_card"
-            style="@style/main_list"
+        </ListView>
 
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dich_vu_3g_text_2"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/dv3g_3_card"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dich_vu_3g_text_3"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/dv3g_4_card"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dich_vu_3g_text_4"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/dv3g_5_card"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dich_vu_3g_text_5"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_tien_ich_title"
             style="@style/main_category_title"
             />
-        <LinearLayout
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tien_ich_card_1"
-            style="@style/main_list"
-
-
+            android:id="@+id/main_list_tien_ich"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tien_ich_text_1"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tien_ich_card_2"
-            style="@style/main_list"
+        </ListView>
 
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tien_ich_text_2"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tien_ich_card_3"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tien_ich_text_3"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tien_ich_card_4"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tien_ich_text_4"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tien_ich_card_5"
-            style="@style/main_list"
-
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tien_ich_text_5"
-                style="@style/main_item_title"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_kiem_tra_button"
-                style="@style/main_item_button"
-                />
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -349,12 +71,5 @@
 
 
 
-    </LinearLayout>
 
-
-
-
-
-
-
-</ScrollView>
+</LinearLayout>
