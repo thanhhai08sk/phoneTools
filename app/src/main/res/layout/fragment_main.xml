@@ -346,12 +346,7 @@
                 style="@style/main_item_button"
                 />
         </LinearLayout>
-        <ListView
-            android:layout_width="match_parent"
-            android:id="@+id/main_list_view"
-            android:layout_height="wrap_content">
 
-        </ListView>
 
 
     </LinearLayout>

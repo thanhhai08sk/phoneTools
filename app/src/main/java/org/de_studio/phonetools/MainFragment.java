@@ -188,8 +188,8 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mMainAdapter = new MainAdapter(getActivity(),null,0);
         mViewHolder = new ViewHolder(rootView);
-        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
-        listView.setAdapter(mMainAdapter);
+//        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
+//        listView.setAdapter(mMainAdapter);
         Button button = (Button) rootView.findViewById(R.id.main_custom_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -333,7 +333,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             } while (data.moveToNext());
         }else if (loader.getId()==CUSTOM_LOADER){
             mMainAdapter.swapCursor(data);
-            setListViewHeightBasedOnChildren((ListView) getView().findViewById(R.id.main_list_view));
+//            setListViewHeightBasedOnChildren((ListView) getView().findViewById(R.id.main_list_view));
         }
     }
 
