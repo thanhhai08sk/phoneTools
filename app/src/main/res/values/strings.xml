@@ -45,6 +45,7 @@
     <string name="main_tuy_chinh_title">Tùy chỉnh</string>
     <string name="main_tuy_chinh_button">Thêm</string>
     <string name="dialog_choose_carrier_title">Chọn nhà mạng</string>
+    <string name="menu_settings">Cài đặt</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

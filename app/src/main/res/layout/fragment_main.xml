@@ -3,33 +3,40 @@
     xmlns:dslv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     tools:context=".MainActivity" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/devide_color"
         >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_kiem_tra_tai_khoan_title"
+            style="@style/main_category_title"
+            android:fontFamily="sans-serif-medium"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/kttk_1_card"
+            style="@style/main_list"
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/kttk_1"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -38,17 +45,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/kttk_2_card"
+            style="@style/main_list"
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/kttk_2"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -57,16 +67,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/kttk_3_card"
+            style="@style/main_list"
+
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/kttk_3"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -74,23 +88,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_dich_vu_3g"
+            style="@style/main_category_title"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/dv3g_1_card"
+            style="@style/main_list"
+
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dich_vu_3g_text_1"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -99,17 +118,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/dv3g_2_card"
+            style="@style/main_list"
+
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dich_vu_3g_text_2"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -118,17 +141,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/dv3g_3_card"
+            style="@style/main_list"
+
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dich_vu_3g_text_3"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -137,17 +164,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/dv3g_4_card"
+            style="@style/main_list"
+
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dich_vu_3g_text_4"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -156,6 +187,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/dv3g_5_card"
+            style="@style/main_list"
 
 
             >
@@ -163,11 +195,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dich_vu_3g_text_5"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -175,12 +209,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_tien_ich_title"
+            style="@style/main_category_title"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tien_ich_card_1"
+            style="@style/main_list"
 
 
             >
@@ -188,11 +224,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tien_ich_text_1"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -201,6 +239,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tien_ich_card_2"
+            style="@style/main_list"
 
 
             >
@@ -208,11 +247,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tien_ich_text_2"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -221,6 +262,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tien_ich_card_3"
+            style="@style/main_list"
 
 
             >
@@ -228,11 +270,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tien_ich_text_3"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -241,6 +285,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tien_ich_card_4"
+            style="@style/main_list"
 
 
             >
@@ -248,11 +293,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tien_ich_text_4"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -261,6 +308,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tien_ich_card_5"
+            style="@style/main_list"
 
 
             >
@@ -268,11 +316,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tien_ich_text_5"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_kiem_tra_button"
+                style="@style/main_item_button"
                 />
 
         </LinearLayout>
@@ -280,17 +330,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            style="@style/main_category_title"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_tuy_chinh_title"
+                style="@style/main_item_title"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_tuy_chinh_button"
                 android:id="@+id/main_custom_button"
+                style="@style/main_item_button"
                 />
         </LinearLayout>
         <ListView

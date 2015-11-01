@@ -4,12 +4,34 @@
     <style name="AppTheme" parent="AppTheme.Base">
     </style>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- your app branding color for the app bar -->
         <item name="colorPrimary">@color/primary</item>
         <!-- darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!-- theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/accent</item>
+    </style>
+    <style name="main_list">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:background">#F5F5F5</item>
+    </style>
+    <style name="main_item_title">
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+    <style name="main_item_button">
+        <item name="android:paddingRight">12dp</item>
+
+    </style>
+    <style name="main_category_title">
+        <item name="android:padding">12dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#D9BA88</item>
     </style>
 </resources>
