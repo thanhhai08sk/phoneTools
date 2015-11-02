@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 /**
  * Created by hai on 10/13/2015.
@@ -20,7 +22,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
     private static final int MAIN_LOADER = 0;
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private MainAdapter mainAdapter;
+    private MainRecycleAdapter mainRecycleAdapter;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
@@ -106,9 +108,10 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ListView listView = (ListView) rootView.findViewById(R.id.list_view);
-        mainAdapter = new MainAdapter(getActivity(),null,0);
-        listView.setAdapter(mainAdapter);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycle_view);
+        mainRecycleAdapter = new MainRecycleAdapter(getActivity(),null);
+        recyclerView.setAdapter(mainRecycleAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 //        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
 //        listView.setAdapter(mMainAdapter);
@@ -149,12 +152,14 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mainAdapter.swapCursor(data);
+        Log.e(LOG_TAG,"onLoadFinished ne");
+        mainRecycleAdapter.swapCursor(data);
+        mainRecycleAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mainAdapter.swapCursor(null);
+        mainRecycleAdapter.swapCursor(null);
 
     }
 

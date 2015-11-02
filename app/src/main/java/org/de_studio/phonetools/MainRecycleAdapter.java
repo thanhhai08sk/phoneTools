@@ -55,7 +55,10 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mCursorAdapter.newView(mContext,mCursorAdapter.getCursor(),parent);
+        View view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
+    }
+    public void swapCursor(Cursor cursor){
+        mCursorAdapter.swapCursor(cursor);
     }
 }
