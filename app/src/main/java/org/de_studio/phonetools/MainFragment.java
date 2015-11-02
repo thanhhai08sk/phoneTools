@@ -209,6 +209,8 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onCarrierChange( ) {
 
         getLoaderManager().restartLoader(KIEM_TRA_LOADER, null, this);
+        getLoaderManager().restartLoader(DV_3G_LOADER,null,this);
+        getLoaderManager().restartLoader(TIEN_ICH_LOADER,null,this);
     }
 
 
