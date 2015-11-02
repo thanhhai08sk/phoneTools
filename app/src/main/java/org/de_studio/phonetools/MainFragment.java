@@ -11,7 +11,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 /**
@@ -19,13 +18,9 @@ import android.widget.ListView;
  */
 public  class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
-    private static final int KIEM_TRA_LOADER = 0;
-    private static final int DV_3G_LOADER =1;
-    private static final int TIEN_ICH_LOADER = 2;
+    private static final int MAIN_LOADER = 0;
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private MainAdapter mKiemTraAdapter;
-    private MainAdapter m3gAdapter;
-    private MainAdapter mTienIchAdapter;
+    private MainAdapter mainAdapter;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
@@ -110,43 +105,37 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mKiemTraAdapter = new MainAdapter(getActivity(),null,0);
-        m3gAdapter = new MainAdapter(getActivity(),null,0);
-        mTienIchAdapter  = new MainAdapter(getActivity(),null,0);
-        ListView kiemTraView = (ListView) rootView.findViewById(R.id.main_list_kiem_tra);
-        ListView dv3gView = (ListView) rootView.findViewById(R.id.main_list_3g);
-        ListView tienIchView = (ListView) rootView.findViewById(R.id.main_list_tien_ich);
-        kiemTraView.setAdapter(mKiemTraAdapter);
-        dv3gView.setAdapter(m3gAdapter);
-        tienIchView.setAdapter(mTienIchAdapter);
+
+        ListView listView = (ListView) rootView.findViewById(R.id.list_view);
+        mainAdapter = new MainAdapter(getActivity(),null,0);
+        listView.setAdapter(mainAdapter);
+
 //        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
 //        listView.setAdapter(mMainAdapter);
-        Button button = (Button) rootView.findViewById(R.id.main_custom_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddItemFragment addItemFragment = new AddItemFragment();
-                addItemFragment.show(getActivity().getFragmentManager(), "addItemFragment");
-            }
-        });
+//        Button button = (Button) rootView.findViewById(R.id.main_custom_button);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AddItemFragment addItemFragment = new AddItemFragment();
+//                addItemFragment.show(getActivity().getFragmentManager(), "addItemFragment");
+//            }
+//        });
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(KIEM_TRA_LOADER, null, this);
-        getLoaderManager().initLoader(DV_3G_LOADER, null, this);
-        getLoaderManager().initLoader(TIEN_ICH_LOADER, null, this);
+        getLoaderManager().initLoader(MAIN_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        if (id ==KIEM_TRA_LOADER) {
+        if (id ==MAIN_LOADER) {
             String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String selection = " carrier_name = ? AND in_main = 1 ";
+            String selection = " carrier_name = ? AND in_main >= 1 ";
             String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
             return new CursorLoader(getActivity(),
                     PhoneToolsContract.MainEntry.CONTENT_URI,
@@ -154,63 +143,31 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                     selection,
                     selectionAgrm,
                     sortOrder);
-        }else if (id ==DV_3G_LOADER){
-            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String selection = " carrier_name = ? AND in_main = 2 ";
-            String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
-            return new CursorLoader(getActivity(),
-                    PhoneToolsContract.MainEntry.CONTENT_URI,
-                    PHONE_TOOLS_COLUMNS,
-                    selection,
-                    selectionAgrm,
-                    sortOrder);
-        }else if (id == TIEN_ICH_LOADER){
-            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String selection = " carrier_name = ? AND in_main = 3 ";
-            String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};
-            return new CursorLoader(getActivity(),
-                    PhoneToolsContract.MainEntry.CONTENT_URI,
-                    PHONE_TOOLS_COLUMNS,
-                    selection,
-                    selectionAgrm,
-                    sortOrder);
-        }else return null;
+        }
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId()==KIEM_TRA_LOADER) {
-            mKiemTraAdapter.swapCursor(data);
-
-            }
-        else if (loader.getId()==DV_3G_LOADER){
-            m3gAdapter.swapCursor(data);
-//            setListViewHeightBasedOnChildren((ListView) getView().findViewById(R.id.main_list_view));
-        }else if (loader.getId()== TIEN_ICH_LOADER){
-            mTienIchAdapter.swapCursor(data);
-        }
+        mainAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        m3gAdapter.swapCursor(null);
-        mTienIchAdapter.swapCursor(null);
-        mKiemTraAdapter.swapCursor(null);
+        mainAdapter.swapCursor(null);
+
     }
 
     @Override
     public void onResume() {
+
         super.onResume();
-//        Log.e(LOG_TAG, " onResume");
         onCarrierChange();
+
     }
     public void onCarrierChange( ) {
 
-        getLoaderManager().restartLoader(KIEM_TRA_LOADER, null, this);
-        getLoaderManager().restartLoader(DV_3G_LOADER,null,this);
-        getLoaderManager().restartLoader(TIEN_ICH_LOADER,null,this);
+        getLoaderManager().restartLoader(MAIN_LOADER, null, this);
     }
 
 

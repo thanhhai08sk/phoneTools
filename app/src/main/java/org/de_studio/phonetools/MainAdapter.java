@@ -23,12 +23,10 @@ public class MainAdapter extends CursorAdapter {
     private static final String LOG_TAG = MainAdapter.class.getSimpleName();
     public static class ViewHolder {
         public final TextView titleView;
-        public final TextView descriptionView;
         public final Button actionView;
 
         public ViewHolder(View view) {
             titleView = (TextView) view.findViewById(R.id.item_title);
-            descriptionView = (TextView) view.findViewById(R.id.item_description);
             actionView = (Button) view.findViewById(R.id.item_action);
         }
     }
@@ -104,8 +102,7 @@ public class MainAdapter extends CursorAdapter {
             ViewHolder viewHolder = (ViewHolder) view.getTag(R.string.viewHolderTag);
             String title = cursor.getString(MainFragment.COL_TITLE);
             viewHolder.titleView.setText(title);
-            String description = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
-            viewHolder.descriptionView.setText(description);
+
 
     }
 
