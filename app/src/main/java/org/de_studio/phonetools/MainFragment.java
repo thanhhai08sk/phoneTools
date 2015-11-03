@@ -39,10 +39,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,
 
     };
-
-
-    // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
-    // must change.
     static final int COL_ID = 0;
     static final int COL_TYPE = 1;
     static final int COL_DESTINATION = 2;
@@ -56,8 +52,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     static final int COL_MONEY = 10;
     static final int COL_CYCLE = 11;
     static final int COL_IN_MAIN = 12;
-
-
     public static final String[] CUSTOM_COLUMNS = {
             PhoneToolsContract.ActionEntry.TABLE_NAME + "."+ PhoneToolsContract.ActionEntry._ID,
             PhoneToolsContract.ActionEntry.COLUMN_TYPE,
@@ -88,10 +82,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     static final int CUS_CYCLE = 11;
     static final int CUS_IN_MAIN = 12;
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
     public static MainFragment newInstance(int sectionNumber) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
@@ -99,39 +89,23 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         fragment.setArguments(args);
         return fragment;
     }
-
     public MainFragment() {
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycle_view);
         mainRecycleAdapter = new MainRecycleAdapter(getActivity(),null);
         recyclerView.setAdapter(mainRecycleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-//        ListView listView =(ListView) rootView.findViewById(R.id.main_list_view);
-//        listView.setAdapter(mMainAdapter);
-//        Button button = (Button) rootView.findViewById(R.id.main_custom_button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AddItemFragment addItemFragment = new AddItemFragment();
-//                addItemFragment.show(getActivity().getFragmentManager(), "addItemFragment");
-//            }
-//        });
         return rootView;
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MAIN_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -149,32 +123,22 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         }
         return null;
     }
-
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.e(LOG_TAG,"onLoadFinished ne");
         mainRecycleAdapter.swapCursor(data);
         mainRecycleAdapter.notifyDataSetChanged();
     }
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mainRecycleAdapter.swapCursor(null);
-
     }
-
     @Override
     public void onResume() {
-
         super.onResume();
         onCarrierChange();
-
     }
     public void onCarrierChange( ) {
-
         getLoaderManager().restartLoader(MAIN_LOADER, null, this);
     }
-
-
-
 }
