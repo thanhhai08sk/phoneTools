@@ -34,9 +34,25 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                String title = cursor.getString(MainFragment.COL_TITLE);
-                TextView textView = (TextView)view.findViewById(R.id.item_title);
-                textView.setText(title);
+                String titleText = cursor.getString(MainFragment.COL_TITLE);
+                TextView title = (TextView)view.findViewById(R.id.item_title);
+                final TextView description = (TextView) view.findViewById(R.id.item_description);
+                String descriptionText = cursor.getString(MainFragment.COL_DESCRIPTION);
+                String shortDescriptionText = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
+                if (descriptionText==null||descriptionText.equals("")){
+                    description.setText(shortDescriptionText);
+
+                }else description.setText(descriptionText);
+                title.setText(titleText);
+                title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (description.isShown()) {
+                            description.setVisibility(View.GONE);
+                        } else description.setVisibility(View.VISIBLE);
+                    }
+                });
+
             }
         };
     }
@@ -76,16 +92,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
 
             view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         }
-        final TextView title = (TextView) view.findViewById(R.id.item_title);
-        final TextView description = (TextView) view.findViewById(R.id.item_description);
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (description.isShown()){
-                    description.setVisibility(View.GONE);
-                }else description.setVisibility(View.VISIBLE);
-            }
-        });
+
         return new ViewHolder(view);
     }
     public void swapCursor(Cursor cursor){
