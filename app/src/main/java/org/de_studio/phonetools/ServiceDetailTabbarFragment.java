@@ -21,6 +21,7 @@ public class ServiceDetailTabbarFragment extends Fragment implements LoaderManag
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String LOG_TAG = ServiceDetailTabbarFragment.class.getSimpleName();
     private static final int LOADER = 0;
+    private  String category;
     ServiceRecycleAdapter mServiceRecycleAdapter;
 
     public static ServiceDetailTabbarFragment newInstance(int sectionNumber) {
@@ -31,9 +32,24 @@ public class ServiceDetailTabbarFragment extends Fragment implements LoaderManag
         return fragment;
     }
 
-    public ServiceDetailTabbarFragment() {
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        category = getArguments().getString("category","3g");
+//    }
 
+    public ServiceDetailTabbarFragment() {
+
+    }
+    public void setCategory (int sectionNumber){
+        switch (sectionNumber){
+            case 1: category = "gn";
+                break;
+            case 2: category ="3g";
+                break;
+            case 3: category = "ti";
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +75,7 @@ public class ServiceDetailTabbarFragment extends Fragment implements LoaderManag
         String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
         String selection = " category = ? AND carrier_name = ?  ";
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String[] selectionAgrm = new String[]{"3g", prefs.getString("carrier", "viettel")};
+        String[] selectionAgrm = new String[]{category, prefs.getString("carrier", "viettel")};
         return new CursorLoader(getActivity(),
                 PhoneToolsContract.MainEntry.CONTENT_URI,
                 MainFragment.PHONE_TOOLS_COLUMNS,

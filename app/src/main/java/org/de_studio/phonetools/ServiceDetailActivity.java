@@ -41,11 +41,17 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    return  ServiceDetailTabbarFragment.newInstance(position + 1);
+                    ServiceDetailTabbarFragment fragment1 = ServiceDetailTabbarFragment.newInstance(position + 1);
+                    fragment1.setCategory(position+1);
+                    return fragment1;
                 case 1:
-                    return ServiceDetailTabbarFragment.newInstance(position + 1);
+                    ServiceDetailTabbarFragment fragment2 = ServiceDetailTabbarFragment.newInstance(position + 1);
+                    fragment2.setCategory(position+1);
+                    return fragment2;
                 case 2:
-                    return ServiceDetailTabbarFragment.newInstance(position +1);
+                    ServiceDetailTabbarFragment fragment3 = ServiceDetailTabbarFragment.newInstance(position + 1);
+                    fragment3.setCategory(position+1);
+                    return fragment3;
 
             }
             return null;
