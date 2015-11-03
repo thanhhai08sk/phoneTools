@@ -6,7 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/category_title_text"
         android:text="@string/main_kiem_tra_tai_khoan_title"
+        style="@style/Base.TextAppearance.AppCompat.Title"
         />
 
     <LinearLayout

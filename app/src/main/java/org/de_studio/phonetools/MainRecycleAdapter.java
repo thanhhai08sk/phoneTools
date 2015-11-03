@@ -18,9 +18,17 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
     public MainRecycleAdapter(Context context,Cursor cursor){
         mContext = context;
         mCursorAdapter = new CursorAdapter(context,cursor,0) {
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                return super.getView(position, null, parent);
+//            }
+
+
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                View view = LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false);
+                View view;
+
+                view = LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false);
                 return view;
             }
 
@@ -55,10 +63,38 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType>=11){
+            View view= LayoutInflater.from(mContext).inflate(R.layout.main_list_item_with_title,parent,false);
+            TextView categoryTitle = (TextView) view.findViewById(R.id.category_title_text);
+            if (viewType==11) categoryTitle.setText(mContext.getResources().getString(R.string.main_kiem_tra_tai_khoan_title));
+            if (viewType ==12) categoryTitle.setText(mContext.getResources().getString(R.string.main_dich_vu_3g_title));
+            if (viewType ==13) categoryTitle.setText(mContext.getResources().getString(R.string.main_tien_ich_title));
+            return new ViewHolder(view);
+        }
+
         View view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
     }
     public void swapCursor(Cursor cursor){
         mCursorAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position==0){
+            return 11;
+        }else {
+            Cursor cursor = mCursorAdapter.getCursor();
+            cursor.moveToPosition(position);
+            int nowInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
+            cursor.moveToPrevious();
+            int previousInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
+            if (nowInMain>previousInMain){
+                if (nowInMain ==2){
+                    return 12;
+                }else return 13;
+            }
+        }
+        return super.getItemViewType(position);
     }
 }

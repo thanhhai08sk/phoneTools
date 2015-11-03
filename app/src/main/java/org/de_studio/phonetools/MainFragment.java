@@ -136,7 +136,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         if (id ==MAIN_LOADER) {
-            String sortOrder = PhoneToolsContract.MainEntry.TABLE_NAME + "." + PhoneToolsContract.MainEntry._ID + " ASC";
+            String sortOrder = PhoneToolsContract.MainEntry.COLUMN_IN_MAIN + " ASC";
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             String selection = " carrier_name = ? AND in_main >= 1 ";
             String[] selectionAgrm = new String[]{prefs.getString("carrier", "viettel")};

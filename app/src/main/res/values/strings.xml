@@ -40,7 +40,7 @@
     <string name="add_item_fragment_negative">Hủy</string>
     <string name="main_kiem_tra_tai_khoan_title">Kiểm tra tài khoản</string>
     <string name="main_kiem_tra_button">Kiểm tra</string>
-    <string name="main_dich_vu_3g">Dịch vụ 3G</string>
+    <string name="main_dich_vu_3g_title">Dịch vụ 3G</string>
     <string name="main_tien_ich_title">Tiện ích</string>
     <string name="main_tuy_chinh_title">Tùy chỉnh</string>
     <string name="main_tuy_chinh_button">Thêm</string>
