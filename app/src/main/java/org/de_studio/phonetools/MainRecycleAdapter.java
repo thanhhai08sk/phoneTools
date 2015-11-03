@@ -18,12 +18,6 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
     public MainRecycleAdapter(Context context,Cursor cursor){
         mContext = context;
         mCursorAdapter = new CursorAdapter(context,cursor,0) {
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent) {
-//                return super.getView(position, null, parent);
-//            }
-
-
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 View view;
@@ -31,7 +25,6 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                 view = LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false);
                 return view;
             }
-
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 String titleText = cursor.getString(MainFragment.COL_TITLE);
@@ -41,7 +34,6 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                 String shortDescriptionText = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
                 if (descriptionText==null||descriptionText.equals("")){
                     description.setText(shortDescriptionText);
-
                 }else description.setText(descriptionText);
                 title.setText(titleText);
                 title.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +44,6 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                         } else description.setVisibility(View.VISIBLE);
                     }
                 });
-
             }
         };
     }
@@ -63,22 +54,18 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             super(itemView);
             view =itemView;
             title = (TextView)itemView.findViewById(R.id.item_title);
-
         }
     }
-
     @Override
     public int getItemCount() {
         return mCursorAdapter.getCount();
     }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Cursor cursor = mCursorAdapter.getCursor();
         cursor.moveToPosition(position);
         mCursorAdapter.bindView(holder.view,mContext,cursor);
     }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -89,16 +76,13 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             if (viewType ==12) categoryTitle.setText(mContext.getResources().getString(R.string.main_dich_vu_3g_title));
             if (viewType ==13) categoryTitle.setText(mContext.getResources().getString(R.string.main_tien_ich_title));
         }else {
-
             view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         }
-
         return new ViewHolder(view);
     }
     public void swapCursor(Cursor cursor){
         mCursorAdapter.swapCursor(cursor);
     }
-
     @Override
     public int getItemViewType(int position) {
         if (position==0){
@@ -117,5 +101,4 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
         }
         return super.getItemViewType(position);
     }
-
 }
