@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by hai on 11/2/2015.
@@ -76,10 +75,13 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         }
         final TextView title = (TextView) view.findViewById(R.id.item_title);
+        final TextView description = (TextView) view.findViewById(R.id.item_description);
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,title.getText(),Toast.LENGTH_SHORT).show();
+                if (description.isShown()){
+                    description.setVisibility(View.GONE);
+                }else description.setVisibility(View.VISIBLE);
             }
         });
         return new ViewHolder(view);
