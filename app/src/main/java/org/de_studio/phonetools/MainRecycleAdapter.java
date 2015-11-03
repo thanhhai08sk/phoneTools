@@ -35,15 +35,17 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 String title = cursor.getString(MainFragment.COL_TITLE);
-                TextView textView = (TextView)view;
+                TextView textView = (TextView)view.findViewById(R.id.item_title);
                 textView.setText(title);
             }
         };
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        View view;
         TextView title;
         public ViewHolder(View itemView){
             super(itemView);
+            view =itemView;
             title = (TextView)itemView.findViewById(R.id.item_title);
 
         }
@@ -58,7 +60,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Cursor cursor = mCursorAdapter.getCursor();
         cursor.moveToPosition(position);
-        mCursorAdapter.bindView(holder.title,mContext,cursor);
+        mCursorAdapter.bindView(holder.view,mContext,cursor);
     }
 
     @Override
