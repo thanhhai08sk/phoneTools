@@ -3,7 +3,7 @@
     package="org.de_studio.phonetools" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -50,6 +50,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.de_studio.phonetools.ItemListActivity" />
         </activity>
+        <activity
+            android:name=".ServiceDetailActivity"
+            android:label="@string/title_activity_service_detail"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.de_studio.phonetools.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

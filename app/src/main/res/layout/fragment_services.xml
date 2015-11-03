@@ -13,19 +13,21 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/service_goi_dien_nhan_tin_title"
             android:text="@string/service_goi_dien_nhan_tin_title"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/service_dich_vu_3g_title"
             android:text="@string/service_dich_vu_3g_title"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/service_tien_ich_khac_title"
             android:text="@string/service_tien_ich_khac_title"
             />
-
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
