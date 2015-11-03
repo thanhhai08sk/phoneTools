@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by hai on 11/2/2015.
@@ -63,16 +64,24 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
         if (viewType>=11){
-            View view= LayoutInflater.from(mContext).inflate(R.layout.main_list_item_with_title,parent,false);
+            view= LayoutInflater.from(mContext).inflate(R.layout.main_list_item_with_title,parent,false);
             TextView categoryTitle = (TextView) view.findViewById(R.id.category_title_text);
             if (viewType==11) categoryTitle.setText(mContext.getResources().getString(R.string.main_kiem_tra_tai_khoan_title));
             if (viewType ==12) categoryTitle.setText(mContext.getResources().getString(R.string.main_dich_vu_3g_title));
             if (viewType ==13) categoryTitle.setText(mContext.getResources().getString(R.string.main_tien_ich_title));
-            return new ViewHolder(view);
-        }
+        }else {
 
-        View view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+            view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+        }
+        final TextView title = (TextView) view.findViewById(R.id.item_title);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,title.getText(),Toast.LENGTH_SHORT).show();
+            }
+        });
         return new ViewHolder(view);
     }
     public void swapCursor(Cursor cursor){
@@ -97,4 +106,5 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
         }
         return super.getItemViewType(position);
     }
+
 }
