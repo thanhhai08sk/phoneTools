@@ -70,7 +70,10 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType>=11){
-            view= LayoutInflater.from(mContext).inflate(R.layout.main_list_item_with_title,parent,false);
+            if (viewType==14){
+                view = LayoutInflater.from(mContext).inflate(R.layout.main_list_item_last_default_item,parent,false);
+            }else view= LayoutInflater.from(mContext).inflate(R.layout.main_list_item_with_title,parent,false);
+
             TextView categoryTitle = (TextView) view.findViewById(R.id.category_title_text);
             if (viewType==11) categoryTitle.setText(mContext.getResources().getString(R.string.main_kiem_tra_tai_khoan_title));
             if (viewType ==12) categoryTitle.setText(mContext.getResources().getString(R.string.main_dich_vu_3g_title));
@@ -93,6 +96,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             int nowInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
             cursor.moveToPrevious();
             int previousInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
+            if ((getItemCount()-1==position)&(nowInMain==3)) return 14;
             if (nowInMain>previousInMain){
                 if (nowInMain ==2){
                     return 12;

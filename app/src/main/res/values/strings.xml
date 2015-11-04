@@ -55,4 +55,6 @@
     <string name="title_activity_service_detail">Dịch vụ</string>
     <string name="service_tabbar_recycle_item_button_dang_ky">Đăng ký</string>
     <string name="service_tabbar_recycle_item_button_huy_dich_vu">Hủy dịch vụ</string>
+    <string name="main_item_last_default_item_tuy_chon_title">Tùy chỉnh</string>
+    <string name="main_item_last_default_item_them_button">Thêm</string>
 </resources>
