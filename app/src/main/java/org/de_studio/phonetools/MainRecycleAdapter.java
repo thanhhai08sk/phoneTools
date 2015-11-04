@@ -105,6 +105,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
     public void swapCursor(Cursor cursor){
         mCursorAdapter.swapCursor(cursor);
     }
+
     @Override
     public int getItemViewType(int position) {
         if (position==0){
@@ -116,10 +117,15 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             cursor.moveToPrevious();
             int previousInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
             if ((getItemCount()-1==position)&(nowInMain==3)) return 14;
+            if (position<getItemCount()-1){
+                cursor.moveToPosition(position+1);
+                int nextInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
+                if (nowInMain==3 & nextInMain ==4) return 14;
+            }
             if (nowInMain>previousInMain){
                 if (nowInMain ==2){
                     return 12;
-                }else return 13;
+                }else if (nowInMain==3) return 13;
             }
         }
         return super.getItemViewType(position);

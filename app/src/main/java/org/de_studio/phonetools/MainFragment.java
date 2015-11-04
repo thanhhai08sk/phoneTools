@@ -2,6 +2,7 @@ package org.de_studio.phonetools;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +21,13 @@ import android.view.ViewGroup;
 public  class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
     private static final int MAIN_LOADER = 0;
+    private static final int ADD_LOADER =1;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private MainRecycleAdapter mainRecycleAdapter;
+    Boolean mainOk = false;
+    Boolean addOk = false;
+    Cursor mainCursor;
+    Cursor addCursor;
     public static final String[] PHONE_TOOLS_COLUMNS = {
             PhoneToolsContract.MainEntry.TABLE_NAME + "."+ PhoneToolsContract.MainEntry._ID,
             PhoneToolsContract.MainEntry.COLUMN_TYPE,
@@ -104,6 +109,7 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MAIN_LOADER, null, this);
+        getLoaderManager().initLoader(ADD_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
     @Override
@@ -120,14 +126,38 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
                     selection,
                     selectionAgrm,
                     sortOrder);
+        }else if (id == ADD_LOADER){
+            return new CursorLoader(getActivity(),
+                    PhoneToolsContract.ActionEntry.CONTENT_URI,
+                    CUSTOM_COLUMNS,
+                    null,
+                    null,
+                    null);
         }
         return null;
     }
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.e(LOG_TAG,"onLoadFinished ne");
-        mainRecycleAdapter.swapCursor(data);
-        mainRecycleAdapter.notifyDataSetChanged();
+
+
+        if (loader.getId()==MAIN_LOADER){
+            mainCursor=data;
+            mainOk= true;
+        }else if (loader.getId() ==ADD_LOADER){
+            addCursor =data;
+            addOk = true;
+        }
+        if (mainOk & addOk){
+            mainOk= false;
+            addOk = false;
+            if (addCursor==null){
+                mainRecycleAdapter.swapCursor(mainCursor);
+            }else {
+                Cursor[] cursors = {mainCursor, addCursor};
+                mainRecycleAdapter.swapCursor(new MergeCursor(cursors));
+            }
+            mainRecycleAdapter.notifyDataSetChanged();
+        }
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
