@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class ServicesFragment extends Fragment {
     ArrayList<String> list;
     private String mCategory;
+    public static final String EXTRA_KEY = "category";
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     public static ServicesFragment newInstance(int sectionNumber) {
@@ -38,7 +39,7 @@ public class ServicesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),ServiceDetailActivity.class);
-                intent.putExtra("category","gn");
+                intent.putExtra(EXTRA_KEY,"gn");
                 startActivity(intent);
             }
         });
@@ -46,7 +47,7 @@ public class ServicesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),ServiceDetailActivity.class);
-                intent.putExtra("category","3g");
+                intent.putExtra(EXTRA_KEY,"3g");
                 startActivity(intent);
             }
         });
@@ -54,7 +55,7 @@ public class ServicesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),ServiceDetailActivity.class);
-                intent.putExtra("category","ti");
+                intent.putExtra(EXTRA_KEY,"ti");
                 startActivity(intent);
             }
         });

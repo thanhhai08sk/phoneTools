@@ -13,18 +13,30 @@ import java.util.Locale;
 
 public class ServiceDetailActivity extends AppCompatActivity {
     SectionsPagerAdapter mSectionsPagerAdapter;
+    private static final int GN_ITEM =0;
+    private static final int DV_3G_ITEM =1;
+    private static final int TI_ITEM = 2;
     ViewPager mViewPager;
     private static final String LOG_TAG = ServiceDetailTabbarFragment.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String category = getIntent().getExtras().getString(ServicesFragment.EXTRA_KEY,"");
         setContentView(R.layout.activity_service_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.service_detail_viewPager);
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        switch (category){
+            case "gn": mViewPager.setCurrentItem(0);
+                break;
+            case "3g": mViewPager.setCurrentItem(1);
+                break;
+            case "ti": mViewPager.setCurrentItem(2);
+        }
         TabLayout tabLayout = (TabLayout) findViewById(R.id.service_detail_tabbar);
         tabLayout.setupWithViewPager(mViewPager);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
