@@ -28,8 +28,10 @@ public class ServiceRecycleAdapter extends RecyclerView.Adapter<ServiceRecycleAd
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 String titleText = cursor.getString(MainFragment.COL_TITLE);
+                String detailText = cursor.getString(MainFragment.COL_DESCRIPTION);
                 TextView title = (TextView) view.findViewById(R.id.service_tabbar_recycle_item_text_view);
                 final TextView detail = (TextView) view.findViewById(R.id.service_tabbar_recycle_item_detail);
+                detail.setText(detailText);
                 final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.service_tabbar_recycle_item_buttons);
                 title.setText(titleText);
                 title.setOnClickListener(new View.OnClickListener() {
