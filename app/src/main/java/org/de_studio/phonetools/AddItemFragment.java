@@ -72,7 +72,7 @@ public class AddItemFragment extends DialogFragment implements AdapterView.OnIte
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CANCEL,(String)null);
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_MONEY,(String) null);
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CYCLE,(String) null);
-                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,1);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_IN_MAIN,4);
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_CATEGORY,(String) null);
 
                         getActivity().getContentResolver().insert(PhoneToolsContract.ActionEntry.CONTENT_URI,contentValues);
