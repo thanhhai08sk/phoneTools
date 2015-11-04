@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -28,7 +29,21 @@ public class ServiceRecycleAdapter extends RecyclerView.Adapter<ServiceRecycleAd
             public void bindView(View view, Context context, Cursor cursor) {
                 String titleText = cursor.getString(MainFragment.COL_TITLE);
                 TextView title = (TextView) view.findViewById(R.id.service_tabbar_recycle_item_text_view);
+                final TextView detail = (TextView) view.findViewById(R.id.service_tabbar_recycle_item_detail);
+                final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.service_tabbar_recycle_item_buttons);
                 title.setText(titleText);
+                title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (detail.isShown()){
+                            detail.setVisibility(View.GONE);
+                            linearLayout.setVisibility(View.GONE);
+                        }else {
+                            detail.setVisibility(View.VISIBLE);
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
 
             }
         };
