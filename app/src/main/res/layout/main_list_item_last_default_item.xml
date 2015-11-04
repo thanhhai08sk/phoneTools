@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="@string/main_item_last_default_item_them_button"
+            android:id="@+id/main_item_last_default_item_them_button"
             />
     </LinearLayout>
 

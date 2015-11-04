@@ -1,11 +1,14 @@
 package org.de_studio.phonetools;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import android.widget.TextView;
  * Created by hai on 11/2/2015.
  */
 public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.ViewHolder>{
+    private static final String LOG_TAG = MainRecycleAdapter.class.getSimpleName();
     CursorAdapter mCursorAdapter;
     Context mContext;
     public MainRecycleAdapter(Context context,Cursor cursor){
@@ -44,6 +48,21 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                         } else description.setVisibility(View.VISIBLE);
                     }
                 });
+                Button themButton = (Button)view.findViewById(R.id.main_item_last_default_item_them_button);
+                if (themButton!=null){
+                    themButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AddItemFragment addItemFragment = new AddItemFragment();
+                            try {
+                                final Activity activity = (Activity) mContext;
+                                addItemFragment.show(activity.getFragmentManager(),"addItemFragment");
+                            }catch (ClassCastException e){
+                                Log.e(LOG_TAG, "can't get FragmentManager");
+                            }
+                        }
+                    });
+                }
             }
         };
     }
