@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,25 +144,32 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
         if (loader.getId()==MAIN_LOADER){
             mainCursor=data;
             mainOk= true;
+            Log.e(LOG_TAG,"main loadder");
         }else if (loader.getId() ==ADD_LOADER){
+            Log.e(LOG_TAG,"add loader");
             addCursor =data;
             addOk = true;
+
         }
-        if (mainOk & addOk){
-            mainOk= false;
-            addOk = false;
-            if (addCursor==null){
-                mainRecycleAdapter.swapCursor(mainCursor);
-            }else {
-                Cursor[] cursors = {mainCursor, addCursor};
-                mainRecycleAdapter.swapCursor(new MergeCursor(cursors));
-            }
+//        if (mainOk & addOk){
+//            mainOk= false;
+//            addOk = false;
+//            if (addCursor==null){
+//                mainRecycleAdapter.swapCursor(mainCursor);
+//            }else {
+        if (mainCursor!=null & addCursor!=null) {
+            Cursor[] cursors = {mainCursor, addCursor};
+            mainRecycleAdapter.swapCursor(new MergeCursor(cursors));
+//            }
             mainRecycleAdapter.notifyDataSetChanged();
         }
+//        }
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mainRecycleAdapter.swapCursor(null);
+        if (loader.getId()==ADD_LOADER) {
+            mainRecycleAdapter.swapCursor(null);
+        }
     }
     @Override
     public void onResume() {
@@ -170,5 +178,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     }
     public void onCarrierChange( ) {
         getLoaderManager().restartLoader(MAIN_LOADER, null, this);
+        getLoaderManager().restartLoader(ADD_LOADER,null,this);
     }
 }
