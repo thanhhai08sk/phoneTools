@@ -39,7 +39,8 @@ public class AddItemFragment extends DialogFragment implements AdapterView.OnIte
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_TITLE,
                                 titleView.getText().toString());
                         contentValues.put(PhoneToolsContract.MainEntry.COLUMN_SHORT_DESCRIPTION, (String) null);
-                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION, (String) null);
+                        EditText descriptionView = (EditText) dialogView.findViewById(R.id.new_item_description);
+                        contentValues.put(PhoneToolsContract.MainEntry.COLUMN_DESCRIPTION, descriptionView.getText().toString());
                         int carrierId;
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
                         switch (sharedPreferences.getString("carrier", "viettel")) {

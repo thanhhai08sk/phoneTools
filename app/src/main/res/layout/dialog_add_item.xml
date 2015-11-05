@@ -46,6 +46,13 @@
         android:id="@+id/new_item_text"
         android:visibility="invisible"
         />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:id="@+id/new_item_description"
+        />
+
 
 
 
