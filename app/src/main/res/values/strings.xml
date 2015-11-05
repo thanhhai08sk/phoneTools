@@ -57,4 +57,5 @@
     <string name="service_tabbar_recycle_item_button_huy_dich_vu">Hủy dịch vụ</string>
     <string name="main_item_last_default_item_tuy_chon_title">Tùy chỉnh</string>
     <string name="main_item_last_default_item_them_button">Thêm</string>
+    <string name="main_item_action_delete_button_text">Xóa</string>
 </resources>

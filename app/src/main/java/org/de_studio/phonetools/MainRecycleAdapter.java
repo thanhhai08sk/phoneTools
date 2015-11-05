@@ -36,6 +36,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                 final TextView description = (TextView) view.findViewById(R.id.item_description);
                 String descriptionText = cursor.getString(MainFragment.COL_DESCRIPTION);
                 String shortDescriptionText = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
+                final Button deleteButton = (Button)view.findViewById(R.id.main_item_action_delete_button);
                 if (descriptionText==null||descriptionText.equals("")){
                     description.setText(shortDescriptionText);
                 }else description.setText(descriptionText);
@@ -44,8 +45,16 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
                     @Override
                     public void onClick(View v) {
                         if (description.isShown()) {
+                            if (deleteButton!=null){
+                                deleteButton.setVisibility(View.GONE);
+                            }
                             description.setVisibility(View.GONE);
-                        } else description.setVisibility(View.VISIBLE);
+                        } else {
+                            description.setVisibility(View.VISIBLE);
+                            if (deleteButton!=null){
+                                deleteButton.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
                 });
                 Button themButton = (Button)view.findViewById(R.id.main_item_last_default_item_them_button);
@@ -97,6 +106,8 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             if (viewType==11) categoryTitle.setText(mContext.getResources().getString(R.string.main_kiem_tra_tai_khoan_title));
             if (viewType ==12) categoryTitle.setText(mContext.getResources().getString(R.string.main_dich_vu_3g_title));
             if (viewType ==13) categoryTitle.setText(mContext.getResources().getString(R.string.main_tien_ich_title));
+        }else if (viewType==4) {
+            view= LayoutInflater.from(mContext).inflate(R.layout.action_list_item,parent,false);
         }else {
             view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         }
@@ -114,6 +125,7 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             Cursor cursor = mCursorAdapter.getCursor();
             cursor.moveToPosition(position);
             int nowInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
+            if (nowInMain==4) return 4;
             cursor.moveToPrevious();
             int previousInMain = cursor.getInt(MainFragment.COL_IN_MAIN);
             if ((getItemCount()-1==position)&(nowInMain==3)) return 14;

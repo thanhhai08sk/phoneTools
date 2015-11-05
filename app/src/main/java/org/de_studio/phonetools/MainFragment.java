@@ -139,8 +139,6 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
     }
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-
         if (loader.getId()==MAIN_LOADER){
             mainCursor=data;
             mainOk= true;
@@ -149,21 +147,12 @@ public  class MainFragment extends Fragment implements LoaderManager.LoaderCallb
             Log.e(LOG_TAG,"add loader");
             addCursor =data;
             addOk = true;
-
         }
-//        if (mainOk & addOk){
-//            mainOk= false;
-//            addOk = false;
-//            if (addCursor==null){
-//                mainRecycleAdapter.swapCursor(mainCursor);
-//            }else {
         if (mainCursor!=null & addCursor!=null) {
             Cursor[] cursors = {mainCursor, addCursor};
             mainRecycleAdapter.swapCursor(new MergeCursor(cursors));
-//            }
             mainRecycleAdapter.notifyDataSetChanged();
         }
-//        }
     }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
