@@ -33,7 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="@string/main_kiem_tra_button" />
+            android:paddingTop="22dp"
+            android:paddingBottom="22dp"
+            android:text="@string/service_tabbar_recycle_item_button_dang_ky"
+             />
     </LinearLayout>
     <TextView
         android:id="@+id/item_description"

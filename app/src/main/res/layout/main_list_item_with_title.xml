@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         style="@style/main_and_action_item_title"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/item_title"
             android:layout_width="match_parent"
