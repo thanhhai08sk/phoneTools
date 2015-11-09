@@ -45,7 +45,10 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="main_and_action_item_card">
-        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
     </style>
     <style name="main_and_action_item_title_text_view">
         <item name="android:paddingLeft">10dp</item>
@@ -76,5 +79,27 @@
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginLeft">12dp</item>
         <item name="android:layout_marginRight">12dp</item>
+    </style>
+    <style name="service_detail_item_title_text_view">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:layout_marginTop">1dp</item>
+    </style>
+    <style name="service_detail_description">
+        <item name="android:background">@color/item_description_background</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="service_detail_button_bar">
+        <item name="android:background">@color/item_description_background</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 </resources>

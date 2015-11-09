@@ -24,12 +24,13 @@
             android:id="@+id/main_item_action_delete_button"
             android:text="@string/main_item_action_delete_button_text"
             android:visibility="gone"
+            style="?android:attr/buttonBarButtonStyle"
             />
 
 
         <Button
             android:id="@+id/item_action"
-            style="@style/main_item_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

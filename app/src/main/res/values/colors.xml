@@ -8,4 +8,6 @@
     <color name="devide_color">#E0E0E0</color>
     <color name="item_color">#ffffff</color>
     <color name="item_description_background">#c5ffffff</color>
+    <color name="service_item_title_background">#ffffff</color>
+    <color name="service_fragment_background">#BFB4B4</color>
 </resources>
