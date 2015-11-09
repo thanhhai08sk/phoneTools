@@ -2,6 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/devide_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -10,24 +11,49 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/service_goi_dien_nhan_tin_title"
-            android:text="@string/service_goi_dien_nhan_tin_title"
-            />
-        <TextView
+            style="@style/service_fragment_text_view_background">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/service_goi_dien_nhan_tin_title"
+                android:text="@string/service_goi_dien_nhan_tin_title"
+                style="@style/service_fragment_text_view"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/service_dich_vu_3g_title"
-            android:text="@string/service_dich_vu_3g_title"
-            />
-        <TextView
+            style="@style/service_fragment_text_view_background">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/service_dich_vu_3g_title"
+                android:text="@string/service_dich_vu_3g_title"
+                style="@style/service_fragment_text_view"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/service_tien_ich_khac_title"
-            android:text="@string/service_tien_ich_khac_title"
-            />
+            style="@style/service_fragment_text_view_background">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/service_tien_ich_khac_title"
+                android:text="@string/service_tien_ich_khac_title"
+                style="@style/service_fragment_text_view"
+                />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
