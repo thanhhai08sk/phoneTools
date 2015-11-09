@@ -27,6 +27,9 @@
     </style>
     <style name="main_item_button">
         <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
 
     </style>
     <style name="main_category_title">
