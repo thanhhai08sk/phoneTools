@@ -31,6 +31,11 @@ public class MainRecycleAdapter extends RecyclerView.Adapter<MainRecycleAdapter.
             }
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
+                String buttonText = cursor.getString(MainFragment.COL_SHORT_DESCRIPTION);
+                if (buttonText!=null){
+                    Button MainButton = (Button) view.findViewById(R.id.item_action);
+                    MainButton.setText(buttonText);
+                }
                 String titleText = cursor.getString(MainFragment.COL_TITLE);
                 TextView title = (TextView)view.findViewById(R.id.item_title);
                 final TextView description = (TextView) view.findViewById(R.id.item_description);
