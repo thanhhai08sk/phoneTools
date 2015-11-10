@@ -21,6 +21,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/my_preference_item_carrier_summary_text"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devide_color"
+            android:layout_margin="10dp"
+            />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

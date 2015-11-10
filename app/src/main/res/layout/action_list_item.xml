@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="@string/service_tabbar_recycle_item_button_dang_ky"
+            android:text="@string/service_tabbar_recycle_item_button_kich_hoat"
              />
     </LinearLayout>
     <TextView
