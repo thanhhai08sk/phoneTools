@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return "Main".toLowerCase();
+                    return "Trang chủ";
                 case 1:
-                    return "Service".toLowerCase();
+                    return "Dịch vụ GTGT";
                 case 2:
-                    return "Advertising".toLowerCase();
+                    return "Thiết lập";
 
             }
             return null;
