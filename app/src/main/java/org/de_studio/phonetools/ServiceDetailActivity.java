@@ -79,11 +79,11 @@ public class ServiceDetailActivity extends AppCompatActivity {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return "Gọi điện-nhắn tin".toLowerCase();
+                    return "Gọi điện - nt";
                 case 1:
-                    return "Dịch vụ 3G".toLowerCase();
+                    return "Dịch vụ 3G";
                 case 2:
-                    return "Tiện ích".toLowerCase();
+                    return "Tiện ích";
 
             }
             return null;
