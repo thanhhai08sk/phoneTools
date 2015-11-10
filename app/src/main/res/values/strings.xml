@@ -58,4 +58,6 @@
     <string name="main_item_last_default_item_tuy_chon_title">Tùy chỉnh</string>
     <string name="main_item_last_default_item_them_button">Thêm</string>
     <string name="main_item_action_delete_button_text">Xóa</string>
+    <string name="my_preference_item_carrier_title_text">Chọn nhà mạng</string>
+    <string name="my_preference_carrier_dialog_title">Chọn nhà mạng</string>
 </resources>

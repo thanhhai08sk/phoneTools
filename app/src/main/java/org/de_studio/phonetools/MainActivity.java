@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return ServicesFragment.newInstance(position + 1);
                 case 2:
-                    return AdvertisingTabFragment.newInstance(position +1);
+                    return MyPreferenceFragment.newInstance(position +1);
 
             }
             return null;

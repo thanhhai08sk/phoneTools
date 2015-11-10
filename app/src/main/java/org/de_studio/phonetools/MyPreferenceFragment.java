@@ -1,15 +1,23 @@
 package org.de_studio.phonetools;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 
 /**
  * Created by hai on 11/9/2015.
  */
-public  class MyPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+public  class MyPreferenceFragment extends Fragment {
+    private static final String LOG_TAG = MyPreferenceFragment.class.getSimpleName();
+    public static final String defaultSharedPreferenceName = "org.de_studio.phonetools_preferences";
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static MyPreferenceFragment newInstance(int sectionNumber) {
         MyPreferenceFragment fragment = new MyPreferenceFragment();
@@ -20,43 +28,61 @@ public  class MyPreferenceFragment extends PreferenceFragment implements Prefere
     }
     public MyPreferenceFragment() {
     }
+
+
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_general);
-        bindPreferenceSummaryToValue(findPreference("carrier"));
-    }
-
-    private void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(this);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
-        onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
-
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        String stringValue = newValue.toString();
-
-        if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list (since they have separate labels/values).
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(stringValue);
-            if (prefIndex >= 0) {
-                preference.setSummary(listPreference.getEntries()[prefIndex]);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_my_preference, container, false);
+        final LinearLayout carrierPreference = (LinearLayout) rootView.findViewById(R.id.carrier_preference_item);
+        final TextView carrierSummary = (TextView) carrierPreference.findViewById(R.id.my_preference_item_carrier_summary_text);
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        String carrier = sharedPreferences.getString("carrier","viettel");
+        carrierSummary.setText(carrier);
+        carrierPreference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentCarrier = sharedPreferences.getString("carrier", "viettel");
+                int checkedChoice;
+                switch (currentCarrier){
+                    case "viettel": checkedChoice =0;
+                        break;
+                    case "vinaphone": checkedChoice =1;
+                        break;
+                    case "mobifone": checkedChoice =2;
+                        break;
+                    case "vietnamobile": checkedChoice =3;
+                        break;
+                    default: checkedChoice =0;
+                }
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.dialog_choose_carrier_title)
+                        .setSingleChoiceItems(R.array.pref_carriers_options, checkedChoice, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String[] carrierArray = getResources().getStringArray(R.array.pref_carriers_values);
+                                sharedPreferences.edit().putString("carrier", carrierArray[which]).putBoolean("fistLaunch",false).commit();
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                carrierSummary.setText(sharedPreferences.getString("carrier","viettel"));
+                            }
+                        });
+                builder.show();
             }
-        } else {
-            // For other preferences, set the summary to the value's simple string representation.
-            preference.setSummary(stringValue);
-        }
-
-
-        return true;
+        });
+        return rootView;
     }
+
+    private LinearLayout findPreference(String name){
+        if (name.equals("carrier")){
+            return (LinearLayout) getView().findViewById(R.id.carrier_preference_item);
+        }else return null;
+    }
+
+
+
+
 }
