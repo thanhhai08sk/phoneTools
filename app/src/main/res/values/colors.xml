@@ -11,4 +11,6 @@
     <color name="service_item_title_background">#ffffff</color>
     <color name="service_fragment_background">#BFB4B4</color>
     <color name="transparent">#000000</color>
+    <color name="statusbar">#000000</color>
+    <color name="black">#00000000</color>
 </resources>
