@@ -46,4 +46,7 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
         View view = LayoutInflater.from(mContext).inflate(R.layout.deal_recycle_item,parent,false);
         return new ViewHolder(view);
     }
+    public void setmStrings(String[] strings){
+        mStrings = strings;
+    }
 }
