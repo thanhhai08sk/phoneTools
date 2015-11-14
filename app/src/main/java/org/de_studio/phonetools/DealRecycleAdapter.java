@@ -1,11 +1,12 @@
 package org.de_studio.phonetools;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 /**
@@ -13,11 +14,24 @@ import android.widget.TextView;
  */
 public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.ViewHolder>{
     Context mContext;
-    String[] mStrings;
+    CursorAdapter mCursorAdapter;
     private static final String LOG_TAG = DealRecycleAdapter.class.getSimpleName();
-    public DealRecycleAdapter(Context context,String[] strings){
+    public DealRecycleAdapter(Context context,Cursor cursor){
         mContext = context;
-        mStrings = strings;
+        mCursorAdapter = new CursorAdapter(context, cursor, 0) {
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                return LayoutInflater.from(context).inflate(R.layout.deal_recycle_item, parent, false);
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                String titleText = cursor.getString(DealFragment.COL_TITLE);
+                TextView title = (TextView) view.findViewById(R.id.deal_recycle_item_text_view);
+                title.setText(titleText);
+
+            }
+        };
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         View view;
@@ -33,24 +47,24 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
 
     @Override
     public int getItemCount() {
-        return mStrings.length;
+        return mCursorAdapter.getCount();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView textView = holder.textView;
-        String text = mStrings[position];
-        Log.e(LOG_TAG, "text = "+ text);
-        textView.setText(text);
+        Cursor cursor = mCursorAdapter.getCursor();
+        cursor.moveToPosition(position);
+
+        mCursorAdapter.bindView(holder.view, mContext, cursor);
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.deal_recycle_item,parent,false);
+        View view = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
     }
-    public void setmStrings(String[] strings){
-        mStrings = strings;
-        Log.e(LOG_TAG, "setmString" + strings[9]);
+    public void swapCursor(Cursor cursor){
+        mCursorAdapter.swapCursor(cursor);
     }
 }

@@ -29,6 +29,16 @@ public class DealFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String LOG_TAG = DealFragment.class.getSimpleName();
     DealRecycleAdapter mRecycleAdapter;
+    public static final String[] CUSTOM_COLUMNS = {
+            PhoneToolsContract.DealEntry._ID,
+            PhoneToolsContract.DealEntry.COLUMN_DATE,
+            PhoneToolsContract.DealEntry.COLUMN_TITLE,
+            PhoneToolsContract.DealEntry.COLUMN_IS_NEW
+    };
+    static final int COL_ID = 0;
+    static final int COL_DATE = 1;
+    static final int COL_TITLE = 2;
+    static final int COL_IS_NEW = 3;
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -98,7 +108,7 @@ public class DealFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_deal,container,false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.deal_fragment_recycle_view);
-        mRecycleAdapter = new DealRecycleAdapter(getActivity(),new String[10]);
+        mRecycleAdapter = new DealRecycleAdapter(getActivity(),null);
         recyclerView.setAdapter(mRecycleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
