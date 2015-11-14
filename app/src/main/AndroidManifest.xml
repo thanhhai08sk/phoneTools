@@ -60,6 +60,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.de_studio.phonetools.MainActivity" />
         </activity>
+        <service
+            android:name=".service.DealService"
+            android:exported="false"
+            />
 
     </application>
 
