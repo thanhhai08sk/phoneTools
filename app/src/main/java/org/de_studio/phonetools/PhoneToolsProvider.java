@@ -21,6 +21,7 @@ public class PhoneToolsProvider extends ContentProvider{
     static final int MAIN_WITH_ID = 101;
     static final int ACTION = 200;
     static final int ACTION_WITH_ID = 201;
+    static final int DEAL =102;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String LOG_TAG = PhoneToolsProvider.class.getSimpleName();
     private DataBaseHelper mOpenHelper;
@@ -74,6 +75,8 @@ public class PhoneToolsProvider extends ContentProvider{
                 return PhoneToolsContract.ActionEntry.CONTENT_TYPE;
             case ACTION_WITH_ID:
                 return PhoneToolsContract.ActionEntry.CONTENT_ITEM_TYPE;
+            case DEAL:
+                return PhoneToolsContract.DealEntry.CONTENT_TYPE;
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -94,6 +97,10 @@ public class PhoneToolsProvider extends ContentProvider{
                     break;
                 case ACTION:
                     rowsUpdated = db.update(PhoneToolsContract.ActionEntry.TABLE_NAME, values, selection,
+                            selectionArgs);
+                    break;
+                case DEAL:
+                    rowsUpdated = db.update(PhoneToolsContract.DealEntry.TABLE_NAME,values,selection,
                             selectionArgs);
                     break;
                 default:
@@ -129,6 +136,22 @@ public class PhoneToolsProvider extends ContentProvider{
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
+            case DEAL:
+                db.beginTransaction();
+                int returnCount1 = 0;
+                try {
+                    for (ContentValues value : values){
+                        long _id = db.insert(PhoneToolsContract.DealEntry.TABLE_NAME,null,value);
+                        if (_id != -1){
+                            returnCount1 ++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                }finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri,null);
+                return returnCount1;
             default:
                 return super.bulkInsert(uri, values);
         }
@@ -154,6 +177,15 @@ public class PhoneToolsProvider extends ContentProvider{
                 long _id = db.insert(PhoneToolsContract.ActionEntry.TABLE_NAME, null, values);
                 if (_id>0) {
                     returnUri = PhoneToolsContract.ActionEntry.buildActionUri(_id);
+                }else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+
+                break;
+            }
+            case DEAL: {
+                long _id = db.insert(PhoneToolsContract.DealEntry.TABLE_NAME, null, values);
+                if (_id>0) {
+                    returnUri = PhoneToolsContract.DealEntry.buildDealUri(_id);
                 }else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
 
@@ -224,6 +256,18 @@ public class PhoneToolsProvider extends ContentProvider{
                 );
                 break;
             }
+            case DEAL: {
+                reCursor = mOpenHelper.getReadableDatabase().query(
+                        PhoneToolsContract.DealEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             case (MAIN_WITH_ID):{
                 reCursor = getMainById(uri,projection,sortOrder);
                 break;
@@ -275,6 +319,7 @@ public class PhoneToolsProvider extends ContentProvider{
         matcher.addURI(authority,PhoneToolsContract.PATH_MAIN + "/#",MAIN_WITH_ID);
         matcher.addURI(authority,PhoneToolsContract.PATH_ACTION,ACTION);
         matcher.addURI(authority,PhoneToolsContract.PATH_ACTION + "/#",ACTION_WITH_ID);
+        matcher.addURI(authority,PhoneToolsContract.PATH_DEAL,DEAL);
 
         return matcher;
     }
