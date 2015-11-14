@@ -1,10 +1,12 @@
 package org.de_studio.phonetools;
 
 
-import android.support.v4.app.Fragment;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -66,10 +68,25 @@ public class DealFragment extends Fragment {
                     Log.e(LOG_TAG, "err get information from website");
                 }
                 Bundle bundle = new Bundle();
-                bundle.putStringArray("result",testResultString);
+                bundle.putStringArray("result", testResultString);
                 Message message = new Message();
                 message.setData(bundle);
                 handler.sendMessage(message);
+
+                for (String title : testResultString ){
+                    Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
+                            null,
+                            PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
+                            new String[]{title},
+                            null);
+                    if (cursor.getCount()<1){
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE,title);
+                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW,1);
+                        getActivity().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI,contentValues);
+
+                    }
+                }
             }
         };
         Thread thread = new Thread(runnable);
