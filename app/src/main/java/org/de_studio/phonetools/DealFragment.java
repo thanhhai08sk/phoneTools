@@ -1,10 +1,11 @@
 package org.de_studio.phonetools;
 
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class DealFragment extends Fragment {
         public void handleMessage(Message msg) {
             String[] text = msg.getData().getStringArray("result");
             mRecycleAdapter.setmStrings(text);
+            mRecycleAdapter.notifyDataSetChanged();
         }
     };
 
@@ -79,8 +81,9 @@ public class DealFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_deal,container,false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.deal_fragment_recycle_view);
-        mRecycleAdapter = new DealRecycleAdapter(getActivity(),null);
+        mRecycleAdapter = new DealRecycleAdapter(getActivity(),new String[10]);
         recyclerView.setAdapter(mRecycleAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
     }
 

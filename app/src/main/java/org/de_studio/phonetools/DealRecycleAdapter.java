@@ -2,6 +2,7 @@ package org.de_studio.phonetools;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.ViewHolder>{
     Context mContext;
     String[] mStrings;
+    private static final String LOG_TAG = DealRecycleAdapter.class.getSimpleName();
     public DealRecycleAdapter(Context context,String[] strings){
         mContext = context;
         mStrings = strings;
@@ -38,6 +40,7 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         TextView textView = holder.textView;
         String text = mStrings[position];
+        Log.e(LOG_TAG, "text = "+ text);
         textView.setText(text);
     }
 
@@ -48,5 +51,6 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
     }
     public void setmStrings(String[] strings){
         mStrings = strings;
+        Log.e(LOG_TAG, "setmString" + strings[9]);
     }
 }
