@@ -69,10 +69,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 Log.e(LOG_TAG, "create and insert action table ");
 
 //                db = SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READWRITE);
-                createActionTable();
-//                insertActionTable();
-
-
+                createActionTableAndDealTable();
             } catch (IOException e) {
                 Log.e(LOG_TAG,"copping database err");
             }
@@ -140,7 +137,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void createActionTable(){
+    public void createActionTableAndDealTable(){
         SQLiteDatabase db;
 
         db = SQLiteDatabase.openDatabase(mMyPath,null,SQLiteDatabase.OPEN_READWRITE);
@@ -165,8 +162,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 PhoneToolsContract.ActionEntry.COLUMN_CATEGORY + " TEXT, " +
                 " FOREIGN KEY (" + PhoneToolsContract.ActionEntry.COLUMN_CARRIER_ID + ") REFERENCES " +
                 PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
+        final String SQL_CREATE_DEAL_TABLE =  "CREATE TABLE " + PhoneToolsContract.DealEntry.TABLE_NAME + " (" +
+                PhoneToolsContract.DealEntry._ID + " INTEGER PRIMARY KEY," +
+                PhoneToolsContract.DealEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
+                PhoneToolsContract.DealEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                PhoneToolsContract.DealEntry.COLUMN_IS_NEW + " INTEGER NOT NULL, " +
+                " );";
         db.execSQL(SQL_CREATE_ACTION_TABLE);
+        db.execSQL(SQL_CREATE_DEAL_TABLE);
     }
+
+
 
     public void insertActionTable (){
         SQLiteDatabase db;

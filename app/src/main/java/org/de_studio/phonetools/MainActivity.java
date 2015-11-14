@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return "Trang chủ";
                 case 1:
-                    return "Dịch vụ GTGT";
+                    return "Dịch vụ";
                 case 2:
                     return "Khuyến mãi";
                 case 3:

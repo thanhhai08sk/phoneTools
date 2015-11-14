@@ -14,7 +14,7 @@ public class PhoneToolsContract {
     public static final String PATH_MAIN = "main";
     public static final String PATH_ACTION = "action";
     public static final String PATH_CARRIERS = "carriers";
-
+    public static final String PATH_DEAL ="deal";
     public static final class MainEntry implements BaseColumns{
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MAIN).build();
@@ -90,6 +90,18 @@ public class PhoneToolsContract {
         public static final String COLUMN_CARRIER_NAME = "carrier_name";
 
 
+    }
+    public static final class DealEntry implements BaseColumns{
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_DEAL).build();
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DEAL;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DEAL;
+        public static final String TABLE_NAME = "deal";
+        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_IS_NEW = "is_new";
     }
 
 
