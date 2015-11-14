@@ -39,9 +39,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
-        SharedPreferences sharedPreferences =getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        final SharedPreferences sharedPreferences =getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
         if (!sharedPreferences.contains("fistLaunch")) {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.dialog_choose_carrier_title)
                     .setSingleChoiceItems(R.array.pref_carriers_options, 0, new DialogInterface.OnClickListener() {
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            sharedPreferences.edit().putBoolean("fistLaunch",false).commit();
                             mainFragment.onCarrierChange();
                         }
                     });
