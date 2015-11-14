@@ -51,7 +51,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
                 for (int i =9; i>=0;i--) {
                     String title = text[i];
                     Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
-                            null,
+                            DEAL_COLUMNS,
                             PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
                             new String[]{title},
                             null);
@@ -63,6 +63,17 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
                         getActivity().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
 
                     }
+
+                }
+                Cursor cursor1 = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
+                        DEAL_COLUMNS,
+                        null,
+                        null,
+                        null);
+                if (cursor1.getCount() >=11) {
+                    int rowsDelete = getActivity().getContentResolver().delete(PhoneToolsContract.DealEntry.CONTENT_URI,
+                            PhoneToolsContract.DealEntry._ID + " = ? ",
+                            new String[]{"SELECT MIN(_ID) FROM deal"});
                 }
             }catch (NullPointerException e){
                 Log.e(LOG_TAG,"nullPointerException" + e);

@@ -220,12 +220,14 @@ public class PhoneToolsProvider extends ContentProvider{
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
+
         int rowsDeleted;
         switch (match) {
 
             case DEAL:
-                rowsDeleted = db.delete(
-                        PhoneToolsContract.DealEntry.TABLE_NAME, selection, selectionArgs);
+                Log.e(LOG_TAG,"deleted");
+                db.execSQL("DELETE FROM "+ PhoneToolsContract.DealEntry.TABLE_NAME+" WHERE " + PhoneToolsContract.DealEntry._ID +" = (SELECT MIN( " +PhoneToolsContract.DealEntry._ID+" ) FROM deal);");
+                rowsDeleted =1;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
