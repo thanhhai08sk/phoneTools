@@ -48,7 +48,8 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
          public void handleMessage(Message msg) {
             try {
                 String[] text = msg.getData().getStringArray("result");
-                for (String title : text) {
+                for (int i =9; i>=0;i--) {
+                    String title = text[i];
                     Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
                             null,
                             PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
@@ -133,12 +134,13 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String sortOrder = PhoneToolsContract.DealEntry._ID + " DESC";
         return new CursorLoader(getActivity(),
                 PhoneToolsContract.DealEntry.CONTENT_URI,
                 DEAL_COLUMNS,
                 null,
                 null,
-                null);
+                sortOrder);
     }
 
     @Override
