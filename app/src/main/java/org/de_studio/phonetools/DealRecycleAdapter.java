@@ -66,5 +66,6 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
     }
     public void swapCursor(Cursor cursor){
         mCursorAdapter.swapCursor(cursor);
+        mCursorAdapter.notifyDataSetChanged();
     }
 }

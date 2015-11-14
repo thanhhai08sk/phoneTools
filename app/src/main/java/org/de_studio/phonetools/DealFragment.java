@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,11 +28,12 @@ import java.io.IOException;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DealFragment extends Fragment {
+public class DealFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String LOG_TAG = DealFragment.class.getSimpleName();
     DealRecycleAdapter mRecycleAdapter;
-    public static final String[] CUSTOM_COLUMNS = {
+    private static final int DEAL_LOADER = 0;
+    public static final String[] DEAL_COLUMNS = {
             PhoneToolsContract.DealEntry._ID,
             PhoneToolsContract.DealEntry.COLUMN_DATE,
             PhoneToolsContract.DealEntry.COLUMN_TITLE,
@@ -41,10 +45,27 @@ public class DealFragment extends Fragment {
     static final int COL_IS_NEW = 3;
     Handler handler = new Handler(){
         @Override
-        public void handleMessage(Message msg) {
-            String[] text = msg.getData().getStringArray("result");
-            mRecycleAdapter.setmStrings(text);
-            mRecycleAdapter.notifyDataSetChanged();
+         public void handleMessage(Message msg) {
+            try {
+                String[] text = msg.getData().getStringArray("result");
+                for (String title : text) {
+                    Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
+                            null,
+                            PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
+                            new String[]{title},
+                            null);
+//                    Log.e(LOG_TAG, "number of the same is: " + cursor.getCount());
+                    if (cursor.getCount() == 0) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
+                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW, 1);
+                        getActivity().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
+
+                    }
+                }
+            }catch (NullPointerException e){
+                Log.e(LOG_TAG,"nullPointerException" + e);
+            }
         }
     };
 
@@ -61,11 +82,19 @@ public class DealFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getLoaderManager().initLoader(DEAL_LOADER, null, this);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         Runnable runnable = new Runnable() {
             @Override
-            public void run() {
+            synchronized public void run() {
                 String[] testResultString = new String[10];
                 try {
+                    Log.e(LOG_TAG, "get information from website");
                     String url = "https://vienthong.com.vn/tin-tuc/tin-khuyen-mai/";
                     Document document = Jsoup.connect(url).get();
                     Elements elements = document.select("li.clearfix a[href] [title]");
@@ -83,24 +112,12 @@ public class DealFragment extends Fragment {
                 message.setData(bundle);
                 handler.sendMessage(message);
 
-                for (String title : testResultString ){
-                    Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
-                            null,
-                            PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
-                            new String[]{title},
-                            null);
-                    if (cursor.getCount()<1){
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE,title);
-                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW,1);
-                        getActivity().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI,contentValues);
-
-                    }
-                }
             }
         };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        if (savedInstanceState==null) {
+            Thread thread = new Thread(runnable);
+            thread.start();
+        }
     }
 
     @Override
@@ -114,5 +131,24 @@ public class DealFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(),
+                PhoneToolsContract.DealEntry.CONTENT_URI,
+                DEAL_COLUMNS,
+                null,
+                null,
+                null);
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mRecycleAdapter.swapCursor(data);
+        mRecycleAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mRecycleAdapter.swapCursor(null);
+    }
 }
