@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.de_studio.phonetools.service.DealService;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
+    private Intent mDealServiceIntent;
     ViewPager mViewPager;
     private static final int MAIN_LOADER = 0;
     MainFragment mainFragment;
@@ -72,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabbar);
         tabLayout.setupWithViewPager(mViewPager);
+        mDealServiceIntent = new Intent(this, DealService.class);
+        startService(mDealServiceIntent);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

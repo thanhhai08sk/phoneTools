@@ -1,28 +1,17 @@
 package org.de_studio.phonetools;
 
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 
 /**
@@ -43,43 +32,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     static final int COL_DATE = 1;
     static final int COL_TITLE = 2;
     static final int COL_IS_NEW = 3;
-    Handler handler = new Handler(){
-        @Override
-         public void handleMessage(Message msg) {
-            try {
-                String[] text = msg.getData().getStringArray("result");
-                for (int i =9; i>=0;i--) {
-                    String title = text[i];
-                    Cursor cursor = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
-                            DEAL_COLUMNS,
-                            PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
-                            new String[]{title},
-                            null);
-//                    Log.e(LOG_TAG, "number of the same is: " + cursor.getCount());
-                    if (cursor.getCount() == 0) {
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
-                        contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW, 1);
-                        getActivity().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
 
-                    }
-
-                }
-                Cursor cursor1 = getActivity().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
-                        DEAL_COLUMNS,
-                        null,
-                        null,
-                        null);
-                if (cursor1.getCount() >=11) {
-                    int rowsDelete = getActivity().getContentResolver().delete(PhoneToolsContract.DealEntry.CONTENT_URI,
-                            PhoneToolsContract.DealEntry._ID + " = ? ",
-                            new String[]{"SELECT MIN(_ID) FROM deal"});
-                }
-            }catch (NullPointerException e){
-                Log.e(LOG_TAG,"nullPointerException" + e);
-            }
-        }
-    };
 
     public static DealFragment newInstance(int sectionNumber) {
         DealFragment fragment = new DealFragment();
@@ -101,35 +54,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Runnable runnable = new Runnable() {
-            @Override
-            synchronized public void run() {
-                String[] testResultString = new String[10];
-                try {
-                    Log.e(LOG_TAG, "get information from website");
-                    String url = "https://vienthong.com.vn/tin-tuc/tin-khuyen-mai/";
-                    Document document = Jsoup.connect(url).get();
-                    Elements elements = document.select("li.clearfix a[href] [title]");
-                    for (int i=0; i< testResultString.length ; i++){
-                        Element element = elements.get(i);
-                        String title = element.attr("title");
-                        testResultString[i] = title;
-                    }
-                }catch (IOException e){
-                    Log.e(LOG_TAG, "err get information from website");
-                }
-                Bundle bundle = new Bundle();
-                bundle.putStringArray("result", testResultString);
-                Message message = new Message();
-                message.setData(bundle);
-                handler.sendMessage(message);
 
-            }
-        };
-        if (savedInstanceState==null) {
-            Thread thread = new Thread(runnable);
-            thread.start();
-        }
     }
 
     @Override
