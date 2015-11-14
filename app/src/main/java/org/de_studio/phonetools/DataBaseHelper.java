@@ -164,9 +164,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 PhoneToolsContract.CarriersEntry.TABLE_NAME + " (" + PhoneToolsContract.CarriersEntry._ID + ")" + ");";
         final String SQL_CREATE_DEAL_TABLE =  "CREATE TABLE " + PhoneToolsContract.DealEntry.TABLE_NAME + " (" +
                 PhoneToolsContract.DealEntry._ID + " INTEGER PRIMARY KEY," +
-                PhoneToolsContract.DealEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
+                PhoneToolsContract.DealEntry.COLUMN_DATE + " INTEGER, " +
                 PhoneToolsContract.DealEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                PhoneToolsContract.DealEntry.COLUMN_IS_NEW + " INTEGER NOT NULL, " +
+                PhoneToolsContract.DealEntry.COLUMN_IS_NEW + " INTEGER NOT NULL " +
                 " );";
         db.execSQL(SQL_CREATE_ACTION_TABLE);
         db.execSQL(SQL_CREATE_DEAL_TABLE);
