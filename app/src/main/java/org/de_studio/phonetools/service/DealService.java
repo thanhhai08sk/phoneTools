@@ -15,6 +15,7 @@ import android.util.Log;
 
 import org.de_studio.phonetools.DealFragment;
 import org.de_studio.phonetools.PhoneToolsContract;
+import org.de_studio.phonetools.R;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -35,7 +36,7 @@ public class DealService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setContentTitle("I am a notification").setContentText("Yeah, really I am");
+        builder.setContentTitle("I am a notification").setContentText("Yeah, really I am").setSmallIcon(R.drawable.ic_action_overflow);
         Notification notification = builder.build();
         NotificationManager notificationManager = (NotificationManager)getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         notificationManager.notify(0,notification);
