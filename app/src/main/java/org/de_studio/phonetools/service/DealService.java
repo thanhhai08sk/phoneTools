@@ -89,7 +89,7 @@ public class DealService extends IntentService {
             Intent alarmIntent = new Intent(context, DealService.AlarmReceiver2.class);
             PendingIntent pi = PendingIntent.getBroadcast(context, 0,alarmIntent,PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),300000,pi);
+            am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),2*60*60*1000,pi);
         }
     }
     public static class AlarmReceiver2 extends BroadcastReceiver{

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0,alarmIntent,PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am=(AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10*1000, 60000, pi);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+2*60*60*1000, 2*60*60*1000, pi);
 
     }
     @Override
