@@ -1,9 +1,16 @@
 package org.de_studio.phonetools.service;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.de_studio.phonetools.DealFragment;
@@ -27,6 +34,11 @@ public class DealService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+        builder.setContentTitle("I am a notification").setContentText("Yeah, really I am");
+        Notification notification = builder.build();
+        NotificationManager notificationManager = (NotificationManager)getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+        notificationManager.notify(0,notification);
         String[] resultStrings = new String[10];
         try {
             Log.e(LOG_TAG, "get information from website");
@@ -67,4 +79,15 @@ public class DealService extends IntentService {
 
         }
     }
+    public static class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent alarmIntent = new Intent(context, DealService.class);
+            PendingIntent pi = PendingIntent.getBroadcast(context, 0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),30000,pi);
+        }
+    }
+
 }
