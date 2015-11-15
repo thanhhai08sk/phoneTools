@@ -13,8 +13,16 @@
         <item>@string/pref_carrier_vinaphone</item>
         <item>@string/pref_carrier_mobifone</item>
         <item>@string/pref_carrier_vietnamobile</item>
-
     </string-array>
+
+
+    <string-array name="pref_noti_carriers_option">
+        <item>@string/pref_carrier_label_viettel</item>
+        <item>@string/pref_carrier_label_vinaphone</item>
+        <item>@string/pref_carrier_label_mobifone</item>
+    </string-array>
+
+
     <string-array name="choose_add_item">
         <item>@string/choose_preset</item>
         <item>@string/choose_custom</item>

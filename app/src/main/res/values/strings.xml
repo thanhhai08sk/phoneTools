@@ -62,4 +62,6 @@
     <string name="my_preference_carrier_dialog_title">Chọn nhà mạng</string>
     <string name="service_tabbar_recycle_item_button_kich_hoat">Kích hoạt</string>
     <string name="notification_new_deal_title">Khuyến mãi mới:</string>
+    <string name="my_preference_item_carrier_to_noti_title_text">Nhận tin KM thẻ nạp từ</string>
+    <string name="dialog_noti_carriers_title">Chọn nhà mạng</string>
 </resources>

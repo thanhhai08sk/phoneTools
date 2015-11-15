@@ -5,11 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -36,7 +40,7 @@ public  class MyPreferenceFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my_preference, container, false);
         final LinearLayout carrierPreference = (LinearLayout) rootView.findViewById(R.id.carrier_preference_item);
         final TextView carrierSummary = (TextView) carrierPreference.findViewById(R.id.my_preference_item_carrier_summary_text);
-        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences(defaultSharedPreferenceName, 0);
         String carrier = sharedPreferences.getString("carrier","viettel");
         carrierSummary.setText(carrier);
         carrierPreference.setOnClickListener(new View.OnClickListener() {
@@ -44,33 +48,86 @@ public  class MyPreferenceFragment extends Fragment {
             public void onClick(View v) {
                 String currentCarrier = sharedPreferences.getString("carrier", "viettel");
                 int checkedChoice;
-                switch (currentCarrier){
-                    case "viettel": checkedChoice =0;
+                switch (currentCarrier) {
+                    case "viettel":
+                        checkedChoice = 0;
                         break;
-                    case "vinaphone": checkedChoice =1;
+                    case "vinaphone":
+                        checkedChoice = 1;
                         break;
-                    case "mobifone": checkedChoice =2;
+                    case "mobifone":
+                        checkedChoice = 2;
                         break;
-                    case "vietnamobile": checkedChoice =3;
+                    case "vietnamobile":
+                        checkedChoice = 3;
                         break;
-                    default: checkedChoice =0;
+                    default:
+                        checkedChoice = 0;
                 }
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.dialog_choose_carrier_title)
                         .setSingleChoiceItems(R.array.pref_carriers_options, checkedChoice, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String[] carrierArray = getResources().getStringArray(R.array.pref_carriers_values);
-                                sharedPreferences.edit().putString("carrier", carrierArray[which]).putBoolean("fistLaunch",false).commit();
+                                sharedPreferences.edit().putString("carrier", carrierArray[which]).putBoolean("fistLaunch", false).commit();
                             }
                         })
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                carrierSummary.setText(sharedPreferences.getString("carrier","viettel"));
+                                carrierSummary.setText(sharedPreferences.getString("carrier", "viettel"));
                             }
                         });
                 builder.show();
+            }
+        });
+
+        LinearLayout notiPreference =(LinearLayout) rootView.findViewById(R.id.carrier_to_noti_preference_item);
+        final TextView notiSummary = (TextView) notiPreference.findViewById(R.id.my_preference_item_carrier_to_noti_summary_text);
+        notiPreference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Set<String> defaultNoti = new HashSet<String>();
+
+
+                defaultNoti.add("mobifone");
+                defaultNoti.add("vinaphone");
+                defaultNoti.add("viettel");
+                final String[] stringArray = defaultNoti.toArray(new String[defaultNoti.size()]);
+                final Set<String> notiSet = sharedPreferences.getStringSet("noti",defaultNoti);
+                boolean[] checked = new boolean[3];
+                checked[0] = notiSet.contains(stringArray[0]);
+                checked[1] = notiSet.contains(stringArray[1]);
+                checked[2] = notiSet.contains(stringArray[2]);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.dialog_noti_carriers_title)
+                        .setMultiChoiceItems(stringArray, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                if (isChecked) {
+                                    notiSet.add(stringArray[which]);
+                                } else {
+                                    notiSet.remove(stringArray[which]);
+                                }
+                            }
+                        })
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences.edit().putStringSet("noti", notiSet).commit();
+                                String[] summaryText =  notiSet.toArray(new String[notiSet.size()]);
+                                String summary = "";
+                                for (String sum : summaryText) {
+                                    summary = summary + sum + " ";
+                                }
+                                notiSummary.setText(summary);
+                            }
+                        });
+
+                builder.show();
+
             }
         });
         return rootView;

@@ -52,7 +52,8 @@ public class DealService extends IntentService {
                         PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
                         new String[]{title},
                         null);
-//                    Log.e(LOG_TAG, "number of the same is: " + cursor.getCount());
+
+
                 if (cursor.getCount() == 0) {
                     if (i<=2){
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
