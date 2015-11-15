@@ -1,6 +1,9 @@
 package org.de_studio.phonetools;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         mDealServiceIntent = new Intent(this, DealService.class);
         startService(mDealServiceIntent);
+        Intent alarmIntent = new Intent(this, DealService.AlarmReceiver2.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0,alarmIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am=(AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pi);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10*1000, 60000, pi);
 
     }
     @Override
