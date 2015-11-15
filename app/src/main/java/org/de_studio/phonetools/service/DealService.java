@@ -9,12 +9,14 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.de_studio.phonetools.DealFragment;
+import org.de_studio.phonetools.MyPreferenceFragment;
 import org.de_studio.phonetools.PhoneToolsContract;
 import org.de_studio.phonetools.R;
 import org.jsoup.Jsoup;
@@ -23,6 +25,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by hai on 11/14/2015.
@@ -52,15 +56,24 @@ public class DealService extends IntentService {
                         PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
                         new String[]{title},
                         null);
-
-
+                SharedPreferences sharedPreferences = getSharedPreferences(MyPreferenceFragment.defaultSharedPreferenceName, 0);
+                Set<String> defaultNoti = new HashSet<String>();
+                defaultNoti.add("mobifone");
+                defaultNoti.add("vinaphone");
+                defaultNoti.add("viettel");
+                Set<String> stringSet = sharedPreferences.getStringSet("noti",defaultNoti);
                 if (cursor.getCount() == 0) {
                     if (i<=2){
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-                        builder.setContentTitle(getString(R.string.notification_new_deal_title)).setContentText(title).setSmallIcon(R.drawable.ic_action_sms);
-                        Notification notification = builder.build();
-                        NotificationManager notificationManager = (NotificationManager)getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
-                        notificationManager.notify(i,notification);
+                        String tit = title.toLowerCase();
+                        if ((tit.contains("viettel")& stringSet.contains("viettel"))
+                                | tit.contains("vinaphone")& stringSet.contains("vinaphone")
+                                | tit.contains("mobifone")& stringSet.contains("mobifone")) {
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                            builder.setContentTitle(getString(R.string.notification_new_deal_title)).setContentText(title).setSmallIcon(R.drawable.ic_action_sms);
+                            Notification notification = builder.build();
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+                            notificationManager.notify(i, notification);
+                        }
                     }
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);

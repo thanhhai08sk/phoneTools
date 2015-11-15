@@ -85,31 +85,38 @@ public  class MyPreferenceFragment extends Fragment {
 
         LinearLayout notiPreference =(LinearLayout) rootView.findViewById(R.id.carrier_to_noti_preference_item);
         final TextView notiSummary = (TextView) notiPreference.findViewById(R.id.my_preference_item_carrier_to_noti_summary_text);
+        final Set<String> defaultNoti = new HashSet<String>();
+        defaultNoti.add("mobifone");
+        defaultNoti.add("vinaphone");
+        defaultNoti.add("viettel");
+        Set<String> set = sharedPreferences.getStringSet("noti", defaultNoti);
+        String[] summaries = set.toArray(new String[set.size()]);
+        String summaryText ="";
+        for (String sum : summaries) {
+            summaryText = summaryText + sum + " ";
+        }
+        notiSummary.setText(summaryText);
+
         notiPreference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Set<String> defaultNoti = new HashSet<String>();
 
-
-                defaultNoti.add("mobifone");
-                defaultNoti.add("vinaphone");
-                defaultNoti.add("viettel");
-                final String[] stringArray = defaultNoti.toArray(new String[defaultNoti.size()]);
+                final String[] defaultNotiArray = defaultNoti.toArray(new String[defaultNoti.size()]);
                 final Set<String> notiSet = sharedPreferences.getStringSet("noti",defaultNoti);
                 boolean[] checked = new boolean[3];
-                checked[0] = notiSet.contains(stringArray[0]);
-                checked[1] = notiSet.contains(stringArray[1]);
-                checked[2] = notiSet.contains(stringArray[2]);
+                checked[0] = notiSet.contains(defaultNotiArray[0]);
+                checked[1] = notiSet.contains(defaultNotiArray[1]);
+                checked[2] = notiSet.contains(defaultNotiArray[2]);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.dialog_noti_carriers_title)
-                        .setMultiChoiceItems(stringArray, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                        .setMultiChoiceItems(defaultNotiArray, checked, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 if (isChecked) {
-                                    notiSet.add(stringArray[which]);
+                                    notiSet.add(defaultNotiArray[which]);
                                 } else {
-                                    notiSet.remove(stringArray[which]);
+                                    notiSet.remove(defaultNotiArray[which]);
                                 }
                             }
                         })
@@ -117,7 +124,7 @@ public  class MyPreferenceFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 sharedPreferences.edit().putStringSet("noti", notiSet).commit();
-                                String[] summaryText =  notiSet.toArray(new String[notiSet.size()]);
+                                String[] summaryText = notiSet.toArray(new String[notiSet.size()]);
                                 String summary = "";
                                 for (String sum : summaryText) {
                                     summary = summary + sum + " ";
