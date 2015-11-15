@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.de_studio.phonetools.DealFragment;
 import org.de_studio.phonetools.PhoneToolsContract;
@@ -84,10 +85,20 @@ public class DealService extends IntentService {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Intent alarmIntent = new Intent(context, DealService.class);
-            PendingIntent pi = PendingIntent.getBroadcast(context, 0,alarmIntent,PendingIntent.FLAG_ONE_SHOT);
+            Toast.makeText(context,"onReceive of AlarmReceiver ne",Toast.LENGTH_LONG).show();
+            Intent alarmIntent = new Intent(context, DealService.AlarmReceiver2.class);
+            PendingIntent pi = PendingIntent.getBroadcast(context, 0,alarmIntent,PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),30000,pi);
+            am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),300000,pi);
+        }
+    }
+    public static class AlarmReceiver2 extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context,"onReceive of AlarmReceiver2222 ne",Toast.LENGTH_LONG).show();
+
+            Intent NotiIntent = new Intent(context,DealService.class);
+            context.startService(NotiIntent);
         }
     }
 
