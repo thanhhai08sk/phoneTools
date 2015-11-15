@@ -64,6 +64,9 @@
             android:name=".service.DealService"
             android:exported="false"
             />
+        <receiver android:name=".service.DealService$AlarmReceiver"
+            android:enabled="true"
+            />
 
     </application>
 
