@@ -36,11 +36,6 @@ public class DealService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setContentTitle("I am a notification").setContentText("Yeah, really I am").setSmallIcon(R.drawable.ic_action_overflow);
-        Notification notification = builder.build();
-        NotificationManager notificationManager = (NotificationManager)getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notification);
         String[] resultStrings = new String[10];
         try {
             Log.e(LOG_TAG, "get information from website");
@@ -59,6 +54,13 @@ public class DealService extends IntentService {
                         null);
 //                    Log.e(LOG_TAG, "number of the same is: " + cursor.getCount());
                 if (cursor.getCount() == 0) {
+                    if (i<=2){
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                        builder.setContentTitle(getString(R.string.notification_new_deal_title)).setContentText(title).setSmallIcon(R.drawable.ic_action_sms);
+                        Notification notification = builder.build();
+                        NotificationManager notificationManager = (NotificationManager)getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+                        notificationManager.notify(i,notification);
+                    }
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW, 1);
