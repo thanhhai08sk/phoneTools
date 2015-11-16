@@ -24,6 +24,7 @@ public  class MyPreferenceFragment extends Fragment {
     public static final String defaultSharedPreferenceName = "org.de_studio.phonetools_preferences";
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static final String noti = "notification";
+    SharedPreferences sharedPreferences;
     Set<String> mSet;
     public static MyPreferenceFragment newInstance(int sectionNumber) {
         MyPreferenceFragment fragment = new MyPreferenceFragment();
@@ -42,7 +43,7 @@ public  class MyPreferenceFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my_preference, container, false);
         final LinearLayout carrierPreference = (LinearLayout) rootView.findViewById(R.id.carrier_preference_item);
         final TextView carrierSummary = (TextView) carrierPreference.findViewById(R.id.my_preference_item_carrier_summary_text);
-        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
         String carrier = sharedPreferences.getString("carrier","viettel");
         carrierSummary.setText(carrier);
         carrierPreference.setOnClickListener(new View.OnClickListener() {
