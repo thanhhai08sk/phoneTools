@@ -25,6 +25,7 @@ public  class MyPreferenceFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static final String noti = "notification";
     SharedPreferences sharedPreferences;
+    SharedPreferences notiShare;
     Set<String> mSet;
     public static MyPreferenceFragment newInstance(int sectionNumber) {
         MyPreferenceFragment fragment = new MyPreferenceFragment();
@@ -44,6 +45,7 @@ public  class MyPreferenceFragment extends Fragment {
         final LinearLayout carrierPreference = (LinearLayout) rootView.findViewById(R.id.carrier_preference_item);
         final TextView carrierSummary = (TextView) carrierPreference.findViewById(R.id.my_preference_item_carrier_summary_text);
         sharedPreferences = getActivity().getSharedPreferences(SettingActivity.defaultSharedPreferenceName, 0);
+        notiShare = getActivity().getSharedPreferences("notiShare",0);
         String carrier = sharedPreferences.getString("carrier","viettel");
         carrierSummary.setText(carrier);
         carrierPreference.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +94,7 @@ public  class MyPreferenceFragment extends Fragment {
         defaultNoti.add("mobifone");
         defaultNoti.add("vinaphone");
         defaultNoti.add("viettel");
-        mSet = sharedPreferences.getStringSet(noti, defaultNoti);
+        mSet = notiShare.getStringSet(noti, defaultNoti);
         String[] summaries = mSet.toArray(new String[mSet.size()]);
         String summaryText ="";
         for (String sum : summaries) {
@@ -125,8 +127,8 @@ public  class MyPreferenceFragment extends Fragment {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sharedPreferences.edit().putStringSet(noti, mSet).apply();
-                                Set<String> set2 = sharedPreferences.getStringSet(noti,defaultNoti);
+                                notiShare.edit().clear().putStringSet(noti, mSet).commit();
+                                Set<String> set2 = notiShare.getStringSet(noti,defaultNoti);
                                 String[] summaryText = set2.toArray(new String[mSet.size()]);
                                 String summary = "";
                                 for (String sum : summaryText) {
@@ -148,8 +150,5 @@ public  class MyPreferenceFragment extends Fragment {
             return (LinearLayout) getView().findViewById(R.id.carrier_preference_item);
         }else return null;
     }
-
-
-
 
 }
