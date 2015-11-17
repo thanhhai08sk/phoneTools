@@ -29,6 +29,9 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
                 String titleText = cursor.getString(DealFragment.COL_TITLE);
                 TextView title = (TextView) view.findViewById(R.id.deal_recycle_item_text_view);
                 title.setText(titleText);
+                String dateText = cursor.getString(DealFragment.COL_DATE);
+                TextView date = (TextView) view.findViewById(R.id.deal_recycle_item_date);
+                date.setText(dateText);
 
             }
         };
@@ -36,11 +39,12 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         View view;
         TextView textView;
-
+        TextView date;
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             textView = (TextView) itemView.findViewById(R.id.deal_recycle_item_text_view);
+            date = (TextView) itemView.findViewById(R.id.deal_recycle_item_date);
         }
 
     }
