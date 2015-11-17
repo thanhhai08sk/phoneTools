@@ -21,4 +21,5 @@
         android:id="@+id/deal_recycle_item_detail"
         />
 
+
 </LinearLayout>
