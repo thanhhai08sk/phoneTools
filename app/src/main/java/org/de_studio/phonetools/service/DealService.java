@@ -41,6 +41,7 @@ public class DealService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String[] resultStrings = new String[10];
         String[] dateStrings = new String[10];
+        String[] detailStrings = new String[10];
         try {
             Log.e(LOG_TAG, "get information from website");
             String url = "https://id.vtc.vn/tin-tuc/chuyen-muc-49/tin-khuyen-mai.html";
@@ -53,6 +54,9 @@ public class DealService extends IntentService {
                 Element dateElement = elements.get(i).select("span[style]").first();
                 String date = dateElement.text();
                 dateStrings[i] = date;
+
+                Element detailLink = elements.get(i).select("a[href]").first();
+                String detail = detailLink.attr("href");
 
                 Cursor cursor = getApplicationContext().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
                         DealFragment.DEAL_COLUMNS,
@@ -81,7 +85,7 @@ public class DealService extends IntentService {
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DATE,date);
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
-                    contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW, 1);
+                    contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DETAIL, detail);
                     getApplicationContext().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
 
                 }
