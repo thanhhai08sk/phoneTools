@@ -58,11 +58,35 @@ public class DealService extends IntentService {
                 Element detailLink = elements.get(i).select("a[href]").first();
                 String detail = detailLink.attr("href");
                 String detailText ="";
+                String editedDetailText  ="";
                 try {
                     String detailUrl = detail;
                     Document detailDocument = Jsoup.connect(detailUrl).get();
                     Elements detailElements = detailDocument.select("div.tt_dong3");
                     detailText = detailElements.first().text();
+                    String detailTextLowercase = detailText.toLowerCase();
+                    int startIndex = detailTextLowercase.indexOf("như sau:") +9;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("như sau :") +10;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("như sau") +8;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("như sau :") +10;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("nhu sau:") +9;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("nhu sâu:") +9;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("nhưsau:") +8;
+                    if (startIndex <=10) startIndex = detailTextLowercase.indexOf("nhu sau") +8;
+                    int endIndex = detailTextLowercase.indexOf("ngày vàng khuyến mãi");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vàng khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngay vàng khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vang khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vàng khuyen");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngáy vàng khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày váng khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngay vang khuyen");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vàng khuyên");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vàng khuến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngày vàn khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("ngàu vàng khuyến");
+                    if (endIndex ==-1) endIndex = detailTextLowercase.indexOf("này vàng khuyến");
+                    editedDetailText= detailText.substring(startIndex,endIndex);
                 }catch (IOException e){
                     Log.e(LOG_TAG, "err get detail from detailLink");
                 }
@@ -93,7 +117,7 @@ public class DealService extends IntentService {
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DATE,date);
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
-                    contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DETAIL, detailText);
+                    contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DETAIL, editedDetailText);
                     getApplicationContext().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
 
                 }
