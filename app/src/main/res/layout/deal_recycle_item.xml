@@ -4,21 +4,29 @@
     android:layout_height="match_parent"
     android:background="@color/devide_color"
     android:orientation="vertical">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/deal_recycle_item_date"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/deal_recycle_item_text_view"
-        style="@style/deal_fragment_text_view"
-        />
+        android:orientation="vertical"
+        android:id="@+id/deal_recycle_item_date_and_title_linear_layout"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/deal_recycle_item_date"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/deal_recycle_item_text_view"
+            style="@style/deal_fragment_text_view"
+            />
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/deal_recycle_item_detail"
+        android:visibility="gone"
         />
 
 

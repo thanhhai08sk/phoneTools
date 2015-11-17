@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -32,9 +33,18 @@ public class DealRecycleAdapter extends RecyclerView.Adapter<DealRecycleAdapter.
                 String dateText = cursor.getString(DealFragment.COL_DATE);
                 TextView date = (TextView) view.findViewById(R.id.deal_recycle_item_date);
                 date.setText(dateText);
-                TextView detail = (TextView) view.findViewById(R.id.deal_recycle_item_detail);
+                final TextView detail = (TextView) view.findViewById(R.id.deal_recycle_item_detail);
                 String detailText = cursor.getString(DealFragment.COL_DETAIL);
                 detail.setText(detailText);
+                LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.deal_recycle_item_date_and_title_linear_layout);
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (detail.isShown()){
+                            detail.setVisibility(View.GONE);
+                        }else detail.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         };
     }
