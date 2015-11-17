@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/category_title_text"
-        style="@style/Base.TextAppearance.AppCompat.Title"
+        style="@style/main_fragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/main_kiem_tra_tai_khoan_title" />

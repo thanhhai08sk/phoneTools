@@ -13,4 +13,7 @@
     <color name="transparent">#000000</color>
     <color name="statusbar">#000000</color>
     <color name="black">#00000000</color>
+    <color name="background">#E87E59</color>
+    <color name="title_background">#E0DEB7</color>
+    <color name="background_2">#e3aba0</color>
 </resources>

@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="@string/main_item_last_default_item_tuy_chon_title"
             android:layout_weight="1"
-            style="@style/Base.TextAppearance.AppCompat.Title"
+            style="@style/main_fragment_title"
             />
         <Button
             android:layout_width="wrap_content"

@@ -47,9 +47,6 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="main_and_action_item_card">
-        <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:layout_marginRight">4dp</item>
-        <item name="android:layout_marginTop">1dp</item>
         <item name="android:layout_marginBottom">1dp</item>
     </style>
     <style name="main_and_action_item_title_text_view">
@@ -121,5 +118,29 @@
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:background">@color/item_color</item>
+    </style>
+    <style name="deal_recycle_title_text_view">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="deal_recycle_date_text_view">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="main_fragment_title">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@color/title_background</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
