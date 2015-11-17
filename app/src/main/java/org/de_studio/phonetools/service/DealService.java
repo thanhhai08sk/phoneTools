@@ -40,15 +40,19 @@ public class DealService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         String[] resultStrings = new String[10];
+        String[] dateStrings = new String[10];
         try {
             Log.e(LOG_TAG, "get information from website");
             String url = "https://id.vtc.vn/tin-tuc/chuyen-muc-49/tin-khuyen-mai.html";
             Document document = Jsoup.connect(url).get();
             Elements elements = document.select("div.tt_dong1");
             for (int i = resultStrings.length - 1; i >= 0; i--) {
-                Element element = elements.get(i).select("a").get(1);
-                String title = element.text();
+                Element mainElement = elements.get(i).select("a").get(1);
+                String title = mainElement.text();
                 resultStrings[i] = title;
+                Element dateElement = elements.get(i).select("span[style]").first();
+                String date = dateElement.text();
+                dateStrings[i] = date;
 
                 Cursor cursor = getApplicationContext().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
                         DealFragment.DEAL_COLUMNS,
@@ -75,6 +79,7 @@ public class DealService extends IntentService {
                         }
                     }
                     ContentValues contentValues = new ContentValues();
+                    contentValues.put(PhoneToolsContract.DealEntry.COLUMN_DATE,date);
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_TITLE, title);
                     contentValues.put(PhoneToolsContract.DealEntry.COLUMN_IS_NEW, 1);
                     getApplicationContext().getContentResolver().insert(PhoneToolsContract.DealEntry.CONTENT_URI, contentValues);
