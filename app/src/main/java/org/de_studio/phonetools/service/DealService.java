@@ -16,7 +16,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.de_studio.phonetools.DealFragment;
-import org.de_studio.phonetools.MyPreferenceFragment;
 import org.de_studio.phonetools.PhoneToolsContract;
 import org.de_studio.phonetools.R;
 import org.jsoup.Jsoup;
@@ -56,11 +55,11 @@ public class DealService extends IntentService {
                         PhoneToolsContract.DealEntry.COLUMN_TITLE + " = ? ",
                         new String[]{title},
                         null);
-                SharedPreferences sharedPreferences = getSharedPreferences(MyPreferenceFragment.defaultSharedPreferenceName, 0);
+                SharedPreferences sharedPreferences = getSharedPreferences("notiShare", 0);
                 Set<String> defaultNoti = new HashSet<String>();
                 defaultNoti.add("mobifone");
                 defaultNoti.add("vinaphone");
-                defaultNoti.add("viettel");
+//                defaultNoti.add("viettel");
                 Set<String> stringSet = sharedPreferences.getStringSet("noti",defaultNoti);
                 if (cursor.getCount() == 0) {
                     if (i<=2){
