@@ -42,12 +42,12 @@ public class DealService extends IntentService {
         String[] resultStrings = new String[10];
         try {
             Log.e(LOG_TAG, "get information from website");
-            String url = "https://vienthong.com.vn/tin-tuc/tin-khuyen-mai/";
+            String url = "https://id.vtc.vn/tin-tuc/chuyen-muc-49/tin-khuyen-mai.html";
             Document document = Jsoup.connect(url).get();
-            Elements elements = document.select("li.clearfix a[href] [title]");
+            Elements elements = document.select("div.tt_dong1");
             for (int i = resultStrings.length - 1; i >= 0; i--) {
-                Element element = elements.get(i);
-                String title = element.attr("title");
+                Element element = elements.get(i).select("a").get(1);
+                String title = element.text();
                 resultStrings[i] = title;
 
                 Cursor cursor = getApplicationContext().getContentResolver().query(PhoneToolsContract.DealEntry.CONTENT_URI,
