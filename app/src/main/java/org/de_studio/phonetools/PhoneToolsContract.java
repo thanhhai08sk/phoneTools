@@ -101,7 +101,7 @@ public class PhoneToolsContract {
         public static final String TABLE_NAME = "deal";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_IS_NEW = "is_new";
+        public static final String COLUMN_DETAIL = "detail";
         public static Uri buildDealUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }

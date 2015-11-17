@@ -166,7 +166,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 PhoneToolsContract.DealEntry._ID + " INTEGER PRIMARY KEY," +
                 PhoneToolsContract.DealEntry.COLUMN_DATE + " TEXT NOT NULL, " +
                 PhoneToolsContract.DealEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                PhoneToolsContract.DealEntry.COLUMN_IS_NEW + " INTEGER NOT NULL " +
+                PhoneToolsContract.DealEntry.COLUMN_DETAIL + " TEXT NOT NULL " +
                 " );";
         db.execSQL(SQL_CREATE_ACTION_TABLE);
         db.execSQL(SQL_CREATE_DEAL_TABLE);
