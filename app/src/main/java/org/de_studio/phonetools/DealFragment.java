@@ -26,12 +26,12 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
             PhoneToolsContract.DealEntry._ID,
             PhoneToolsContract.DealEntry.COLUMN_DATE,
             PhoneToolsContract.DealEntry.COLUMN_TITLE,
-            PhoneToolsContract.DealEntry.COLUMN_IS_NEW
+            PhoneToolsContract.DealEntry.COLUMN_DETAIL
     };
     static final int COL_ID = 0;
     static final int COL_DATE = 1;
     static final int COL_TITLE = 2;
-    static final int COL_IS_NEW = 3;
+    static final int COL_DETAIL = 3;
 
 
     public static DealFragment newInstance(int sectionNumber) {
