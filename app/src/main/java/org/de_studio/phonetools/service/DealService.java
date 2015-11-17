@@ -59,7 +59,7 @@ public class DealService extends IntentService {
                 Set<String> defaultNoti = new HashSet<String>();
                 defaultNoti.add("mobifone");
                 defaultNoti.add("vinaphone");
-//                defaultNoti.add("viettel");
+                defaultNoti.add("viettel");
                 Set<String> stringSet = sharedPreferences.getStringSet("noti",defaultNoti);
                 if (cursor.getCount() == 0) {
                     if (i<=2){
