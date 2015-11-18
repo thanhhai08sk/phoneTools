@@ -22,9 +22,7 @@ import android.widget.Toast;
 import org.de_studio.phonetools.service.DealService;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager am=(AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 2 * 60 * 60 * 1000, 2 * 60 * 60 * 1000, pi);
-        showNoti();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,24 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        showNoti();
-        super.onDestroy();
-    }
-    public void  showNoti(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.defaultSharedPreferenceName,0);
-        final Set<String> defaultNoti = new HashSet<String>();
-        defaultNoti.add("mobifone");
-        defaultNoti.add("vinaphone");
-        defaultNoti.add("viettel");
-        Set<String> set = sharedPreferences.getStringSet(MyPreferenceFragment.noti, defaultNoti);
-        String[] summaries = set.toArray(new String[set.size()]);
-        String summaryText ="";
-        for (String sum : summaries) {
-            summaryText = summaryText + sum + " ";
-        }
-        Toast.makeText(this, summaryText,Toast.LENGTH_SHORT).show();
-    }
+
 
 }
